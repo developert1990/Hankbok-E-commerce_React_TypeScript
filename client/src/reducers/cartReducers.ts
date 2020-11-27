@@ -1,3 +1,4 @@
+import { saveShippingAddressDataType } from './../actions/cartActions';
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from './../constants/cartConstant';
 import { CartActionType } from './../actions/types.d';
 
@@ -11,7 +12,8 @@ export interface cartItemType {
 }
 
 export interface cartInitailStateType {
-    cartItems: cartItemType[]
+    cartItems: cartItemType[];
+    shippingAddress: saveShippingAddressDataType;
 }
 
 export const cartInitailState: cartInitailStateType = {
@@ -19,6 +21,8 @@ export const cartInitailState: cartInitailStateType = {
     cartItems: localStorage.getItem("cartItems")
         ? JSON.parse(localStorage.getItem("cartItems") as string)
         : [],
+    shippingAddress: localStorage.getItem("shippingAddress") ? JSON.parse(localStorage.getItem("shippingAddress") as string) : {},
+
 }
 
 

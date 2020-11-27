@@ -1,3 +1,4 @@
+import { CART_SAVE_SHIPPING_ADDRESS } from './../constants/cartConstant';
 import { ThunkDispatch } from 'redux-thunk';
 import Axios from 'axios';
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstant';
@@ -24,4 +25,17 @@ export const addToCart = (productId: string, qty: number) => async (dispatch: Th
 export const removeFromCart = (productId: string) => (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
     dispatch({ type: CART_REMOVE_ITEM, payload: productId });
     localStorage.setItem('cartItems', JSON.stringify(getState().cartStore.cartItems));
+}
+
+export interface saveShippingAddressDataType {
+    fullName: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+}
+
+export const saveShippingAddress = (data: saveShippingAddressDataType) => (dispatch: ThunkDispatch<any, any, any>) => {
+    dispatch({ type: CART_SAVE_SHIPPING_ADDRESS, payload: data });
+    localStorage.setItem("shippingAddress", JSON.stringify(data));
 }
