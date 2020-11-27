@@ -12,6 +12,7 @@ import { HomeScreen } from '../screens/HomeScreen';
 import { ShippingAddressScreen } from '../screens/ShippingAddress';
 import { PaymentMethodScreen } from '../screens/PaymentMethodScreen';
 import { PlaceOrderScreen } from '../screens/PlaceOrderScreen';
+import { OrderScreen } from '../screens/OrderScreen';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
@@ -28,6 +29,7 @@ export default () => {
             <Route path="/shipping" component={ShippingAddressScreen} />
             <Route path="/payment" component={PaymentMethodScreen} />
             <Route path="/placeorder" component={PlaceOrderScreen} />
+            <Route path="/order/:id" component={OrderScreen} />
             <Footer />
         </BrowserRouter>
     )

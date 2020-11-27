@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import axios from 'axios';
+import { PayPalButton } from 'react-paypal-button-v2';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { detailsOrder } from '../actions/orderAction';
@@ -12,14 +14,43 @@ interface paramsType {
 
 export const OrderScreen = () => {
     const orderDetails = useSelector((state: initialAppStateType) => state.orderDetailStore);
+    const [sdkReady, setSdkReady] = useState<boolean>(false); // paypal 의 sdk 받아오기위한 hook 이다.
     const { order, loading, error } = orderDetails;
     const dispatch = useDispatch();
     const params: paramsType = useParams();
     const orderId = params.id;
 
     useEffect(() => {
-        dispatch(detailsOrder(orderId));
-    }, [orderId, dispatch])
+
+        const addPayPalScript = async () => {
+            const { data } = await axios.get('/api/config/paypal');
+            const script = document.createElement('script');
+            script.type = "text/javascript";
+            script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
+            script.async = true;
+            script.onload = () => {
+                setSdkReady(true);
+            };
+            document.body.appendChild(script);
+        };
+
+        if (!order?._id) {
+            dispatch(detailsOrder(orderId));
+        } else {
+            if (!order.isPaid) {
+                if (!window.paypal) {
+                    addPayPalScript();
+                } else {
+                    setSdkReady(true);
+                }
+            }
+        }
+
+    }, [orderId, dispatch, order?._id, order?.isPaid])
+
+    const successPaymentHandler = () => {
+
+    }
 
     return (
         loading ? (
@@ -28,7 +59,7 @@ export const OrderScreen = () => {
             <MessageBox variant="danger">{error}</MessageBox>
         ) : (
                     <div>
-                        <h1>Order {order._id}</h1>
+                        <h1>Order {order?._id}</h1>
                         <div className="row top">
                             <div className="col-2">
                                 <ul>
@@ -36,11 +67,11 @@ export const OrderScreen = () => {
                                         <div className="card card-body">
                                             <h2>Shipping</h2>
                                             <p>
-                                                <strong>Name:</strong>{order.shippingAddress.fullName} <br />
-                                                <strong>Address:</strong>{order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.country}
+                                                <strong>Name:</strong>{order?.shippingAddress.fullName} <br />
+                                                <strong>Address:</strong>{order?.shippingAddress.address}, {order?.shippingAddress.city}, {order?.shippingAddress.postalCode}, {order?.shippingAddress.country}
                                             </p>
                                             {/* 배달 유무 */}
-                                            {order.isDelivered ? <MessageBox variant="success">Delivered at {order.isDelivered}</MessageBox> :
+                                            {order?.isDelivered ? <MessageBox variant="success">Delivered at {order?.isDelivered}</MessageBox> :
                                                 <MessageBox variant="danger">Not Delivered</MessageBox>
                                             }
                                         </div>
@@ -49,9 +80,9 @@ export const OrderScreen = () => {
                                         <div className="card card-body">
                                             <h2>Payment</h2>
                                             <p>
-                                                <strong>Method:</strong>{order.paymentMethod} <br />
+                                                <strong>Method:</strong>{order?.paymentMethod} <br />
                                             </p>
-                                            {order.isPaid ? <MessageBox variant="success">Paid at {order.isPaid}</MessageBox> :
+                                            {order?.isPaid ? <MessageBox variant="success">Paid at {order?.isPaid}</MessageBox> :
                                                 <MessageBox variant="danger">Not Paid</MessageBox>
                                             }
                                         </div>
@@ -59,7 +90,7 @@ export const OrderScreen = () => {
                                     <li>
                                         <div className="card card-body">
                                             <h2>Order Items</h2>
-                                            <ul>{order.orderItems.map((item) => (
+                                            <ul>{order?.orderItems.map((item) => (
                                                 <li key={item.product}>
                                                     <div className="row">
                                                         <div>
@@ -87,27 +118,34 @@ export const OrderScreen = () => {
                                         <li>
                                             <div className="row">
                                                 <div>Items</div>
-                                                <div>${order.itemsPrice.toFixed(2)}</div>
+                                                <div>${order?.itemsPrice.toFixed(2)}</div>
                                             </div>
                                         </li>
                                         <li>
                                             <div className="row">
                                                 <div>Shipping</div>
-                                                <div>${order.shippingPrice.toFixed(2)}</div>
+                                                <div>${order?.shippingPrice.toFixed(2)}</div>
                                             </div>
                                         </li>
                                         <li>
                                             <div className="row">
                                                 <div>Tax</div>
-                                                <div>${order.taxPrice.toFixed(2)}</div>
+                                                <div>${order?.taxPrice.toFixed(2)}</div>
                                             </div>
                                         </li>
                                         <li>
                                             <div className="row">
                                                 <div><strong>Order Total</strong></div>
-                                                <div><strong>${order.totalPrice.toFixed(2)}</strong></div>
+                                                <div><strong>${order?.totalPrice.toFixed(2)}</strong></div>
                                             </div>
                                         </li>
+                                        {
+                                            !order?.isPaid && (
+                                                <li>
+                                                    {!sdkReady ? <LoadingBox /> : <PayPalButton amount={order?.totalPrice} onSuccess={successPaymentHandler} />}
+                                                </li>
+                                            )
+                                        }
                                     </ul>
                                 </div>
                             </div>

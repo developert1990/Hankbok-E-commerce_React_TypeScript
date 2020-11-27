@@ -27,8 +27,10 @@ app.use('/api/products', productRouter);
 // 유저가 오더한 것을 등록하는 라우터 연결
 app.use('/api/orders', orderRouter);
 
-
-
+// PayPal client id 가져오기 위한 API
+app.get('/api/config/paypal', (req: Request, res: Response) => {
+    res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
+})
 
 
 app.get('/', (req: Request, res: Response) => {
