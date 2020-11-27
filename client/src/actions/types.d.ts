@@ -16,3 +16,13 @@ export interface userActionType {
     type: string;
     payload: userType | string;
 }
+
+export interface orderActionType {
+    type: string;
+    payload: orderItemsType
+}
+
+export interface orderDetailActionType {
+    type: string;
+    payload: orderItemsType
+}

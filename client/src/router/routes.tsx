@@ -10,6 +10,8 @@ import { Footer } from '../components/Footer';
 import { AboutScreen } from '../screens/AboutScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { ShippingAddressScreen } from '../screens/ShippingAddress';
+import { PaymentMethodScreen } from '../screens/PaymentMethodScreen';
+import { PlaceOrderScreen } from '../screens/PlaceOrderScreen';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
@@ -24,6 +26,8 @@ export default () => {
             <Route path="/signin" component={SigninScreen} />
             <Route path="/register" component={RegisterScreen} />
             <Route path="/shipping" component={ShippingAddressScreen} />
+            <Route path="/payment" component={PaymentMethodScreen} />
+            <Route path="/placeorder" component={PlaceOrderScreen} />
             <Footer />
         </BrowserRouter>
     )

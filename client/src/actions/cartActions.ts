@@ -1,4 +1,4 @@
-import { CART_SAVE_SHIPPING_ADDRESS } from './../constants/cartConstant';
+import { CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD } from './../constants/cartConstant';
 import { ThunkDispatch } from 'redux-thunk';
 import Axios from 'axios';
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstant';
@@ -38,4 +38,8 @@ export interface saveShippingAddressDataType {
 export const saveShippingAddress = (data: saveShippingAddressDataType) => (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch({ type: CART_SAVE_SHIPPING_ADDRESS, payload: data });
     localStorage.setItem("shippingAddress", JSON.stringify(data));
+}
+
+export const savePaymentMethod = (method: string) => (dispatch: ThunkDispatch<any, any, any>) => {
+    dispatch({ type: CART_SAVE_PAYMENT_METHOD, payload: method });
 }
