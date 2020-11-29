@@ -23,7 +23,7 @@ export const ProductsScreen = () => {
                 <LoadingBox /> :
                 error ?
                     <MessageBox variant="danger">{error}</MessageBox> :
-                    <div className="row center">
+                    <div className="productsScreen">
                         {
                             products.map((product) => (
                                 <Product key={product._id} product={product} />

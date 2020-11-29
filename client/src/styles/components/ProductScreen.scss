@@ -1,0 +1,14 @@
+.productsScreen{
+
+    display: flex;
+    flex-wrap: wrap;
+}
+.products{
+    width: 300px;
+    margin: 1.4rem 1.4rem;
+
+    .products__image{
+        max-width: 300px;
+        max-height: 200px;
+    }
+}

@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { savePaymentMethod } from '../actions/cartActions';
@@ -21,11 +22,9 @@ export const PaymentMethodScreen = () => {
         history.push('/placeorder');
     }
     return (
-        <div>
-            <form className="form" onSubmit={submitHandler}>
-                <div>
-                    <h1>Payment</h1>
-                </div>
+        <div className="paymentScreen">
+            <form className="paymentScreen__form" onSubmit={submitHandler}>
+                <h1 className="form__title">Payment</h1>
                 <div>
                     <div>
                         <input type="radio" id="paypal" value="PayPal" name="paymentMethod" required checked onChange={(e: ChangeEvent<HTMLInputElement>) => setPaymentMethod(e.target.value)} />
@@ -39,7 +38,7 @@ export const PaymentMethodScreen = () => {
                     </div>
                 </div>
                 <div>
-                    <button className="primary" type="submit">Continue</button>
+                    <Button variant="danger" type="submit">Continue</Button>
                 </div>
             </form>
         </div>

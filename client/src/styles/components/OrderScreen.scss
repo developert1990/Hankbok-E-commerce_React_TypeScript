@@ -1,0 +1,37 @@
+.orderScreen {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    .orderScreen__card {
+        padding: 1.5rem;
+        background-color: #f8f8f8;
+    }
+
+    .orderScreen__left {
+        flex: 2 1 50rem;
+        margin-right: 1.5rem;
+
+        Table{
+            text-align: center;
+            line-height: 40px;
+        }
+        .small {
+            width: 80px;
+        }
+
+    }
+
+    .orderScreen__right {
+        flex: 1 1 25rem;
+        font-size: 1.2rem;
+        div {
+            margin-bottom: 0.5rem;
+        }
+
+    }
+
+
+
+}

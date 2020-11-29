@@ -26,3 +26,14 @@ export interface orderDetailActionType {
     type: string;
     payload: orderItemsType
 }
+
+export interface orderPayActionType {
+    type: string;
+    payload: orderPayType
+}
+
+
+export interface orderMyHistoryListActionType {
+    type: string;
+    payload: any;
+}

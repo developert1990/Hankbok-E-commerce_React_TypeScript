@@ -1,0 +1,32 @@
+.cartScreen{
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    .cart__left{
+        width: 100%;
+        margin: 1.4rem;
+        text-align: center;
+        .small{
+            width: 80px;
+        }
+        tbody td{
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+
+    .cart__right{
+        margin-right: 1.4rem;
+        .cart__right__card{
+            padding: 1.2rem;
+
+            .cart__right__subtotal{
+                margin-bottom: 1.5rem;
+            }
+        }
+
+    }
+}

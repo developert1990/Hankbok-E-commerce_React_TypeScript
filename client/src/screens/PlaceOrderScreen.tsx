@@ -6,6 +6,7 @@ import { createOrder } from '../actions/orderAction';
 import { ORDER_CREATE_RESET } from '../constants/orderConstant';
 import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
+import { Button, Card, Table } from 'react-bootstrap';
 
 export const PlaceOrderScreen = () => {
     const cart = useSelector((state: initialAppStateType) => state.cartStore);
@@ -24,6 +25,8 @@ export const PlaceOrderScreen = () => {
     let shippingPrice = itemsPrice > 100 ? toPrice(0) : toPrice(10);
     let taxPrice = toPrice(0.15 * itemsPrice);
     let totalPrice = itemsPrice + shippingPrice + taxPrice;
+
+
     const placeOrderHandler = () => {
         dispatch(createOrder({ ...cart, orderItems: cartItems, itemsPrice: itemsPrice, shippingPrice: shippingPrice, shippingAddress: shippingAddress, taxPrice: taxPrice, totalPrice: totalPrice }));
     }
@@ -31,14 +34,110 @@ export const PlaceOrderScreen = () => {
     useEffect(() => {
         if (success) {
             history.push(`/order/${order?._id}`);
-            dispatch({ type: ORDER_CREATE_RESET });
+            // dispatch({ type: ORDER_CREATE_RESET }); 이거때문에 계속 오류 났엇음 그 페이하는 버튼들
         }
     }, [dispatch, history, order, success])
 
     return (
-        <div>
-            <div className="row top">
-                <div className="col-2">
+        <div className="placeOrderScreen">
+
+            <div className="placeOrderScreen__left">
+
+                <Card className="placeOrderScreen__card placeOrderScreen__left">
+                    <h2>Shipping</h2>
+                    <p>
+                        <strong>Name:</strong>{shippingAddress.fullName} <br />
+                        <strong>Address:</strong>{shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode}, {shippingAddress.country}
+                    </p>
+                </Card>
+
+                <Card className="placeOrderScreen__card placeOrderScreen__left">
+                    <h2>Payment</h2>
+                    <p>
+                        <strong>Method:</strong>{paymentMethod} <br />
+                    </p>
+                </Card>
+
+                <Card className="placeOrderScreen__card placeOrderScreen__left">
+                    <h2>Order Items</h2>
+                    <Table striped bordered hover size="sm">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        {cartItems.map((item) => (
+                            <tbody key={item.product}>
+                                <tr>
+
+                                    <td>
+                                        <img className="small" src={item.image} alt={item.name} />
+                                    </td>
+
+                                    <td className="min-30">
+                                        <Link to={`/product/${item.product}`}>{item.name}</Link>
+                                    </td>
+
+                                    <td>
+                                        {item.qty} x ${item.price} = ${item.qty * item.price}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        ))}
+                    </Table>
+                </Card>
+
+            </div>
+
+
+            <div className="placeOrderScreen__right">
+                <Card className="placeOrderScreen__card placeOrderScreen__right">
+                    <h2>Order Summary</h2>
+                    <div>
+                        <div>Items</div>
+                        <div>${itemsPrice.toFixed(2)}</div>
+                    </div>
+                    <div>
+                        <div>Shipping</div>
+                        <div>${shippingPrice.toFixed(2)}</div>
+                    </div>
+                    <div>
+                        <div>Tax</div>
+                        <div>${taxPrice.toFixed(2)}</div>
+                    </div>
+                    <div>
+                        <div><strong>Order Total</strong></div>
+                        <div><strong>${totalPrice.toFixed(2)}</strong></div>
+                    </div>
+                    <Button type="button" onClick={placeOrderHandler} variant="danger" disabled={cartItems.length === 0}>
+                        Place Order
+                                </Button>
+                    {loading && <LoadingBox />}
+                    {error && <MessageBox variant="danger" />}
+                </Card>
+            </div>
+
+        </div>
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* <div className="col-2">
                     <ul>
                         <li>
                             <div className="card card-body">
@@ -111,15 +210,11 @@ export const PlaceOrderScreen = () => {
                             </li>
                             <li>
                                 <button type="button" onClick={placeOrderHandler} className="primary block" disabled={cartItems.length === 0}>
-                                    Place Order
+                        Place Order
                                 </button>
                             </li>
                             {loading && <LoadingBox />}
                             {error && <MessageBox variant="danger" />}
                         </ul>
                     </div>
-                </div>
-            </div>
-        </div>
-    )
-}
+                </div> */}

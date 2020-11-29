@@ -34,7 +34,8 @@ export const NavBar = () => {
                 {
                     userInfo ? (
                         <NavDropdown title={userInfo.name} id="collasible-nav-dropdown">
-                            <Link to="#signout" onClick={signoutHandler}><NavDropdown.Item href="#action/3.1">Sign Out</NavDropdown.Item></Link>
+                            <Link to="/history"><NavDropdown.Item >Order History</NavDropdown.Item></Link>
+                            <Link to="#signout" onClick={signoutHandler}><NavDropdown.Item>Sign Out</NavDropdown.Item></Link>
                         </NavDropdown>
                     ) : (
                             <Nav.Link> <Link to="/signin">Sign In</Link></Nav.Link>

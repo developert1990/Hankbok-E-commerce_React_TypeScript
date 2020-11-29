@@ -6,8 +6,6 @@ interface MessageBoxProps {
 }
 
 export const MessageBox: React.FC<MessageBoxProps> = ({ variant, children }) => {
-    console.log('variant: ', variant)
-    console.log('children: ', children)
 
     return (
         <div className={`alert alert-${variant} || 'info'`}>

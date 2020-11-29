@@ -1,5 +1,5 @@
-import React from 'react'
-import { Carousel } from 'react-bootstrap'
+import React from 'react';
+import { Carousel } from 'react-bootstrap';
 
 export const MainCarousel = () => {
     return (
