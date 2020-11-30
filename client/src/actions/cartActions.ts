@@ -3,6 +3,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import Axios from 'axios';
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstant';
 
+// cart에 제품 저장
 export const addToCart = (productId: string, qty: number) => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
     const { data } = await Axios.get(`/api/products/${productId}`);
     dispatch({
@@ -19,13 +20,14 @@ export const addToCart = (productId: string, qty: number) => async (dispatch: Th
     console.log('getState()', getState())
     localStorage.setItem('cartItems', JSON.stringify(getState().cartStore.cartItems))
 }
-//    E-Commerce_React_TypeScript_Redux
 
 
+// cart 에서 목록 전부 삭제
 export const removeFromCart = (productId: string) => (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
     dispatch({ type: CART_REMOVE_ITEM, payload: productId });
     localStorage.setItem('cartItems', JSON.stringify(getState().cartStore.cartItems));
 }
+
 
 export interface saveShippingAddressDataType {
     fullName: string;
@@ -35,11 +37,14 @@ export interface saveShippingAddressDataType {
     country: string;
 }
 
+// shipping 주소 설정
 export const saveShippingAddress = (data: saveShippingAddressDataType) => (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch({ type: CART_SAVE_SHIPPING_ADDRESS, payload: data });
     localStorage.setItem("shippingAddress", JSON.stringify(data));
 }
 
+// payment 방법 설정
 export const savePaymentMethod = (method: string) => (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch({ type: CART_SAVE_PAYMENT_METHOD, payload: method });
 }
+

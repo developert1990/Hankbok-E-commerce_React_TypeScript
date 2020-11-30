@@ -28,6 +28,7 @@ export const RegisterScreen = () => {
         }
     }
 
+    // 여기서 지금 nav에서 log out했을 때 userInfo 정보가 남아있어서 자꾸 redirect path 가 / 이렇게 된다.
     useEffect(() => {
 
         console.log('userInfo:___', userInfo)

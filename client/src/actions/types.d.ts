@@ -12,6 +12,11 @@ export interface CartActionType {
     payload: cartItemType | string;
 }
 
+export interface userProfileUpdateActionType {
+    type: string;
+    payload: any;
+}
+
 export interface userActionType {
     type: string;
     payload: userType | string;

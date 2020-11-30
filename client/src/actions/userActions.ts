@@ -1,4 +1,4 @@
-import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL } from './../constants/userConstant';
+import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL } from './../constants/userConstant';
 
 import axios from 'axios';
 import { ThunkDispatch } from 'redux-thunk';
@@ -24,6 +24,7 @@ export const signin = (email: string, password: string) => async (dispatch: Thun
 export const signout = () => (dispatch: ThunkDispatch<any, any, any>) => {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('cartItems');
+    localStorage.removeItem('shippingAddress');
     dispatch({ type: USER_SIGNOUT });
 };
 
@@ -43,5 +44,31 @@ export const register = (name: string, email: string, password: string) => async
                     ? error.response.data.message
                     : error.message
         })
+    }
+}
+
+interface InfoForUpdateUserProfileType {
+    name: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
+
+export const updateUser = (userId: string, updateInfo: InfoForUpdateUserProfileType) => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
+    dispatch({ type: USER_PROFILE_UPDATE_REQUEST });
+    const { userStore: { userInfo } } = getState();
+    try {
+        const { data } = await axios.put(`/api/users/${userId}`, updateInfo, {
+            headers: { Authorization: `Hong ${userInfo.token}` }
+        });
+        dispatch({ type: USER_PROFILE_UPDATE_SUCCESS, payload: data });
+        dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
+        localStorage.setItem('userInfo', JSON.stringify(data));
+
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: USER_PROFILE_UPDATE_FAIL, payload: message });
     }
 }
