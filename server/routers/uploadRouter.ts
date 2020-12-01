@@ -21,7 +21,7 @@ uploadRouter.post('/', isAuth, (req: Request, res: Response) => {
     upload(req, res, (err: any) => {
         if (err) { return res.status(404).send({ message: 'Can not upload image' }) };
         console.log('req.file:___', req.file)
-        return res.send(`/${req.file.path}`)
+        return res.send(`${req.file.filename}`)
     })
 });
 

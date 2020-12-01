@@ -5,6 +5,7 @@ import { useParams, useLocation, Link, useHistory } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { MessageBox } from '../components/MessageBox';
 import { initialAppStateType } from '../store';
+import { API_BASE } from '../config';
 
 interface CartScreenParamType {
     id: string;
@@ -60,7 +61,7 @@ export const CartScreen = () => {
                                     <tbody key={item.product}>
                                         <tr>
                                             <td>
-                                                <img className="small" src={item.image} alt={item.name} />
+                                                <img className="small" src={`${API_BASE}/uploads/${item.image}`} alt={item.name} />
                                             </td>
                                             <td className="min-30">
                                                 <Link to={`/product/${item.product}`}>{item.name}</Link>

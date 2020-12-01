@@ -7,6 +7,7 @@ import { ORDER_CREATE_RESET } from '../constants/orderConstant';
 import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
 import { Button, Card, Table } from 'react-bootstrap';
+import { API_BASE } from '../config';
 
 export const PlaceOrderScreen = () => {
     const cart = useSelector((state: initialAppStateType) => state.cartStore);
@@ -73,7 +74,7 @@ export const PlaceOrderScreen = () => {
                                 <tr>
 
                                     <td>
-                                        <img className="small" src={item.image} alt={item.name} />
+                                        <img className="small" src={`${API_BASE}/uploads/${item.image}`} alt={item.name} />
                                     </td>
 
                                     <td className="min-30">

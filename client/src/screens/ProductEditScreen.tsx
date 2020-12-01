@@ -81,10 +81,12 @@ export const ProductEditScreen = () => {
             setLoadingUpload(true);
 
             try {
+                // image file 의 name을 가져오는 API
                 const { data } = await Axios.post(`/api/uploads`, bodyFormData, {
                     headers: { Authorization: `Hong ${userInfo.token}` }
                 });
                 // image 경로랑 전체 product image 를 서버에서 받아오는 걸로 바꿔야한다.
+                console.log('data:____', data)
                 setImage(data);
                 setLoadingUpload(false);
             } catch (error) {

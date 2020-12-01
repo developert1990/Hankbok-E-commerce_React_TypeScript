@@ -8,6 +8,7 @@ import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
 import { initialAppStateType } from '../store';
 import { Card, Table } from 'react-bootstrap';
+import { API_BASE } from '../config';
 
 interface paramsType {
     id: string;
@@ -114,7 +115,7 @@ export const OrderScreen = () => {
                                             <tbody key={item.product}>
                                                 <tr>
                                                     <td>
-                                                        <img className="small" src={item.image} alt={item.name} />
+                                                        <img className="small" src={`${API_BASE}/uploads/${item.image}`} alt={item.name} />
                                                     </td>
                                                     <td>
                                                         <Link to={`/product/${item.product}`}>{item.name}</Link>

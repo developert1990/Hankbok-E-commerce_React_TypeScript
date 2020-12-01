@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { ProductType } from "../types";
 import { Rating } from "./Rating";
 import { Card } from "react-bootstrap";
-
+import { API_BASE } from '../config';
 
 export interface ProductProps {
     product: ProductType;
 }
+
+// console.log('process.env.API_BASE', API_BASE)
 
 export const Product: React.FC<ProductProps> = ({ product }) => {
     return (
@@ -17,7 +19,7 @@ export const Product: React.FC<ProductProps> = ({ product }) => {
             <Card className="products">
                 <Card.Img
                     className="products__image"
-                    src={product.image}
+                    src={`${API_BASE}/uploads/${product.image}`}
                     variant="top"
                 />
                 <Card.Text>

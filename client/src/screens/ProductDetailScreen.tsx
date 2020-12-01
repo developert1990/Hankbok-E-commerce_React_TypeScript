@@ -6,7 +6,7 @@ import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
 import { Rating } from '../components/Rating';
 import { initialAppStateType } from '../store';
-import { ProductType } from '../types';
+import { API_BASE } from '../config';
 
 import { Card, Button } from 'react-bootstrap';
 
@@ -53,7 +53,7 @@ export const ProductDetailScreen = () => {
                                 product &&
                                 <div className="productDetailPage">
                                     <div className="detail-left">
-                                        <img className="large" src={product.image} alt={product.name}></img>
+                                        <img className="large" src={`${API_BASE}/uploads/${product.image}`} alt={product.name}></img>
                                     </div>
                                     <div className="detail-middle">
                                         <ul>
