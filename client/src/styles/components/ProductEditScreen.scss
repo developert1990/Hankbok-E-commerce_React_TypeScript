@@ -1,0 +1,52 @@
+.productEdit__form{
+    display: flex;
+    flex-direction: column;
+    min-height: 660px;
+    background-image: url('../../hanji.jpg');
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 100%;
+    margin: auto;
+    max-width: 450px;
+    padding: 60px 68px 40px;
+    margin-bottom: 50px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    .productEdit__form__base{
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    .productEdit__form__input{
+        background: #333;
+    border-radius: 4px;
+    width: 350px;
+    border: 0;
+    color: white;
+    height: 50px;
+    line-height: 50px;
+    padding: 5px 20px;
+
+    &:last-of-type {
+        margin-bottom: 30px;
+    }
+    }
+
+    .productEdit__textArea{
+        background: #333;
+    border-radius: 4px;
+    width: 350px;
+    border: 0;
+    color: white;
+    height: 100px;
+    line-height: 50px;
+    padding: 5px 20px;
+    margin-bottom: 10px;
+    }
+
+    }
+}

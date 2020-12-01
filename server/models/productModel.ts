@@ -1,5 +1,19 @@
 
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+
+
+export interface productsInfoType extends Document {
+    name: string;
+    image: string;
+    brand: string;
+    category: string;
+    description: string;
+    price: number;
+    countInStock: number;
+    rating: number;
+    numReviews: number;
+}
+
 
 const productSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true },

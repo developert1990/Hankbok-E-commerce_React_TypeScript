@@ -1,7 +1,7 @@
 import { orderIinitialStateType, orderInitialState, orderCreateReducer, orderDetailInitailStateType, orderDetailInitialState, orderDetailsReducer, orderPayInitialStateType, orderPayInitailState, orderPayReducer, orderMyHistoryListInitialStateType, orderMyHistoryListInitailState, orderMyHistoryListReducer } from './reducers/orderReducers';
 import { userSigninReducer, userSigninInitialState, userSigninInitialStateType, userRegisterReducer, userRegisterInitailState, userRegisterInitialType, userProfileUpdateInitialStateType, userProfileUpdateInitialState, userProfileUpdateReducer } from './reducers/userReducer';
 import { cartReducer, cartInitailState, cartInitailStateType } from './reducers/cartReducers';
-import { ProductListInitialStateType, productListReducer, productListInitialState, productDetailsReducer, productDetailsInitialState, ProductDetailsInitialStateType } from './reducers/productReducers';
+import { ProductListInitialStateType, productListReducer, productListInitialState, productDetailsReducer, productDetailsInitialState, ProductDetailsInitialStateType, productCreateReducer, productCreateInitialStateType, productCreateInitialState, productUpdateInitialStateType, productUpdateReducer, productUpdateInitialState, productDeleteInitialStateType, productDeleteInitialState, productDeleteReducer } from './reducers/productReducers';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
@@ -23,6 +23,9 @@ export interface initialAppStateType {
     orderPayStore: orderPayInitialStateType,
     orderMyHistoryListStore: orderMyHistoryListInitialStateType,
     userProfileUpdateStore: userProfileUpdateInitialStateType,
+    productCreateStore: productCreateInitialStateType,
+    productUpdateStore: productUpdateInitialStateType,
+    productDeleteStore: productDeleteInitialStateType,
 }
 
 
@@ -37,6 +40,10 @@ export const initialAppState: initialAppStateType = {
     orderPayStore: orderPayInitailState,
     orderMyHistoryListStore: orderMyHistoryListInitailState,
     userProfileUpdateStore: userProfileUpdateInitialState,
+    productCreateStore: productCreateInitialState,
+    productUpdateStore: productUpdateInitialState,
+    productDeleteStore: productDeleteInitialState,
+
 }
 
 const reducer = combineReducers({
@@ -50,6 +57,9 @@ const reducer = combineReducers({
     orderPayStore: orderPayReducer,
     orderMyHistoryListStore: orderMyHistoryListReducer,
     userProfileUpdateStore: userProfileUpdateReducer,
+    productCreateStore: productCreateReducer,
+    productUpdateStore: productUpdateReducer,
+    productDeleteStore: productDeleteReducer,
 })
 
 

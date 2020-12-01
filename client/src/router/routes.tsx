@@ -16,6 +16,11 @@ import { OrderScreen } from '../screens/OrderScreen';
 import { OrderHistoryScreen } from '../screens/OrderHistoryScreen';
 import { PrivateRoute } from '../components/PrivateRoute';
 import { ProfileUpdateScreen } from '../screens/ProfileUpdateScreen';
+import { AdminRoute } from '../components/AdminRoute'
+import { ProductListScreen } from '../screens/ProductListScreen';
+import { ProductEditScreen } from '../screens/ProductEditScreen';
+import { ProductCreateScreen } from '../screens/ProductCreateScreen';
+
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
@@ -25,7 +30,8 @@ export default () => {
             <Route exact path="/" component={HomeScreen} />
             <Route path="/cart/:id?" component={CartScreen} />
             <Route path="/about" component={AboutScreen} />
-            <Route path="/product/:id" component={ProductDetailScreen} />
+            <Route exact path="/product/:id" component={ProductDetailScreen} />
+            <Route exact path="/product/:id/edit" component={ProductEditScreen} />
             <Route path="/products" component={ProductsScreen} />
             <Route path="/signin" component={SigninScreen} />
             <Route path="/register" component={RegisterScreen} />
@@ -35,6 +41,9 @@ export default () => {
             <Route path="/order/:id" component={OrderScreen} />
             <Route path="/history" component={OrderHistoryScreen} />
             <PrivateRoute path="/profile" component={ProfileUpdateScreen} />
+            <AdminRoute path="/productList" component={ProductListScreen} />
+            <AdminRoute path="/productCreate" component={ProductCreateScreen} />
+
             <Footer />
         </BrowserRouter>
     )
