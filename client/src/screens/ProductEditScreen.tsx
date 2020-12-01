@@ -1,3 +1,4 @@
+import Axios from 'axios';
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +22,10 @@ export const ProductEditScreen = () => {
     const [category, setCategory] = useState<string>('');
     const [countInStock, setCountInStock] = useState<number>(0);
     const [brand, setbrand] = useState<string>('');
-    const [description, setDescription] = useState<string>('')
+    const [description, setDescription] = useState<string>('');
+
+    const [loadingUpload, setLoadingUpload] = useState<boolean>(false);
+    const [errorUpload, setErrorUpload] = useState<string>('');
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -32,7 +36,13 @@ export const ProductEditScreen = () => {
     const productUpdateInfo = useSelector((state: initialAppStateType) => state.productUpdateStore);
     const { error: errorUpdate, loading: loadingUpdate, success: successUpdate } = productUpdateInfo;
 
+    const userInfoStore = useSelector((state: initialAppStateType) => state.userStore);
+    const { userInfo } = userInfoStore;
+
+    const textareaRow = 3;
+
     console.log('productDetails', productDetails)
+
     useEffect(() => {
         console.log('체크체크:    ', product)
 
@@ -61,7 +71,30 @@ export const ProductEditScreen = () => {
         console.log('바껴서 들어가는 값들', name, price, image, category, countInStock, brand, description)
         dispatch(updateProduct({ _id: productId, name, price, image, category, brand, countInStock, description, numReviews: 0, rating: 0 }))
     }
-    const textareaRow = 3;
+
+    const uploadImageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const file = e.target.files[0];
+            const bodyFormData = new FormData();
+            console.log('bodyFormData', bodyFormData)
+            bodyFormData.append('image', file); // bodyFormData를 설정해야지 multer에서 읽을 수 잇는 것같음 잘 모르겟다.
+            setLoadingUpload(true);
+
+            try {
+                const { data } = await Axios.post(`/api/uploads`, bodyFormData, {
+                    headers: { Authorization: `Hong ${userInfo.token}` }
+                });
+                // image 경로랑 전체 product image 를 서버에서 받아오는 걸로 바꿔야한다.
+                setImage(data);
+                setLoadingUpload(false);
+            } catch (error) {
+                setErrorUpload(error.message);
+                setLoadingUpload(false);
+            }
+
+        }
+    }
+
     return (
         <div>
             <form onSubmit={submitHandler} className="productEdit__form">
@@ -90,6 +123,15 @@ export const ProductEditScreen = () => {
                                         <label htmlFor="image">Image</label>
                                         <input className="productEdit__form__input" type="text" id="image" placeholder="Enter image" value={image} onChange={(e: ChangeEvent<HTMLInputElement>) => setImage(e.target.value)} />
                                     </div>
+
+
+                                    <div>
+                                        <label htmlFor="imageFile">Image File</label>
+                                        <input type="file" id="imageFile" placeholder="Choose Image" onChange={uploadImageHandler} />
+                                        {loadingUpload && <LoadingBox />}
+                                        {errorUpload && <MessageBox variant="danger">{errorUpload}</MessageBox>}
+                                    </div>
+
 
                                     <div>
                                         <label htmlFor="name">Category</label>
