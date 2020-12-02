@@ -1,5 +1,5 @@
 import { orderIinitialStateType, orderInitialState, orderCreateReducer, orderDetailInitailStateType, orderDetailInitialState, orderDetailsReducer, orderPayInitialStateType, orderPayInitailState, orderPayReducer, orderMyHistoryListInitialStateType, orderMyHistoryListInitailState, orderMyHistoryListReducer, orderListInitialStateType, orderListInitailState, orderListReducer, orderDeliverInitialStateType, orderDeliverInitailState, orderDeliverReducer, orderDeleteInitialStateType, orderDeleteInitailState, orderDeleteReducer } from './reducers/orderReducers';
-import { userSigninReducer, userSigninInitialState, userSigninInitialStateType, userRegisterReducer, userRegisterInitailState, userRegisterInitialType, userProfileUpdateInitialStateType, userProfileUpdateInitialState, userProfileUpdateReducer, userListInitialStateType, userListReducer, userListInitialState } from './reducers/userReducer';
+import { userSigninReducer, userSigninInitialState, userSigninInitialStateType, userRegisterReducer, userRegisterInitailState, userRegisterInitialType, userProfileUpdateInitialStateType, userProfileUpdateInitialState, userProfileUpdateReducer, userListInitialStateType, userListReducer, userListInitialState, userDeleteInitialStateType, userDeleteInitialState, userDeleteReducer } from './reducers/userReducer';
 import { cartReducer, cartInitailState, cartInitailStateType } from './reducers/cartReducers';
 import { ProductListInitialStateType, productListReducer, productListInitialState, productDetailsReducer, productDetailsInitialState, ProductDetailsInitialStateType, productCreateReducer, productCreateInitialStateType, productCreateInitialState, productUpdateInitialStateType, productUpdateReducer, productUpdateInitialState, productDeleteInitialStateType, productDeleteInitialState, productDeleteReducer } from './reducers/productReducers';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
@@ -30,6 +30,7 @@ export interface initialAppStateType {
     orderDeleteStore: orderDeleteInitialStateType,
     orderDeliverdStore: orderDeliverInitialStateType,
     userListStore: userListInitialStateType,
+    userDeleteStore: userDeleteInitialStateType,
 }
 
 
@@ -51,6 +52,7 @@ export const initialAppState: initialAppStateType = {
     orderDeleteStore: orderDeleteInitailState,
     orderDeliverdStore: orderDeliverInitailState,
     userListStore: userListInitialState,
+    userDeleteStore: userDeleteInitialState,
 }
 
 const reducer = combineReducers({
@@ -71,6 +73,7 @@ const reducer = combineReducers({
     orderDeleteStore: orderDeleteReducer,
     orderDeliverdStore: orderDeliverReducer,
     userListStore: userListReducer,
+    userDeleteStore: userDeleteReducer,
 })
 
 

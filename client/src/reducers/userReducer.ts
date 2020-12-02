@@ -1,5 +1,5 @@
-import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNOUT, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAIL } from './../constants/userConstant';
-import { userActionType, userProfileUpdateActionType, userListActionType } from './../actions/types.d';
+import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNOUT, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LIST_FAIL, USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAIL, USER_DELETE_RESET } from './../constants/userConstant';
+import { userActionType, userProfileUpdateActionType, userListActionType, userDeleteActionType } from './../actions/types.d';
 
 export interface userType {
     _id: string;
@@ -136,3 +136,42 @@ export const userListReducer = (state = userListInitialState, action: userListAc
             return state;
     }
 }
+
+
+
+
+
+
+
+
+
+export interface userDeleteInitialStateType {
+    success: boolean;
+    error: string;
+    loading: boolean;
+}
+
+export const userDeleteInitialState: userDeleteInitialStateType = {
+    success: false,
+    error: '',
+    loading: false,
+}
+
+
+
+
+export const userDeleteReducer = (state = userDeleteInitialState, action: userDeleteActionType) => {
+    switch (action.type) {
+        case USER_DELETE_REQUEST:
+            return { loading: true };
+        case USER_DELETE_SUCCESS:
+            return { loading: false, success: true };
+        case USER_DELETE_FAIL:
+            return { loading: false, error: action.payload };
+        case USER_DELETE_RESET:
+            return {};
+        default:
+            return state;
+    }
+};
+

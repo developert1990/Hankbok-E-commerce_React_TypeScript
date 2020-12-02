@@ -39,7 +39,7 @@ export default () => {
             <Route path="/shipping" component={ShippingAddressScreen} />
             <Route path="/payment" component={PaymentMethodScreen} />
             <Route path="/placeorder" component={PlaceOrderScreen} />
-            <Route path="/order/:id" component={OrderScreen} />
+            <PrivateRoute path="/order/:id" component={OrderScreen} />
             <Route path="/history" component={OrderHistoryScreen} />
             <PrivateRoute path="/profile" component={ProfileUpdateScreen} />
             <AdminRoute path="/productList" component={AdminProductListScreen} />

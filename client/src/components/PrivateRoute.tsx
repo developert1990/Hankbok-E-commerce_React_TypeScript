@@ -20,7 +20,7 @@ export const PrivateRoute: React.FC<PrivateCustomRoutePropsType> = ({ component:
             render={(props) => userInfo ? (
                 <Component {...props}></Component>
             ) : (
-                    <Redirect to="signin" />
+                    <Redirect to="/signin" />
                 )
             }
         >

@@ -19,14 +19,14 @@ export const RegisterScreen = () => {
     const userRegister = useSelector((state: initialAppStateType) => state.registerStore);
     const { userInfo, error, loading } = userRegister;
 
-    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (password !== confirmPassword) {
-            alert('Password and confirm password are not match')
-        } else {
-            dispatch(register(name, email, password))
-        }
-    }
+    // const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //     if (password !== confirmPassword) {
+    //         alert('Password and confirm password are not match')
+    //     } else {
+    //         dispatch(register(name, email, password))
+    //     }
+    // }
 
     // 여기서 지금 nav에서 log out했을 때 userInfo 정보가 남아있어서 자꾸 redirect path 가 / 이렇게 된다.
     useEffect(() => {

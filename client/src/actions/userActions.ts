@@ -1,4 +1,4 @@
-import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL, USER_LIST_REQUEST, USER_LIST_FAIL, USER_LIST_SUCCESS } from './../constants/userConstant';
+import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL, USER_LIST_REQUEST, USER_LIST_FAIL, USER_LIST_SUCCESS, USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAIL } from './../constants/userConstant';
 
 import axios from 'axios';
 import { ThunkDispatch } from 'redux-thunk';
@@ -79,9 +79,10 @@ export const listUsers = () => async (dispatch: ThunkDispatch<any, any, any>, ge
     dispatch({ type: USER_LIST_REQUEST });
     const { userStore: { userInfo } } = getState();
     try {
-        const { data } = await axios.get(`/api/users/:${userInfo.isAdmin}`, {
+        const { data } = await axios.get(`/api/users/${userInfo.isAdmin}`, {
             headers: { Authorization: `Hong ${userInfo.token}` }
         })
+        console.log('리스트 뽑는 action data', data)
         dispatch({ type: USER_LIST_SUCCESS, payload: data });
     } catch (error) {
         const message = error.response && error.response.data.message
@@ -90,4 +91,26 @@ export const listUsers = () => async (dispatch: ThunkDispatch<any, any, any>, ge
         dispatch({ type: USER_LIST_FAIL, payload: message });
     }
 
+};
+
+// 클릭한 유저 삭제
+
+export const deleteUser = (userId: string) => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
+    dispatch({ type: USER_DELETE_REQUEST });
+    const { userStore: { userInfo } } = getState();
+    console.log('유저 삭제하는 action들어옴')
+    try {
+        const { data } = await axios.delete(`/api/users/${userId}/${userInfo.isAdmin}`, {
+            headers: { Authorization: `Hong ${userInfo.token}` },
+        });
+
+        dispatch({ type: USER_DELETE_SUCCESS, payload: data });
+    } catch (error) {
+
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        console.log('message delete:   ', message)
+        dispatch({ type: USER_DELETE_FAIL, payload: message });
+    }
 }

@@ -29,7 +29,7 @@ export interface decodeType {
 // 계정으로 접속 햇을 때 API를 사용하기 위해 verify 하는 middleware.
 export const isAuth = (req: CustomRequestExtendsUser, res: Response, next: NextFunction) => {
     const authorization = req.headers.authorization;
-    console.log('어또라이제이션: ', authorization);
+    // console.log('어또라이제이션: ', authorization);
     if (authorization) {
         const token = authorization.slice(5, authorization.length); // Hong XXXXXXX  : Hong하고 띄워쓰기 까지 포함한 5개 글자 이후가 token이라서 이렇게 해줌
         jwt.verify(token, process.env.JWT_SECRET as string, (err, decode) => {
@@ -53,6 +53,7 @@ export const isAdmin = (req: CustomRequestExtendsUser, res: Response, next: Next
     console.log("admin인지 확인하러 들어옴")
     console.log('1: ', req.user)
     console.log('2: ', req.body)
+    console.log('3: ', req.params)
     if (req.user && req.params.isAdmin) {
         next();
     } else if (req.user && req.body.userInfo.isAdmin) {

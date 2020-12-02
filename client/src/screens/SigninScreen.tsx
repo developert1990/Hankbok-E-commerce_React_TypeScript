@@ -36,35 +36,6 @@ export const SigninScreen = () => {
 
     return (
         <>
-            {/* <div>
-                <form onSubmit={submitHandler} className="form">
-                    <div>
-                        <h1>Sign In</h1>
-                    </div>
-                    {loading && <LoadingBox />}
-                    {error && <MessageBox variant="danger">{error}</MessageBox>}
-                    <div>
-                        <label htmlFor="email">Email Address</label>
-                        <input type="email" id="email" placeholder="Enter email" required onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
-                    </div>
-                    <div>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="email" placeholder="Enter password" required onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
-                    </div>
-                    <div>
-                        <label />
-                        <button className="primary" type="submit">Sign In</button>
-                        <div>
-                            <label />
-                            <div>
-                                New customer?{''}
-                                <Link to={`/register?redirect=${redirect}`}>Create your account</Link>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div> */}
-
             <div className="signin">
                 <div className="form">
                     <h1 className="form__title">Sign In</h1>

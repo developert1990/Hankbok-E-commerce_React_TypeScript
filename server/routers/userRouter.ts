@@ -84,10 +84,27 @@ userRouter.put('/:id', isAuth, expressAsyncHandler(async (req: Request, res: Res
 
 
 // 모든 user data 받음
-
 userRouter.get('/:isAdmin', isAuth, isAdmin, expressAsyncHandler(async (req: Request, res: Response) => {
     const users = await User.find();
     res.send(users);
+}));
+
+
+
+// user delete API
+userRouter.delete('/:id/:isAdmin', isAuth, isAdmin, expressAsyncHandler(async (req: Request, res: Response) => {
+    const user = await User.findById(req.params.id);
+    const typedUser = user as userFromDB;
+    if (user) {
+        if (typedUser.email === 'admin@example.com') {
+            res.status(400).send({ message: 'Can not delete Admin User' });
+            return;
+        }
+        const deletedUser = await typedUser.remove();
+        res.send({ message: 'User Deleted', user: deletedUser });
+    } else {
+        res.status(404).send({ message: 'User Not Found' });
+    }
 }))
 
 

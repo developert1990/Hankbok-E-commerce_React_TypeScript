@@ -33,6 +33,11 @@ export interface userListActionType {
     payload: any;
 }
 
+export interface userDeleteActionType {
+    type: string;
+    payload: any;
+}
+
 export interface orderActionType {
     type: string;
     payload: orderItemsType
