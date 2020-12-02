@@ -28,6 +28,11 @@ export interface userActionType {
     payload: userType | string;
 }
 
+export interface userListActionType {
+    type: string;
+    payload: any;
+}
+
 export interface orderActionType {
     type: string;
     payload: orderItemsType

@@ -1,4 +1,4 @@
-import { isAuth } from './../utils';
+import { isAuth, isAdmin } from './../utils';
 import { data } from './../data';
 import express, { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
@@ -79,6 +79,15 @@ userRouter.put('/:id', isAuth, expressAsyncHandler(async (req: Request, res: Res
     } else {
         res.status(404).send({ message: 'User Not Found' });
     }
+}));
+
+
+
+// 모든 user data 받음
+
+userRouter.get('/:isAdmin', isAuth, isAdmin, expressAsyncHandler(async (req: Request, res: Response) => {
+    const users = await User.find();
+    res.send(users);
 }))
 
 

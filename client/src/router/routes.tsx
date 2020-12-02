@@ -21,7 +21,7 @@ import { AdminProductListScreen } from '../screens/AdminProductListScreen';
 import { ProductEditScreen } from '../screens/ProductEditScreen';
 import { ProductCreateScreen } from '../screens/ProductCreateScreen';
 import { AdminOrderListScreen } from '../screens/AdminOrderListScreen';
-
+import { AdminUserListScreen } from '../screens/AdminUserListScreen';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
@@ -45,6 +45,7 @@ export default () => {
             <AdminRoute path="/productList" component={AdminProductListScreen} />
             <AdminRoute path="/productCreate" component={ProductCreateScreen} />
             <AdminRoute path="/orderList" component={AdminOrderListScreen} />
+            <AdminRoute path="/userList" component={AdminUserListScreen} />
 
             <Footer />
         </BrowserRouter>

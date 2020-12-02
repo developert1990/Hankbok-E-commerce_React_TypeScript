@@ -1,4 +1,4 @@
-import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL } from './../constants/userConstant';
+import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL, USER_LIST_REQUEST, USER_LIST_FAIL, USER_LIST_SUCCESS } from './../constants/userConstant';
 
 import axios from 'axios';
 import { ThunkDispatch } from 'redux-thunk';
@@ -71,4 +71,23 @@ export const updateUser = (userId: string, updateInfo: InfoForUpdateUserProfileT
             : error.message
         dispatch({ type: USER_PROFILE_UPDATE_FAIL, payload: message });
     }
+};
+
+
+// 모든 유저 list 가져온다.
+export const listUsers = () => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
+    dispatch({ type: USER_LIST_REQUEST });
+    const { userStore: { userInfo } } = getState();
+    try {
+        const { data } = await axios.get(`/api/users/:${userInfo.isAdmin}`, {
+            headers: { Authorization: `Hong ${userInfo.token}` }
+        })
+        dispatch({ type: USER_LIST_SUCCESS, payload: data });
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: USER_LIST_FAIL, payload: message });
+    }
+
 }
