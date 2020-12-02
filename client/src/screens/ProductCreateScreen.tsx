@@ -1,3 +1,4 @@
+import Axios from 'axios';
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +11,9 @@ import { initialAppStateType } from '../store';
 export const ProductCreateScreen = () => {
     const productCreateStoreInfo = useSelector((state: initialAppStateType) => state.productCreateStore);
     const { error, product, loading, success } = productCreateStoreInfo;
+
+    const userInfoStore = useSelector((state: initialAppStateType) => state.userStore);
+    const { userInfo } = userInfoStore;
     console.log('product create페이지: ', product);
 
     const dispatch = useDispatch();
@@ -22,6 +26,8 @@ export const ProductCreateScreen = () => {
     const [brand, setbrand] = useState<string>('');
     const [description, setDescription] = useState<string>('');
 
+    const [loadingUpload, setLoadingUpload] = useState<boolean>(false);
+    const [errorUpload, setErrorUpload] = useState<string>('');
     const textareaRow = 3;
 
     const createProductHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -30,6 +36,31 @@ export const ProductCreateScreen = () => {
         history.push('/productList');
     }
 
+
+    const uploadImageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const file = e.target.files[0];
+            const bodyFormData = new FormData();
+            console.log('bodyFormData', bodyFormData)
+            bodyFormData.append('image', file); // bodyFormData를 설정해야지 multer에서 읽을 수 잇는 것같음 잘 모르겟다.
+            setLoadingUpload(true);
+
+            try {
+                // image file 의 name을 가져오는 API
+                const { data } = await Axios.post(`/api/uploads`, bodyFormData, {
+                    headers: { Authorization: `Hong ${userInfo.token}` }
+                });
+                // image 경로랑 전체 product image 를 서버에서 받아오는 걸로 바꿔야한다.
+                console.log('data:____', data)
+                setImage(data);
+                setLoadingUpload(false);
+            } catch (error) {
+                setErrorUpload(error.message);
+                setLoadingUpload(false);
+            }
+
+        }
+    }
 
 
     return (
@@ -56,6 +87,13 @@ export const ProductCreateScreen = () => {
                                     <div>
                                         <label htmlFor="image">Image</label>
                                         <input className="productEdit__form__input" type="text" id="image" placeholder="Enter image" value={image} onChange={(e: ChangeEvent<HTMLInputElement>) => setImage(e.target.value)} />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="imageFile">Image File</label>
+                                        <input type="file" id="imageFile" placeholder="Choose Image" onChange={uploadImageHandler} />
+                                        {loadingUpload && <LoadingBox />}
+                                        {errorUpload && <MessageBox variant="danger">{errorUpload}</MessageBox>}
                                     </div>
 
                                     <div>

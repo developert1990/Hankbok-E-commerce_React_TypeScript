@@ -9,7 +9,7 @@ import { ProductType } from '../types';
 import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from '../constants/productConstants';
 import { Button, Table } from 'react-bootstrap';
 
-export const ProductListScreen = () => {
+export const AdminProductListScreen = () => {
     const productList = useSelector((state: initialAppStateType) => state.productListStore);
     const { loading, error, products } = productList;
 

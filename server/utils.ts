@@ -2,6 +2,7 @@ import { CustomRequestExtendsUser } from './types';
 import { NextFunction, Request, Response } from 'express';
 import { userFromDB } from './types';
 import jwt from 'jsonwebtoken';
+import { idText } from 'typescript';
 
 
 export const generateToken = (user: userFromDB) => {
@@ -52,7 +53,9 @@ export const isAdmin = (req: CustomRequestExtendsUser, res: Response, next: Next
     console.log("admin인지 확인하러 들어옴")
     console.log('1: ', req.user)
     console.log('2: ', req.body)
-    if (req.user && req.body.userInfo.isAdmin) {
+    if (req.user && req.params.isAdmin) {
+        next();
+    } else if (req.user && req.body.userInfo.isAdmin) {
         next();
     } else {
         res.status(401).send({ message: 'Invalid Admin Token' });

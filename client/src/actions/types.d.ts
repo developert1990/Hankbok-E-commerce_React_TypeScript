@@ -1,10 +1,16 @@
 import { userType } from './../reducers/userReducer';
 import { cartItemType } from './../reducers/cartReducers';
 import { ProductType } from './../types.d';
+import { orderDeliverType } from '../reducers/orderReducers';
 
 export interface ProductActionType {
     type: string;
     payload: ProductType[];
+}
+
+export interface orderListActionType {
+    type: string;
+    payload: any;
 }
 
 export interface CartActionType {
@@ -41,4 +47,10 @@ export interface orderPayActionType {
 export interface orderMyHistoryListActionType {
     type: string;
     payload: any;
+}
+
+
+export interface orderDeliverActionType {
+    type: string;
+    payload: orderDeliverType;
 }

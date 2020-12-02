@@ -3,12 +3,13 @@ import { PayPalButton } from 'react-paypal-button-v2';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { detailsOrder, orderPay } from '../actions/orderAction';
+import { deliverOrder, detailsOrder, orderPay } from '../actions/orderAction';
 import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
 import { initialAppStateType } from '../store';
 import { Card, Table } from 'react-bootstrap';
 import { API_BASE } from '../config';
+import { ORDER_PAY_RESET } from '../constants/orderConstant';
 
 interface paramsType {
     id: string;
@@ -24,10 +25,17 @@ export interface PayPalPaymentResultType {
 
 export const OrderScreen = () => {
     const orderDetails = useSelector((state: initialAppStateType) => state.orderDetailStore);
-    // const payedOrder = useSelector((state: initialAppStateType) => state.orderPayStore);
+    const { order, loading, error } = orderDetails;
+
+
+    const payedOrder = useSelector((state: initialAppStateType) => state.orderPayStore);
+    const { loading: loadingPay, error: errorPay, success: successPay, } = payedOrder;
+
+    const userInfoStore = useSelector((state: initialAppStateType) => state.userStore);
+    const { userInfo } = userInfoStore;
+
 
     const [sdkReady, setSdkReady] = useState<boolean>(false); // paypal 의 sdk 받아오기위한 hook 이다.
-    const { order, loading, error } = orderDetails;
     const dispatch = useDispatch();
     const params: paramsType = useParams();
     const orderId = params.id;
@@ -49,7 +57,12 @@ export const OrderScreen = () => {
             document.body.appendChild(script);
         };
 
-        if (!order?._id) {
+        if (
+            !order ||
+            successPay ||
+            (order && order._id !== orderId)
+        ) {
+            dispatch({ type: ORDER_PAY_RESET });
             dispatch(detailsOrder(orderId));
         } else {
             if (!order.isPaid) {
@@ -61,10 +74,14 @@ export const OrderScreen = () => {
             }
         }
 
-    }, [orderId, dispatch, order?._id, order?.isPaid])
+    }, [orderId, dispatch, sdkReady, successPay, order])
 
     const successPaymentHandler = (paymentResult: PayPalPaymentResultType) => {
         dispatch(orderPay(order, paymentResult));
+    }
+
+    const deliverHandler = () => {
+        dispatch(deliverOrder(order._id as string));
     }
 
     return (
@@ -86,7 +103,7 @@ export const OrderScreen = () => {
                                         <strong>Address:</strong>{order?.shippingAddress.address}, {order?.shippingAddress.city}, {order?.shippingAddress.postalCode}, {order?.shippingAddress.country}
                                     </p>
                                     {/* 배달 유무 */}
-                                    {order?.isDelivered ? <MessageBox variant="success">Delivered at {order?.isDelivered}</MessageBox> :
+                                    {order?.isDelivered ? <MessageBox variant="success">Delivered at {order?.deliveredAt}</MessageBox> :
                                         <MessageBox variant="danger">Not Delivered</MessageBox>
                                     }
                                 </Card>
@@ -153,13 +170,28 @@ export const OrderScreen = () => {
                                         <div><strong>Order Total</strong></div>
                                         <div><strong>${order?.totalPrice.toFixed(2)}</strong></div>
                                     </div>
-                                    {
-                                        !order?.isPaid && (
-                                            <div>
-                                                {!sdkReady ? <LoadingBox /> : <PayPalButton amount={order?.totalPrice} onSuccess={successPaymentHandler} />}
-                                            </div>
-                                        )
-                                    }
+                                    {!order.isPaid && (
+                                        !sdkReady ? (
+                                            <LoadingBox></LoadingBox>
+                                        ) : (
+                                                <>
+                                                    {errorPay && (
+                                                        <MessageBox variant="danger">{errorPay}</MessageBox>
+                                                    )}
+                                                    {loadingPay && <LoadingBox></LoadingBox>}
+
+                                                    <PayPalButton
+                                                        amount={order.totalPrice}
+                                                        onSuccess={successPaymentHandler}
+                                                    ></PayPalButton>
+                                                </>
+                                            )
+                                    )}
+                                    {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                                        <li>
+                                            <button type="button" className="primary block" onClick={deliverHandler}>Deliver Order</button>
+                                        </li>
+                                    )}
                                 </Card>
 
                             </div>

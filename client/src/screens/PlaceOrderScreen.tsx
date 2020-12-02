@@ -35,7 +35,7 @@ export const PlaceOrderScreen = () => {
     useEffect(() => {
         if (success) {
             history.push(`/order/${order?._id}`);
-            // dispatch({ type: ORDER_CREATE_RESET }); 이거때문에 계속 오류 났엇음 그 페이하는 버튼들
+            dispatch({ type: ORDER_CREATE_RESET }); // 이거때문에 계속 오류 났엇음 그 페이하는 버튼들
         }
     }, [dispatch, history, order, success])
 

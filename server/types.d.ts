@@ -28,7 +28,7 @@ export interface OrderType extends Document {
     isDelivered: boolean;
     createdAt: string;
     _id?: string;
-
+    deliveredAt: number;
     isPaid: boolean;
     paidAt?: number;
     paymentResult: PaymentResultType;

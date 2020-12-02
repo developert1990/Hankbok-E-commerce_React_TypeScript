@@ -79,7 +79,7 @@ export const deleteProduct = (product: ProductType) => async (dispatch: ThunkDis
     try {
         const { data } = await Axios.delete(`/api/products/${product._id}`, {
             headers: { Authorization: `Hong ${userInfo.token}` },
-            data: { userInfo: userInfo }, // 이렇게 넣으면 서버에서 body로 받는다.
+            data: { userInfo: userInfo }, // 이렇게 넣으면 서버에서 body로 받는다. Only applicable for request methods 'PUT', 'POST', 'DELETE , and 'PATCH'
         });
         dispatch({ type: PRODUCT_DELETE_SUCCESS });
     } catch (error) {

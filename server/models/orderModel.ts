@@ -24,7 +24,7 @@ const orderSchema = new mongoose.Schema({
     shippingPrice: { type: Number, required: true },
     taxPrice: { type: Number, required: true },
     totalPrice: { type: Number, required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // MongoDB에 만들어준 스키마인 'User' 의 objectId를 사용하기 위해서 이렇게 해줄수 있다. _id를 통해서 유저의 아이디를 찾아서 새로운 넘버를 부여한다.
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'hanbokUser', required: true }, // MongoDB에 만들어준 스키마인 'User' 의 objectId를 사용하기 위해서 이렇게 해줄수 있다. _id를 통해서 유저의 아이디를 찾아서 새로운 넘버를 부여한다.
     isPaid: { type: Boolean, default: false },
     paidAt: { type: Date },
     isDelivered: { type: Boolean, default: false },
