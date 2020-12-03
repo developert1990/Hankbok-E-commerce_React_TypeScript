@@ -22,7 +22,7 @@ export const SearchScreen = () => {
 
     useEffect(() => {
         console.log('name', name)
-        dispatch(listProducts(name !== 'all' ? name : 'all'))
+        dispatch(listProducts(name !== 'all' ? name : 'all', 'all'))
     }, [dispatch, name])
     return (
         <div>

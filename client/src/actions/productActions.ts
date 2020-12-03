@@ -6,12 +6,13 @@ import Axios from 'axios';
 import { ThunkDispatch } from 'redux-thunk';
 
 // all or searched products List 가져옴
-export const listProducts = (name: string) => async (dispatch: ThunkDispatch<any, any, any>) => {
+export const listProducts = (name: string, category: string) => async (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch({
         type: PRODUCT_LIST_REQUEST
     });
     try {
-        const { data } = await Axios.get(`/api/products/${name}`);
+        console.log('category', category)
+        const { data } = await Axios.get(`/api/products/list/${name}/${category}`);
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
         dispatch({ type: PRODUCT_LIST_FAIL, payload: error.message })
@@ -100,8 +101,6 @@ export const listProductsCategories = () => async (dispatch: ThunkDispatch<any, 
     dispatch({ type: PRODUCT_CATEGORY_REQUEST });
     try {
         const { data } = await Axios.get('/api/products/category/array');
-
-        console.log('카테고리 data', data)
         dispatch({ type: PRODUCT_CATEGORY_SUCCESS, payload: data });
     } catch (error) {
         dispatch({ type: PRODUCT_CATEGORY_FAIL, payload: error.message })

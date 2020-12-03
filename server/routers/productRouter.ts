@@ -9,12 +9,21 @@ const productRouter = express.Router();
 
 
 // 모든 products 나 search하는 products를 가져옴
-productRouter.get('/:name', expressAsyncHandler(async (req: Request, res: Response) => {
-    if (req.params.name === 'all') {
+productRouter.get('/list/:name/:category', expressAsyncHandler(async (req: Request, res: Response) => {
+    console.log("리스트 뽑으러 옴");
+    console.log('req.params.name', req.params.name)
+    console.log('req.params.category', req.params.category)
+    const name = req.params.name;
+    const category = req.params.category;
+    if (name === 'all' && category === 'all') {
         const products = await Product.find({}) // {} 이라는 빈객체를 find에 넣으면 모든 것을 찾아준다.즉 find all임
         res.send(products);
+        return;
+    } else if (category !== 'all') {
+        const categorizedProducts = await Product.find({ category: { '$regex': category, '$options': 'i' } });
+        res.send(categorizedProducts);
+        return;
     } else {
-        const name = req.params.name
         const searchedProducts = await Product.find({ name: { '$regex': name, '$options': 'i' } })
         res.send(searchedProducts);
     }

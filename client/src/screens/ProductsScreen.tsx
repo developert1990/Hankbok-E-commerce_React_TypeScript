@@ -23,8 +23,8 @@ export const ProductsScreen = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(listProducts('all'))
-    }, [dispatch]);
+        dispatch(listProducts('all', category ? category : 'all'))
+    }, [dispatch, category]);
 
     const getFilterUrl = (filter: string) => {
         const filterCategory = filter || 'all';
