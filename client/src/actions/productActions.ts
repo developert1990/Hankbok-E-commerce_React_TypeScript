@@ -11,7 +11,8 @@ export const listProducts = (name: string, category: string) => async (dispatch:
         type: PRODUCT_LIST_REQUEST
     });
     try {
-        console.log('category', category)
+        console.log('name 액션에서: ', name)
+        console.log('category 액션에서: ', category)
         const { data } = await Axios.get(`/api/products/list/${name}/${category}`);
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {

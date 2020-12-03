@@ -19,9 +19,13 @@ productRouter.get('/list/:name/:category', expressAsyncHandler(async (req: Reque
         const products = await Product.find({}) // {} 이라는 빈객체를 find에 넣으면 모든 것을 찾아준다.즉 find all임
         res.send(products);
         return;
-    } else if (category !== 'all') {
+    } else if (name === 'all' && category !== 'all') {
         const categorizedProducts = await Product.find({ category: { '$regex': category, '$options': 'i' } });
         res.send(categorizedProducts);
+        return;
+    } else if (name !== 'all' && category !== 'all') {
+        const cateAndNamedProducts = await Product.find({ category: { '$regex': category, '$options': 'i' }, name: { '$regex': name, '$options': 'i' } })
+        res.send(cateAndNamedProducts);
         return;
     } else {
         const searchedProducts = await Product.find({ name: { '$regex': name, '$options': 'i' } })

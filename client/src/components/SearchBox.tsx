@@ -31,7 +31,7 @@ export const SearchBox = () => {
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log("search 누름", name);
-        history.push(`/search?name=${name}`);
+        history.push(`/search?category=all&name=${name}`);
     }
 
     return (

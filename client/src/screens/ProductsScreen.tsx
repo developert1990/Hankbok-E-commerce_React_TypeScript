@@ -39,7 +39,7 @@ export const ProductsScreen = () => {
                     errorCategory ? <MessageBox variant="danger">{errorCategory}</MessageBox> :
                         (
                             categories.map((category) => (
-                                <li><Link to={getFilterUrl(category)}>{category}</Link></li>
+                                <li><Link to={getFilterUrl(category)}>{category.charAt(0).toUpperCase() + category.slice(1)}</Link></li>
                             ))
                         )
             }
