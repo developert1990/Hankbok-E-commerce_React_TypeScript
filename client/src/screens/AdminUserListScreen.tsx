@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { Button, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { deleteUser, listUsers } from '../actions/userActions'
 import { LoadingBox } from '../components/LoadingBox'
 import { MessageBox } from '../components/MessageBox'
+import { USER_DETAILS_RESET } from '../constants/userConstant'
 import { userType } from '../reducers/userReducer'
 import { initialAppStateType } from '../store'
 
@@ -16,10 +18,12 @@ export const AdminUserListScreen = () => {
     const { error: errorDelete, loading: loadingDelete, success: successDelete } = userDeleteStore;
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
         console.log("리스트 뽑을라고 유즈이펙트 들어옴")
         dispatch(listUsers());
+        dispatch({ type: USER_DETAILS_RESET });
     }, [dispatch, successDelete])
 
     const deleteUserHandler = (userId: string) => {
@@ -60,7 +64,7 @@ export const AdminUserListScreen = () => {
                                                 <td>{user.isSeller ? 'YES' : 'NO'}</td>
                                                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
                                                 <td>
-                                                    <Button variant="warning">Edit</Button>
+                                                    <Button variant="warning" onClick={() => history.push(`/user/${user._id}/edit`)}>Edit</Button>
                                                     <Button variant="danger" onClick={() => deleteUserHandler(user._id)}>Delete</Button>
                                                 </td>
                                             </tr>

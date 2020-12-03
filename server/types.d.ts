@@ -7,6 +7,7 @@ export interface userFromDB extends Document {
     name: string;
     email: string;
     isAdmin: boolean;
+    isSeller: boolean;
     token: () => string;
 }
 

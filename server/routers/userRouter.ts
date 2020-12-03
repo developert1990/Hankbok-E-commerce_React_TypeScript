@@ -1,6 +1,6 @@
 import { isAuth, isAdmin } from './../utils';
 import { data } from './../data';
-import express, { Request, Response } from 'express';
+import express, { Request, response, Response } from 'express';
 import bcrypt from 'bcrypt';
 import User from '../models/userModel';
 import expressAsyncHandler from 'express-async-handler'; // express에서 비동기식으로 에러 헨들링을 하기 위한 라이브러리 이다.
@@ -84,7 +84,7 @@ userRouter.put('/:id', isAuth, expressAsyncHandler(async (req: Request, res: Res
 
 
 // 모든 user data 받음
-userRouter.get('/:isAdmin', isAuth, isAdmin, expressAsyncHandler(async (req: Request, res: Response) => {
+userRouter.get('/:isAdmin/allList', isAuth, isAdmin, expressAsyncHandler(async (req: Request, res: Response) => {
     const users = await User.find();
     res.send(users);
 }));
@@ -92,7 +92,7 @@ userRouter.get('/:isAdmin', isAuth, isAdmin, expressAsyncHandler(async (req: Req
 
 
 // user delete API
-userRouter.delete('/:id/:isAdmin', isAuth, isAdmin, expressAsyncHandler(async (req: Request, res: Response) => {
+userRouter.delete('/:id/:isAdmin/', isAuth, isAdmin, expressAsyncHandler(async (req: Request, res: Response) => {
     const user = await User.findById(req.params.id);
     const typedUser = user as userFromDB;
     if (user) {
@@ -108,5 +108,33 @@ userRouter.delete('/:id/:isAdmin', isAuth, isAdmin, expressAsyncHandler(async (r
 }))
 
 
+
+// user detail API
+userRouter.get('/:id/:isAdmin/detail', isAuth, isAdmin, expressAsyncHandler(async (req: Request, res: Response) => {
+    console.log("유저 디테일 뽑는곳");
+    const user = await User.findById(req.params.id);
+    if (user) {
+        res.send(user)
+    } else {
+        res.status(404).send({ message: 'User Not Found' });
+    }
+}))
+
+
+userRouter.put('/:id/:isAdmin/update', isAuth, isAdmin, expressAsyncHandler(async (req: Request, res: Response) => {
+    const user = await User.findById(req.params.id);
+    const typedUser = user as userFromDB;
+    if (user) {
+        typedUser.name = req.body.name || typedUser.name;
+        typedUser.email = req.body.email || typedUser.email;
+        typedUser.isAdmin = req.body.isAdmin || typedUser.isAdmin;
+        typedUser.isSeller = req.body.isSeller || typedUser.isSeller;
+
+        const updatedUser = await typedUser.save();
+        res.send({ message: 'User Updated', user: updatedUser })
+    } else {
+        res.status(404).send({ message: 'User Not Found' });
+    }
+}))
 
 export default userRouter;

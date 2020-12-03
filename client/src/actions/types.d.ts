@@ -28,6 +28,12 @@ export interface userActionType {
     payload: userType | string;
 }
 
+
+export interface userDetailActionType {
+    type: string;
+    payload: userType | string;
+}
+
 export interface userListActionType {
     type: string;
     payload: any;

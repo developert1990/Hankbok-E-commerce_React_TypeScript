@@ -1,4 +1,4 @@
-import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL, USER_LIST_REQUEST, USER_LIST_FAIL, USER_LIST_SUCCESS, USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAIL } from './../constants/userConstant';
+import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL, USER_LIST_REQUEST, USER_LIST_FAIL, USER_LIST_SUCCESS, USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DELETE_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, USER_UPDATE_FAIL } from './../constants/userConstant';
 
 import axios from 'axios';
 import { ThunkDispatch } from 'redux-thunk';
@@ -54,6 +54,8 @@ interface InfoForUpdateUserProfileType {
     confirmPassword: string;
 }
 
+
+// 자기 개인 계정 update
 export const updateUser = (userId: string, updateInfo: InfoForUpdateUserProfileType) => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
     dispatch({ type: USER_PROFILE_UPDATE_REQUEST });
     const { userStore: { userInfo } } = getState();
@@ -79,7 +81,7 @@ export const listUsers = () => async (dispatch: ThunkDispatch<any, any, any>, ge
     dispatch({ type: USER_LIST_REQUEST });
     const { userStore: { userInfo } } = getState();
     try {
-        const { data } = await axios.get(`/api/users/${userInfo.isAdmin}`, {
+        const { data } = await axios.get(`/api/users/${userInfo.isAdmin}/allList`, {
             headers: { Authorization: `Hong ${userInfo.token}` }
         })
         console.log('리스트 뽑는 action data', data)
@@ -114,3 +116,49 @@ export const deleteUser = (userId: string) => async (dispatch: ThunkDispatch<any
         dispatch({ type: USER_DELETE_FAIL, payload: message });
     }
 }
+
+
+// user detail Action
+export const userDetails = (userId: string) => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
+    dispatch({ type: USER_DETAILS_REQUEST });
+    const { userStore: { userInfo } } = getState();
+    try {
+        const { data } = await axios.get(`/api/users/${userId}/${userInfo.isAdmin}/detail`, {
+            headers: { Authorization: `Hong ${userInfo.token}` }
+        });
+        console.log(' 유저 디테일 받는 data', data);
+        dispatch({ type: USER_DETAILS_SUCCESS, payload: data })
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: USER_DETAILS_FAIL, payload: message });
+    }
+}
+
+
+interface userUpdateByAdminType {
+    _id: string;
+    name: string;
+    email: string;
+    isSeller: boolean;
+    isAdmin: boolean;
+}
+
+// admin 계정에서 다른 유저의 정보 변경
+export const userUpdate = (updateInfo: userUpdateByAdminType) => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
+    dispatch({ type: USER_UPDATE_REQUEST });
+    const { userStore: { userInfo } } = getState();
+    try {
+        const { data } = await axios.put(`/api/users/${updateInfo._id}/${userInfo.isAdmin}/update`, updateInfo, {
+            headers: { Authorization: `Hong ${userInfo.token}` }
+        });
+        dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
+
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        dispatch({ type: USER_UPDATE_FAIL, payload: message });
+    }
+};
