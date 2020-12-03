@@ -9,11 +9,13 @@ import { initialAppStateType } from '../store';
 import { ProductListInitialStateType } from '../reducers/productReducers';
 import { listProducts } from '../actions/productActions';
 import { SearchBox } from '../components/SearchBox';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 export const ProductsScreen = () => {
     const productList: ProductListInitialStateType = useSelector((state: initialAppStateType) => state.productListStore);
     const { loading, error, products } = productList;
+    const location = useLocation();
+    const category = new URLSearchParams(location.search).get('category'); // 쿼리스트링 사용할때 쉽게 쿼리 뽑아낼수 있다.
 
     const productListCategoryStoreInfo = useSelector((state: initialAppStateType) => state.productCategoryListStore);
     const { categories, error: errorCategory, loading: loadingCategory } = productListCategoryStoreInfo;
@@ -27,7 +29,7 @@ export const ProductsScreen = () => {
     const getFilterUrl = (filter: string) => {
         const filterCategory = filter || 'all';
         const filterName = 'all';
-        return `/products/category/${filterCategory}/name/${filterName}`;
+        return `/products?category=${filterCategory}&name=${filterName}`;
     }
 
     return (
