@@ -8,10 +8,16 @@ import { data } from '../data';
 const productRouter = express.Router();
 
 
-// 모든 products 가져옴
-productRouter.get('/', expressAsyncHandler(async (req: Request, res: Response) => {
-    const products = await Product.find({}) // {} 이라는 빈객체를 find에 넣으면 모든 것을 찾아준다.즉 find all임
-    res.send(products);
+// 모든 products 나 search하는 products를 가져옴
+productRouter.get('/:name', expressAsyncHandler(async (req: Request, res: Response) => {
+    if (req.params.name === 'all') {
+        const products = await Product.find({}) // {} 이라는 빈객체를 find에 넣으면 모든 것을 찾아준다.즉 find all임
+        res.send(products);
+    } else {
+        const name = req.params.name
+        const searchedProducts = await Product.find({ name: { '$regex': name, '$options': 'i' } })
+        res.send(searchedProducts);
+    }
 }));
 
 
@@ -90,6 +96,14 @@ productRouter.delete('/:id', isAuth, isAdmin, expressAsyncHandler(async (req: Re
         res.status(404).send({ message: 'Product Not Found' });
     }
 }));
+
+
+// 제품의 카테고리들을 뽑는것
+productRouter.get('/category/array', expressAsyncHandler(async (req: Request, res: Response) => {
+    console.log("카테고리 뽑으러 들어옴")
+    const categories = await Product.find().distinct('category');
+    res.send(categories);
+}))
 
 
 

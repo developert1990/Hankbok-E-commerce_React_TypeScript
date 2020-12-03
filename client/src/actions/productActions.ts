@@ -1,22 +1,25 @@
 import { ProductType, ProductCreateType } from './../types.d';
-import { PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PRODUCT_CREATE_FAIL, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAIL } from './../constants/productConstants';
+import { PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PRODUCT_CREATE_FAIL, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAIL, PRODUCT_CATEGORY_REQUEST, PRODUCT_CATEGORY_SUCCESS, PRODUCT_CATEGORY_FAIL } from './../constants/productConstants';
 
 import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAIL } from '../constants/productConstants';
 import Axios from 'axios';
 import { ThunkDispatch } from 'redux-thunk';
 
-// all products List 가져옴
-export const listProducts = () => async (dispatch: ThunkDispatch<any, any, any>) => {
+// all or searched products List 가져옴
+export const listProducts = (name: string) => async (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch({
         type: PRODUCT_LIST_REQUEST
     });
     try {
-        const { data } = await Axios.get(`/api/products`);
+        const { data } = await Axios.get(`/api/products/${name}`);
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
         dispatch({ type: PRODUCT_LIST_FAIL, payload: error.message })
     }
 }
+
+// const { data } = await Axios.get(`/api/products/${name}/${category}`);
+
 
 // product 세부 정보 가져옴
 export const detailsProduct = (productId: string) => async (dispatch: ThunkDispatch<any, any, any>) => {
@@ -88,4 +91,19 @@ export const deleteProduct = (product: ProductType) => async (dispatch: ThunkDis
             error.message
         dispatch({ type: PRODUCT_DELETE_FAIL, payload: message });
     }
-} 
+}
+
+
+
+//  products의 category들을 가져옴
+export const listProductsCategories = () => async (dispatch: ThunkDispatch<any, any, any>) => {
+    dispatch({ type: PRODUCT_CATEGORY_REQUEST });
+    try {
+        const { data } = await Axios.get('/api/products/category/array');
+
+        console.log('카테고리 data', data)
+        dispatch({ type: PRODUCT_CATEGORY_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({ type: PRODUCT_CATEGORY_FAIL, payload: error.message })
+    }
+}

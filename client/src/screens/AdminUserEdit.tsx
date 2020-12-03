@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { initialAppStateType } from '../store';
 import { userDetails, userUpdate } from '../actions/userActions';
 import { userType } from '../reducers/userReducer';
-import { USER_DETAILS_RESET, USER_UPDATE_RESET } from '../constants/userConstant';
+import { USER_UPDATE_RESET } from '../constants/userConstant';
 
 interface AdminUserEditParamsType {
     id: string;
@@ -60,7 +60,7 @@ export const AdminUserEdit = () => {
 
     return (
         <div>
-            <form className="form" onSubmit={submitHandler}>
+            <form className="productEdit__form" onSubmit={submitHandler}>
                 <div>
                     <h1>Edit User {name}</h1>
                     {loadingUpdate && <LoadingBox />}
@@ -70,14 +70,15 @@ export const AdminUserEdit = () => {
                     loading ? <LoadingBox /> :
                         error ? <MessageBox variant="danger">{error}</MessageBox> :
                             (
-                                <>
+
+                                <div className="productEdit__form__base">
                                     <div>
                                         <label htmlFor="name">Name</label>
-                                        <input type="text" id="name" placeholder="Enter name" value={name} onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
+                                        <input className="productEdit__form__input" type="text" id="name" placeholder="Enter name" value={name} onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
                                     </div>
                                     <div>
                                         <label htmlFor="email">Email</label>
-                                        <input type="text" id="email" placeholder="Enter name" value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
+                                        <input className="productEdit__form__input" type="text" id="email" placeholder="Enter name" value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
                                     </div>
                                     <div>
                                         <label htmlFor="isSeller">Is Seller</label>
@@ -90,7 +91,8 @@ export const AdminUserEdit = () => {
                                     <div>
                                         <Button variant="primary" type="submit">Update</Button>
                                     </div>
-                                </>
+                                </div>
+
                             )
                 }
             </form>

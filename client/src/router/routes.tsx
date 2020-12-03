@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { ProductDetailScreen } from '../screens/ProductDetailScreen';
 import { ProductsScreen } from '../screens/ProductsScreen';
@@ -23,9 +23,18 @@ import { ProductCreateScreen } from '../screens/ProductCreateScreen';
 import { AdminOrderListScreen } from '../screens/AdminOrderListScreen';
 import { AdminUserListScreen } from '../screens/AdminUserListScreen';
 import { AdminUserEdit } from '../screens/AdminUserEdit';
+import { SearchScreen } from '../screens/SearchScreen';
+import { useDispatch } from 'react-redux';
+import { listProductsCategories } from '../actions/productActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(listProductsCategories());
+    }, [dispatch])
+
     return (
         <BrowserRouter>
             <NavBar />
@@ -48,6 +57,7 @@ export default () => {
             <AdminRoute path="/orderList" component={AdminOrderListScreen} />
             <AdminRoute path="/userList" component={AdminUserListScreen} />
             <AdminRoute path="/user/:id/edit" component={AdminUserEdit} />
+            <Route path="/search" component={SearchScreen} />
 
             <Footer />
         </BrowserRouter>
