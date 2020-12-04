@@ -15,13 +15,16 @@ export const Product: React.FC<ProductProps> = ({ product }) => {
     return (
         <>
 
-            {/* <Link to={`/product/${product._id}`}> */}
+
             <Card className="products">
-                <Card.Img
-                    className="products__image"
-                    src={`${API_BASE}/uploads/${product.image}`}
-                    variant="top"
-                />
+                <Link to={`/product/${product._id}`}>
+                    <Card.Img
+                        className="products__image"
+                        src={`${API_BASE}/uploads/${product.image}`}
+                        variant="top"
+                    />
+
+                </Link>
                 <Card.Text>
                     <Card.Header>{product.category}</Card.Header>
                     <Card.Text>
@@ -38,7 +41,6 @@ export const Product: React.FC<ProductProps> = ({ product }) => {
                     </Link>
                 </Card.Title>
             </Card>
-            {/* </Link> */}
         </>
     );
 };
