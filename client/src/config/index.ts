@@ -9,6 +9,9 @@ export const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             width: 300,
+            '& > * + *': {
+                marginTop: theme.spacing(2),
+            },
         },
         margin: {
             height: theme.spacing(3),

@@ -9,7 +9,7 @@ import { Product } from '../components/Product';
 
 import { useStyles, marks, valuetext } from '../config';
 import Slider from '@material-ui/core/Slider';
-
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 export const SearchScreen = () => {
     const location = useLocation();
@@ -80,10 +80,11 @@ export const SearchScreen = () => {
                         error ? <MessageBox variant="danger">{error}</MessageBox> :
                             (
                                 <div>
-                                    <h2>{products.length} Results</h2>
+                                    <Alert severity="success" color="info">{products.length} Results</Alert>
                                     <div>
                                         <div className="productsScreen">
                                             {
+
                                                 products.map((product) => (
                                                     <Product key={product._id} product={product} />
                                                 ))

@@ -13,7 +13,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { useStyles, marks, valuetext } from '../config';
 import Slider from '@material-ui/core/Slider';
-
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 export const ProductsScreen = () => {
     const productList: ProductListInitialStateType = useSelector((state: initialAppStateType) => state.productListStore);
@@ -81,13 +81,17 @@ export const ProductsScreen = () => {
                     <LoadingBox /> :
                     error ?
                         <MessageBox variant="danger">{error}</MessageBox> :
-                        <div className="productsScreen">
-                            {
-                                products.map((product) => (
-                                    <Product key={product._id} product={product} />
-                                ))
-                            }
-                        </div>}
+                        <div>
+                            <Alert severity={products.length === 0 ? 'warning' : 'success'} color={products.length === 0 ? 'warning' : 'info'}>{products.length} Results</Alert>
+                            <div className="productsScreen">
+                                {
+                                    products.map((product) => (
+                                        <Product key={product._id} product={product} />
+                                    ))
+                                }
+                            </div>
+                        </div>
+                }
             </div>
         </div>
     )
