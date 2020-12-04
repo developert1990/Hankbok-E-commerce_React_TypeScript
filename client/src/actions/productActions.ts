@@ -6,14 +6,16 @@ import Axios from 'axios';
 import { ThunkDispatch } from 'redux-thunk';
 
 // all or searched products List 가져옴
-export const listProducts = (name: string, category: string, priceLessThan: number) => async (dispatch: ThunkDispatch<any, any, any>) => {
+export const listProducts = (name: string, category: string, priceLessThan: number, sortBy: string) => async (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch({
         type: PRODUCT_LIST_REQUEST
     });
     try {
         console.log('name 액션에서: ', name)
         console.log('category 액션에서: ', category)
-        const { data } = await Axios.get(`/api/products/list/${name}/${category}/${priceLessThan}`);
+        console.log('priceLessThan 액션에서: ', priceLessThan)
+        console.log('sortBy 액션에서: ', sortBy)
+        const { data } = await Axios.get(`/api/products/list/${name}/${category}/${priceLessThan}/${sortBy}`);
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
         dispatch({ type: PRODUCT_LIST_FAIL, payload: error.message })
@@ -100,6 +102,7 @@ export const deleteProduct = (product: ProductType) => async (dispatch: ThunkDis
 //  products의 category들을 가져옴
 export const listProductsCategories = () => async (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch({ type: PRODUCT_CATEGORY_REQUEST });
+    console.log("카테고리 액션")
     try {
         const { data } = await Axios.get('/api/products/category/array');
         dispatch({ type: PRODUCT_CATEGORY_SUCCESS, payload: data });

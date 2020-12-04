@@ -16,6 +16,13 @@ export const useStyles = makeStyles((theme: Theme) =>
         margin: {
             height: theme.spacing(3),
         },
+        formControl: {
+            margin: theme.spacing(1),
+            minWidth: 120,
+        },
+        selectEmpty: {
+            marginTop: theme.spacing(2),
+        },
     }),
 );
 

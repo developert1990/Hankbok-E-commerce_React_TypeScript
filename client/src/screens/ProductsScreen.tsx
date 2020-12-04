@@ -1,9 +1,7 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Product } from '../components/Product';
-import { ProductType } from '../types';
 import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { initialAppStateType } from '../store';
 import { ProductListInitialStateType } from '../reducers/productReducers';
@@ -13,7 +11,8 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { useStyles, marks, valuetext } from '../config';
 import Slider from '@material-ui/core/Slider';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Alert } from '@material-ui/lab';
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 
 export const ProductsScreen = () => {
     const productList: ProductListInitialStateType = useSelector((state: initialAppStateType) => state.productListStore);
@@ -27,10 +26,11 @@ export const ProductsScreen = () => {
     const dispatch = useDispatch();
 
     const [priceValue, setPriceValue] = useState<number>(0);
+    const [sortBy, setSortBy] = useState<string>('');
 
     useEffect(() => {
-        dispatch(listProducts('all', category ? category : 'all', priceValue && priceValue === 0 ? 2000 : priceValue))
-    }, [dispatch, category, priceValue]);
+        dispatch(listProducts('all', category ? category : 'all', priceValue && priceValue === 0 ? 0 : priceValue, sortBy === '' ? 'none' : sortBy))
+    }, [dispatch, category, priceValue, sortBy]);
 
     const getFilterUrl = (filter: string) => {
         const filterCategory = filter || 'all';
@@ -46,9 +46,16 @@ export const ProductsScreen = () => {
         console.log('e.target.value 가격 검색 체인지', value);
         setPriceValue(value as number);
     }
+
+    const handleSortChange = (e: React.ChangeEvent<{ value: unknown }>) => {
+        setSortBy(e.target.value as string)
+        console.log('e.target.value', e.target.value as string)
+    }
+
     // **************************************
+
     return (
-        <div>
+        <div className="productsScreen">
             <div>
 
                 <SearchBox />
@@ -74,6 +81,21 @@ export const ProductsScreen = () => {
                         max={maxvalue}
                         onChange={changePriceHandler}
                     />
+                </div>
+                <div>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={sortBy}
+                            onChange={handleSortChange}
+                        >
+                            <MenuItem value="lowest">Price: Low to High</MenuItem>
+                            <MenuItem value="highest">Price: High to Low</MenuItem>
+                            <MenuItem value="reviewRate">Customer Review</MenuItem>
+                        </Select>
+                    </FormControl>
                 </div>
             </div>
             <div>

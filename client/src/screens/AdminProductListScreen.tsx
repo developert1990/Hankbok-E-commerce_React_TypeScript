@@ -6,7 +6,7 @@ import { MessageBox } from '../components/MessageBox';
 import { initialAppStateType } from '../store';
 import { deleteProduct, listProducts } from '../actions/productActions';
 import { ProductType } from '../types';
-import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from '../constants/productConstants';
+import { PRODUCT_DELETE_RESET } from '../constants/productConstants';
 import { Button, Table } from 'react-bootstrap';
 
 export const AdminProductListScreen = () => {
@@ -21,11 +21,11 @@ export const AdminProductListScreen = () => {
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDeleteStoreInfo;
 
     useEffect(() => {
-
+        console.log("어드민 프로덕트리스트 스크린 유즈이펙트")
         if (successDelete) {
             dispatch({ type: PRODUCT_DELETE_RESET });
         }
-        dispatch(listProducts('all', 'all', 2000))
+        dispatch(listProducts('all', 'all', 0, 'none'))
     }, [dispatch, history, successDelete]);
 
 
