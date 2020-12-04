@@ -9,24 +9,52 @@ const productRouter = express.Router();
 
 
 // 모든 products 나 search하는 products를 가져옴
-productRouter.get('/list/:name/:category', expressAsyncHandler(async (req: Request, res: Response) => {
+productRouter.get('/list/:name/:category/:priceLessThan', expressAsyncHandler(async (req: Request, res: Response) => {
     console.log("리스트 뽑으러 옴");
     console.log('req.params.name', req.params.name)
     console.log('req.params.category', req.params.category)
+    console.log('req.params.priceLessThan', req.params.priceLessThan)
     const name = req.params.name;
     const category = req.params.category;
-    if (name === 'all' && category === 'all') {
+    const priceLessThan = parseInt(req.params.priceLessThan);
+
+    // 제일 처음 로딩될때, 모든 product 다 받음
+    if (name === 'all' && category === 'all' && priceLessThan === 0) {
         const products = await Product.find({}) // {} 이라는 빈객체를 find에 넣으면 모든 것을 찾아준다.즉 find all임
         res.send(products);
         return;
-    } else if (name === 'all' && category !== 'all') {
+        // search, category 변화안주고 price만 변동해서 product 받음
+    } else if (name === 'all' && category === 'all' && priceLessThan !== 0) {
+        const pricedRangeProducts = await Product.find({ price: { '$gte': 0, '$lte': priceLessThan } });
+        res.send(pricedRangeProducts);
+        return;
+        // search, price 변화안주고 category만 변동해서 product 받음
+    } else if (name === 'all' && category !== 'all' && priceLessThan === 0) {
         const categorizedProducts = await Product.find({ category: { '$regex': category, '$options': 'i' } });
         res.send(categorizedProducts);
         return;
-    } else if (name !== 'all' && category !== 'all') {
+        // search 변화 안주고 category, price 둘다 변동해서 product 받음
+    } else if (name === 'all' && category !== 'all' && priceLessThan !== 0) {
+        const categorizedPriceRangedProducts = await Product.find({ category: { '$regex': category, '$options': 'i' }, price: { '$gte': 0, '$lte': priceLessThan } });
+        res.send(categorizedPriceRangedProducts);
+        return;
+
+        // search, category 둘다 변동해서 받음
+    } else if (name !== 'all' && category !== 'all' && priceLessThan === 0) {
         const cateAndNamedProducts = await Product.find({ category: { '$regex': category, '$options': 'i' }, name: { '$regex': name, '$options': 'i' } })
         res.send(cateAndNamedProducts);
         return;
+        // search, category, price 다 변동해서 product 받음
+    } else if (name !== 'all' && category !== 'all' && priceLessThan !== 0) {
+        const cateAndNamedProducts = await Product.find({ category: { '$regex': category, '$options': 'i' }, name: { '$regex': name, '$options': 'i' }, price: { '$gte': 0, '$lte': priceLessThan } })
+        res.send(cateAndNamedProducts);
+        return;
+        // search, price만 변동
+    } else if (name !== 'all' && category === 'all' && priceLessThan !== 0) {
+        const cateAndNamedProducts = await Product.find({ name: { '$regex': name, '$options': 'i' }, price: { '$gte': 0, '$lte': priceLessThan } })
+        res.send(cateAndNamedProducts);
+        return;
+        // search 변화해서 product받음
     } else {
         const searchedProducts = await Product.find({ name: { '$regex': name, '$options': 'i' } })
         res.send(searchedProducts);

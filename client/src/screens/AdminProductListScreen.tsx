@@ -25,7 +25,7 @@ export const AdminProductListScreen = () => {
         if (successDelete) {
             dispatch({ type: PRODUCT_DELETE_RESET });
         }
-        dispatch(listProducts('all', 'all'))
+        dispatch(listProducts('all', 'all', 2000))
     }, [dispatch, history, successDelete]);
 
 

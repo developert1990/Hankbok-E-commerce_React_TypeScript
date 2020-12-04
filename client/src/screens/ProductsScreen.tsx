@@ -29,8 +29,8 @@ export const ProductsScreen = () => {
     const [priceValue, setPriceValue] = useState<number>(0);
 
     useEffect(() => {
-        dispatch(listProducts('all', category ? category : 'all'))
-    }, [dispatch, category]);
+        dispatch(listProducts('all', category ? category : 'all', priceValue && priceValue === 0 ? 2000 : priceValue))
+    }, [dispatch, category, priceValue]);
 
     const getFilterUrl = (filter: string) => {
         const filterCategory = filter || 'all';
@@ -38,12 +38,15 @@ export const ProductsScreen = () => {
         return `/products?category=${filterCategory}&name=${filterName}`;
     }
 
+    // ********** price range ***********
     const classes = useStyles();
     const maxvalue = 400;
 
     const changePriceHandler = (e: any, value: number | number[]) => {
-        console.log('e.target.value 가격 검색 체인지', value)
+        console.log('e.target.value 가격 검색 체인지', value);
+        setPriceValue(value as number);
     }
+    // **************************************
     return (
         <div>
             <div>
@@ -62,7 +65,7 @@ export const ProductsScreen = () => {
                 </div>
                 <div className={classes.root}>
                     <Slider
-                        defaultValue={400}
+                        defaultValue={0}
                         getAriaValueText={valuetext}
                         aria-labelledby="discrete-slider-custom"
                         step={10}
