@@ -32,6 +32,10 @@ export const ShippingAddressScreen = () => {
         step1: true, step2: true, step3: false, step4: false
     }
 
+    const openMapHandler = () => {
+        history.push('/googleMap');
+    }
+
     return (
         <div className="shippingAddressScreen">
             <form className="form" onSubmit={submitHandler}>
@@ -46,6 +50,7 @@ export const ShippingAddressScreen = () => {
                     <input className="shipping__form__input" type="text" id="country" placeholder="Enter country" value={country} onChange={(e: ChangeEvent<HTMLInputElement>) => setCountry(e.target.value)} required />
                 </div>
                 <div>
+                    <button onClick={openMapHandler}>Choose on map</button>
                     <label>
                         <Button variant="danger" type="submit">Continue</Button>
                     </label>

@@ -22,3 +22,5 @@ export interface ProductCreateType {
     description: string;
     countInStock?: number;
 }
+
+declare module 'googlemaps';

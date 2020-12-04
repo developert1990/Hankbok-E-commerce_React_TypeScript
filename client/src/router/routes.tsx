@@ -26,6 +26,7 @@ import { AdminUserEdit } from '../screens/AdminUserEdit';
 import { SearchScreen } from '../screens/SearchScreen';
 import { useDispatch } from 'react-redux';
 import { listProductsCategories } from '../actions/productActions';
+import { MapScreen } from '../screens/MapScreen';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
@@ -50,6 +51,7 @@ export default () => {
             <Route path="/payment" component={PaymentMethodScreen} />
             <Route path="/placeorder" component={PlaceOrderScreen} />
             <PrivateRoute path="/order/:id" component={OrderScreen} />
+            <PrivateRoute path="/googleMap" component={MapScreen} />
             <Route path="/history" component={OrderHistoryScreen} />
             <PrivateRoute path="/profile" component={ProfileUpdateScreen} />
             <AdminRoute path="/productList" component={AdminProductListScreen} />

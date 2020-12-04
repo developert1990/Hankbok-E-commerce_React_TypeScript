@@ -7,7 +7,7 @@ import { initialAppStateType } from '../store';
 import { ProductListInitialStateType } from '../reducers/productReducers';
 import { listProducts } from '../actions/productActions';
 import { SearchBox } from '../components/SearchBox';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 import { useStyles, marks, valuetext } from '../config';
 import Slider from '@material-ui/core/Slider';
@@ -54,10 +54,20 @@ export const ProductsScreen = () => {
 
     // **************************************
 
+
+    // 실험하는중
+    const history = useHistory();
+
+    const openMapHandler = () => {
+        history.push('/googleMap');
+    }
+
+
+
     return (
         <div className="productsScreen">
             <div>
-
+                <button onClick={openMapHandler}>Choose on map</button>
                 <SearchBox />
                 <div>
                     {

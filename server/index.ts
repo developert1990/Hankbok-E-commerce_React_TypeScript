@@ -39,6 +39,12 @@ app.get('/api/config/paypal', (req: Request, res: Response) => {
     res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
 })
 
+// Google API
+app.get('/api/config/google', (req: Request, res: Response) => {
+    console.log("구글api받으러 들어옴")
+    res.send(process.env.GOOGLE_API_KEY || '');
+})
+
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Server is ready');
