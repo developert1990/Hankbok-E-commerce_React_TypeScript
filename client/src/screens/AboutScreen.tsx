@@ -3,14 +3,17 @@ import React from 'react'
 export const AboutScreen = () => {
     return (
         <div className="aboutPage">
-            <p>
-                Hanbok is a Korean word that refers to traditional Korean clothing. Hanbok is one of the most beautiful fashion styles in the world and has been beloved for over 2,000 years. You may have seen the hanbok in your favorite Korean drama, or your favorite K-Pop star wearing hanbok and wondered: what are they wearing? What kind of fashion style is hanbok? Where can I buy a hanbok?
+            <div className="paragraph_1">
+                <p>
+                    Hanbok is a Korean word that refers to traditional Korean clothing. Hanbok is one of the most beautiful fashion styles in the world and has been beloved for over 2,000 years. You may have seen the hanbok in your favorite Korean drama, or your favorite K-Pop star wearing hanbok and wondered: what are they wearing? What kind of fashion style is hanbok? Where can I buy a hanbok?
 
-                Hanbok is commonly worn by Koreans during major holidays, birthday celebrations (like dol), and weddings, but not many Korean people actually know about the deep history and significance behind traditional hanbok. Let's explore what is hanbok in this ultimate guide to Korean fashion.
+                    Hanbok is commonly worn by Koreans during major holidays, birthday celebrations (like dol), and weddings, but not many Korean people actually know about the deep history and significance behind traditional hanbok. Let's explore what is hanbok in this ultimate guide to Korean fashion.
             </p>
 
-            <iframe title="covid" width="550" height="300" src="https://www.youtube.com/embed/xY2Gm2EdhsU" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-            <h1>Where does hanbok come from?</h1>
+                <iframe title="covid" width="550" height="300" src="https://www.youtube.com/embed/xY2Gm2EdhsU" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+            </div>
+            <div className="paragraph_2">
+                <h1>Where does hanbok come from?</h1>
 The hanbok is thought to have been designed during the Goguryeo Kingdom (37 BCE-668 CE) and was worn in different ways and materials by all. It was originally made so that its wearers can have freedom in their movements.
 
 Although there have been changes throughout its history, the hanbok is still worn today in Korea for celebrations, weddings, birthdays, and milestones, and represents the aesthetic of the Korean people. People all over the world have fallen in love with hanbok, and have incorporated it into their fashion to make the hanbok haute couture.
@@ -20,7 +23,7 @@ Although there have been changes throughout its history, the hanbok is still wor
 
 
             <h1>What makes hanbok unique?</h1>
-            <h3>1. The hanbok is structurally beautiful.</h3>
+                <h3>1. The hanbok is structurally beautiful.</h3>
 The women's hanbok has a short jacket called ‘jeogori’ paired with a full skirt that is called ‘chima’. The men’s hanbok has a short jacket, pants called 'baji’, and usually a short coat called 'baeja'. It is the same structure for children's hanbok, with the girls' hanbok being the same as the women's and the boys' hanbok with the men's styles.
 
 (To learn more about the varieties in style, read this guide: The Different Types of Hanbok.)
@@ -47,7 +50,7 @@ The colors used in hanbok come from the Korean "five colors theory" ("obangsaek"
 The curved lines of the hanbok, its full and loose silhouette when worn is designed to create a free-flowing effect. This is especially true for the hanbok dress or skirt. Hanbok's design also highlights the textures of the natural, hand-woven fabric and the decorations that mimic flowers, butterflies, and other elements of nature.
 
 There is a hanbok for every person and occasion. Come fall in love with the hanbok together with us. Take a look at our collections to learn more.
-
+            </div>
         </div>
     )
 }

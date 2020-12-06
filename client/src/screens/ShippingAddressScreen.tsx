@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { saveShippingAddress } from '../actions/cartActions';
 import { initialAppStateType } from '../store';
+import RoomIcon from '@material-ui/icons/Room';
 
 export const ShippingAddressScreen = () => {
     const userSignin = useSelector((state: initialAppStateType) => state.userStore);
@@ -81,11 +82,11 @@ export const ShippingAddressScreen = () => {
                     <input className="shipping__form__input" type="text" id="postalCode" placeholder="Enter postalCode" value={postalCode} onChange={(e: ChangeEvent<HTMLInputElement>) => setPostalCode(e.target.value)} required />
                     <input className="shipping__form__input" type="text" id="country" placeholder="Enter country" value={country} onChange={(e: ChangeEvent<HTMLInputElement>) => setCountry(e.target.value)} required />
                 </div>
-                <div>
-                    <button onClick={openMapHandler}>Choose on map</button>
-                    <label>
-                        <Button variant="danger" type="submit">Continue</Button>
-                    </label>
+                <div className="button">
+                    <Button variant="primary" onClick={openMapHandler}><RoomIcon /> Google Map</Button>
+
+                    <Button variant="danger" type="submit">Continue</Button>
+
                 </div>
             </form>
         </div>

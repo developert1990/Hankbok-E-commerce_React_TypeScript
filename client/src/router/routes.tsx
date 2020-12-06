@@ -27,6 +27,7 @@ import { SearchScreen } from '../screens/SearchScreen';
 import { useDispatch } from 'react-redux';
 import { listProductsCategories } from '../actions/productActions';
 import { MapScreen } from '../screens/MapScreen';
+import { AdminGoogleMapOrderList } from '../screens/AdminGoogleMapOrderList';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
@@ -59,6 +60,7 @@ export default () => {
             <AdminRoute path="/orderList" component={AdminOrderListScreen} />
             <AdminRoute path="/userList" component={AdminUserListScreen} />
             <AdminRoute path="/user/:id/edit" component={AdminUserEdit} />
+            <AdminRoute path="/adminGoogleMapOrderList" component={AdminGoogleMapOrderList} />
             <Route path="/search" component={SearchScreen} />
 
             <Footer />

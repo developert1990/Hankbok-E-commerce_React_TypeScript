@@ -14,6 +14,9 @@
 @import './components/ProductEditScreen.scss';
 @import './components/MapScreen.scss';
 @import './components/HomeScreen.scss';
+@import './components/SearchScreen.scss';
+@import './components/AdminOrderListScreen.scss';
+
 
 
 * {
@@ -29,14 +32,15 @@
 
 html {
     box-sizing: border-box;
-    font-size: 62.5%;
+    font-size: 72.5%;
 }
 
 body {
     margin: 0;
     height: 100vh;
     font-size: 1.6rem;
-    font-family: Helvetica, Arial, sans-serif;
+    
+    font-family: 'Yanone Kaffeesatz', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

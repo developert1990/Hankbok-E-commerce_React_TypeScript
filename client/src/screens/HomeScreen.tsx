@@ -4,7 +4,7 @@ import { IntroHanbok } from '../components/IntroHanbok';
 
 export const HomeScreen = () => {
     return (
-        <div className="mainPage">
+        <div className="homeScreen">
             <MainCarousel />
             <IntroHanbok />
         </div>

@@ -1,4 +1,4 @@
-.productsScreen {
+.searchScreen {
     padding: 50px;
     display: flex;
     flex-wrap: wrap;
@@ -30,6 +30,7 @@
         .MuiSelect-root {
             width: 100px;
         }
+
     }
 
     .productList {
@@ -42,15 +43,4 @@
         }
     }
 
-}
-
-.products {
-    width: 200px;
-    height: 100%;
-    margin: 1.4rem 1.4rem;
-
-    .products__image {
-        max-width: 200px;
-        max-height: auto;
-    }
 }

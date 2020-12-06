@@ -7,7 +7,7 @@ import { deliverOrder, detailsOrder, orderPay } from '../actions/orderAction';
 import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
 import { initialAppStateType } from '../store';
-import { Card, Table } from 'react-bootstrap';
+import { Button, Card, Table } from 'react-bootstrap';
 import { API_BASE } from '../config';
 import { ORDER_PAY_RESET } from '../constants/orderConstant';
 
@@ -91,7 +91,7 @@ export const OrderScreen = () => {
             <MessageBox variant="danger">{error}</MessageBox>
         ) : (
                     <div>
-                        <h1>Order {order?._id}</h1>
+                        <h1 className="order_id">Order {order?._id}</h1>
                         <div className="orderScreen">
 
 
@@ -170,11 +170,13 @@ export const OrderScreen = () => {
                                         <div><strong>Order Total</strong></div>
                                         <div><strong>${order?.totalPrice.toFixed(2)}</strong></div>
                                     </div>
+                                    {console.log('sdkReady', sdkReady)}
                                     {!order.isPaid && (
                                         !sdkReady ? (
                                             <LoadingBox></LoadingBox>
                                         ) : (
                                                 <>
+                                                    {console.log("이거 페이팔 버튼 나와야함")}
                                                     {errorPay && (
                                                         <MessageBox variant="danger">{errorPay}</MessageBox>
                                                     )}
@@ -188,9 +190,7 @@ export const OrderScreen = () => {
                                             )
                                     )}
                                     {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-                                        <li>
-                                            <button type="button" className="primary block" onClick={deliverHandler}>Deliver Order</button>
-                                        </li>
+                                        <Button type="button" variant="success" onClick={deliverHandler}>Deliver Order</Button>
                                     )}
                                 </Card>
 

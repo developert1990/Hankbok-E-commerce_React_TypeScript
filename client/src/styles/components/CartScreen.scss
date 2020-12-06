@@ -11,10 +11,14 @@
         .small{
             width: 80px;
         }
-        tbody td{
-            align-items: center;
-            justify-content: center;
+        Table {
+            text-align: center;
+
+            td {
+                line-height: 100px;
+            }
         }
+        
     }
 
 

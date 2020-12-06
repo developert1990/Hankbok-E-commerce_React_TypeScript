@@ -11,6 +11,7 @@ import { useStyles, marks, valuetext } from '../config';
 import Slider from '@material-ui/core/Slider';
 import { Alert } from '@material-ui/lab';
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { SearchBox } from '../components/SearchBox';
 
 
 export const SearchScreen = () => {
@@ -60,16 +61,19 @@ export const SearchScreen = () => {
     return (
         <div className="searchScreen">
 
-            <div>
-                {
-                    loadingCategory ? <LoadingBox /> :
-                        errorCategory ? <MessageBox variant="danger">{errorCategory}</MessageBox> :
-                            (
-                                categories.map((category) => (
-                                    <li><Link to={getFilterUrl(category)}>{category.charAt(0).toUpperCase() + category.slice(1)}</Link></li>
-                                ))
-                            )
-                }
+            <div className="controll__bar">
+                <SearchBox />
+                <div className="sortList">
+                    {
+                        loadingCategory ? <LoadingBox /> :
+                            errorCategory ? <MessageBox variant="danger">{errorCategory}</MessageBox> :
+                                (
+                                    categories.map((category) => (
+                                        <li><Link to={getFilterUrl(category)}>{category.charAt(0).toUpperCase() + category.slice(1)}</Link></li>
+                                    ))
+                                )
+                    }
+                </div>
                 <div className={classes.root}>
                     <Slider
                         defaultValue={0}
@@ -82,7 +86,7 @@ export const SearchScreen = () => {
                         onChange={changePriceHandler}
                     />
                 </div>
-                <div>
+                <div className="sortby">
                     <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
                         <Select
@@ -98,13 +102,13 @@ export const SearchScreen = () => {
                     </FormControl>
                 </div>
             </div>
-            <div>
+            <div className="productList">
                 {
                     loading ? <LoadingBox /> :
                         error ? <MessageBox variant="danger">{error}</MessageBox> :
                             (
-                                <div>
-                                    <Alert severity="success" color="info">{products.length} Results</Alert>
+                                <div >
+                                    <Alert className="result_alert" severity={products.length === 0 ? 'warning' : 'success'} color={products.length === 0 ? 'warning' : 'info'}>{products.length} Results</Alert>
                                     <div>
                                         <div className="productsScreen">
                                             {

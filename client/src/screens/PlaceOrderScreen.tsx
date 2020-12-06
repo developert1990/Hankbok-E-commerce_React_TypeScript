@@ -47,15 +47,15 @@ export const PlaceOrderScreen = () => {
                 <Card className="placeOrderScreen__card placeOrderScreen__left">
                     <h2>Shipping</h2>
                     <p>
-                        <strong>Name:</strong>{shippingAddress.fullName} <br />
-                        <strong>Address:</strong>{shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode}, {shippingAddress.country}
+                        <strong>Name: </strong>{shippingAddress.fullName} <br />
+                        <strong>Address: </strong>{shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode}, {shippingAddress.country}
                     </p>
                 </Card>
 
                 <Card className="placeOrderScreen__card placeOrderScreen__left">
                     <h2>Payment</h2>
                     <p>
-                        <strong>Method:</strong>{paymentMethod} <br />
+                        <strong>Method: </strong>{paymentMethod} <br />
                     </p>
                 </Card>
 
@@ -77,7 +77,7 @@ export const PlaceOrderScreen = () => {
                                         <img className="small" src={`${API_BASE}/uploads/${item.image}`} alt={item.name} />
                                     </td>
 
-                                    <td className="min-30">
+                                    <td>
                                         <Link to={`/product/${item.product}`}>{item.name}</Link>
                                     </td>
 
@@ -117,7 +117,7 @@ export const PlaceOrderScreen = () => {
                         Place Order
                                 </Button>
                     {loading && <LoadingBox />}
-                    {error && <MessageBox variant="danger" />}
+                    {error && <MessageBox variant="danger">{error}</MessageBox>}
                 </Card>
             </div>
 

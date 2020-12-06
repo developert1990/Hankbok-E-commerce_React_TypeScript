@@ -1,6 +1,23 @@
-.aboutPage{
-    padding: 20px;
-    h1{
-        text-align: center;
+.aboutPage {
+    padding: 100px;
+    font-family: 'Nerko One', cursive;
+
+    .paragraph_1 {
+        display: flex;
+
+        p {
+            width: 900px;
+            margin-right: 20px;
+            font-size: 2.5rem;
+        }
+    }
+
+    .paragraph_2 {
+        h1 {
+            margin: 30px auto;
+            text-align: center;
+            font-size: 3.5rem;
+        }
+        font-size: 1.8rem;
     }
 }

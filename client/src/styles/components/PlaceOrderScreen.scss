@@ -3,7 +3,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-
+    h2{
+        font-family: 'Russo One', sans-serif;
+    }
     .placeOrderScreen__card {
         padding: 1.5rem;
         background-color: #f8f8f8;
@@ -15,7 +17,9 @@
 
         Table{
             text-align: center;
-            line-height: 40px;
+            td{
+                line-height: 100px;
+            }
         }
         .small {
             width: 80px;
@@ -25,7 +29,6 @@
 
     .placeOrderScreen__right {
         flex: 1 1 25rem;
-        font-size: 1.2rem;
         
 
         div {

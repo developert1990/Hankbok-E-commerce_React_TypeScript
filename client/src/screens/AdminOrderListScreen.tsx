@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
 import { initialAppStateType } from '../store';
@@ -8,6 +8,7 @@ import { Button, Table } from 'react-bootstrap';
 import { OrdersListType } from '../reducers/orderReducers';
 import { deleteOrder, listOrders } from '../actions/orderAction';
 import { ORDER_DELETE_RESET } from '../constants/orderConstant';
+import RoomIcon from '@material-ui/icons/Room';
 
 export const AdminOrderListScreen = () => {
     const orderListStoreInfo = useSelector((state: initialAppStateType) => state.orderListStore);
@@ -37,7 +38,7 @@ export const AdminOrderListScreen = () => {
 
 
     return (
-        <div>
+        <div className="adminOrderListScreen">
             <h1>Orders</h1>
             {loadingDelete && <LoadingBox />}
             {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
@@ -47,7 +48,9 @@ export const AdminOrderListScreen = () => {
                         <Table striped bordered hover variant="dark">
                             <thead>
                                 <tr>
+                                    <th>NUM</th>
                                     <th>ID</th>
+                                    <th>Location</th>
                                     <th>USER</th>
                                     <th>DATE</th>
                                     <th>TOTAL</th>
@@ -58,9 +61,14 @@ export const AdminOrderListScreen = () => {
                             </thead>
                             <tbody>
                                 {
-                                    orders.map((order) => (
+                                    orders.map((order, index) => (
                                         <tr key={order._id}>
+                                            <td>{index + 1}</td>
                                             <td>{order._id}</td>
+                                            <td><Link to={{
+                                                pathname: "/adminGoogleMapOrderList",
+                                                state: order.shippingAddress,
+                                            }} ><RoomIcon /></Link></td>
                                             <td>{order.user.name}</td>
                                             <td>{order.createdAt.substring(0, 10)}</td>
                                             <td>{order.totalPrice.toFixed(2)}</td>

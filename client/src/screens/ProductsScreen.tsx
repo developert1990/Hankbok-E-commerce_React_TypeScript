@@ -66,16 +66,15 @@ export const ProductsScreen = () => {
 
     return (
         <div className="productsScreen">
-            <div>
-                <button onClick={openMapHandler}>Choose on map</button>
+            <div className="controll__bar">
                 <SearchBox />
-                <div>
+                <div className="sortList">
                     {
                         loadingCategory ? <LoadingBox /> :
                             errorCategory ? <MessageBox variant="danger">{errorCategory}</MessageBox> :
                                 (
-                                    categories.map((category) => (
-                                        <li><Link to={getFilterUrl(category)}>{category.charAt(0).toUpperCase() + category.slice(1)}</Link></li>
+                                    categories.map((category, index) => (
+                                        <li key={index}><Link to={getFilterUrl(category)}>{category.charAt(0).toUpperCase() + category.slice(1)}</Link></li>
                                     ))
                                 )
                     }
@@ -92,7 +91,7 @@ export const ProductsScreen = () => {
                         onChange={changePriceHandler}
                     />
                 </div>
-                <div>
+                <div className="sortby">
                     <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
                         <Select
@@ -108,13 +107,13 @@ export const ProductsScreen = () => {
                     </FormControl>
                 </div>
             </div>
-            <div>
+            <div className="productList">
                 {loading ?
                     <LoadingBox /> :
                     error ?
                         <MessageBox variant="danger">{error}</MessageBox> :
                         <div>
-                            <Alert severity={products.length === 0 ? 'warning' : 'success'} color={products.length === 0 ? 'warning' : 'info'}>{products.length} Results</Alert>
+                            <Alert className="result_alert" severity={products.length === 0 ? 'warning' : 'success'} color={products.length === 0 ? 'warning' : 'info'}>{products.length} Results</Alert>
                             <div className="productsScreen">
                                 {
                                     products.map((product) => (

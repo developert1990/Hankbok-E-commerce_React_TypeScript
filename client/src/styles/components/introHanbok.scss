@@ -1,4 +1,11 @@
-.introHanbok-img{
-    width: 200px;
-    height: 300px;
+.introHanbok {
+    display: flex;
+    margin-bottom: 4rem;
+    p{
+        width: 400px;
+    }
+    .introHanbok-img {
+        width: 200px;
+        height: 300px;
+    }
 }
