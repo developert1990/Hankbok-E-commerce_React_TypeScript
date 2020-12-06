@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { initialAppStateType } from '../store';
 
 export const ProductCreateScreen = () => {
     const productCreateStoreInfo = useSelector((state: initialAppStateType) => state.productCreateStore);
-    const { error, product, loading, success } = productCreateStoreInfo;
+    const { error, product, loading } = productCreateStoreInfo;
 
     const userInfoStore = useSelector((state: initialAppStateType) => state.userStore);
     const { userInfo } = userInfoStore;

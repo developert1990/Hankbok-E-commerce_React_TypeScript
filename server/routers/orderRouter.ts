@@ -23,6 +23,8 @@ orderRouter.post('/', isAuth, expressAsyncHandler(async (req: CustomRequestExten
             taxPrice: req.body.taxPrice,
             totalPrice: req.body.totalPrice,
             user: req.user, // _id 값이 들어간다
+            lat: req.body.lat,
+            lng: req.body.lng,
         });
         const createdOrder = await order.save();
         res.status(201).send({ message: 'New Order Created', order: createdOrder });

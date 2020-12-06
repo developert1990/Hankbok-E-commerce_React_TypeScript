@@ -9,7 +9,7 @@ import { NavBar } from '../components/NavBar';
 import { Footer } from '../components/Footer';
 import { AboutScreen } from '../screens/AboutScreen';
 import { HomeScreen } from '../screens/HomeScreen';
-import { ShippingAddressScreen } from '../screens/ShippingAddress';
+import { ShippingAddressScreen } from '../screens/ShippingAddressScreen';
 import { PaymentMethodScreen } from '../screens/PaymentMethodScreen';
 import { PlaceOrderScreen } from '../screens/PlaceOrderScreen';
 import { OrderScreen } from '../screens/OrderScreen';

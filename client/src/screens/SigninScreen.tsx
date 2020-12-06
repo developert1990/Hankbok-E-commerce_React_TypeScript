@@ -18,10 +18,10 @@ export const SigninScreen = () => {
     const { userInfo, error, loading } = userSignin;
     const isInvalid = email === '' || password === '';
 
-    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        dispatch(signin(email, password))
-    }
+    // const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //     dispatch(signin(email, password))
+    // }
 
     useEffect(() => {
         if (userInfo) {

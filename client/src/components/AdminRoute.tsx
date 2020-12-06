@@ -1,4 +1,4 @@
-import React, { Component, ComponentType } from 'react';
+import React, { ComponentType } from 'react';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
 import { initialAppStateType } from '../store';
 import { useSelector } from 'react-redux';

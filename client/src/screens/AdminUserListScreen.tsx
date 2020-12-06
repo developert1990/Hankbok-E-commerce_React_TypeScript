@@ -6,7 +6,6 @@ import { deleteUser, listUsers } from '../actions/userActions'
 import { LoadingBox } from '../components/LoadingBox'
 import { MessageBox } from '../components/MessageBox'
 import { USER_DETAILS_RESET } from '../constants/userConstant'
-import { userType } from '../reducers/userReducer'
 import { initialAppStateType } from '../store'
 
 export const AdminUserListScreen = () => {

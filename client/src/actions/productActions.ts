@@ -11,10 +11,10 @@ export const listProducts = (name: string, category: string, priceLessThan: numb
         type: PRODUCT_LIST_REQUEST
     });
     try {
-        console.log('name 액션에서: ', name)
-        console.log('category 액션에서: ', category)
-        console.log('priceLessThan 액션에서: ', priceLessThan)
-        console.log('sortBy 액션에서: ', sortBy)
+        // console.log('name 액션에서: ', name)
+        // console.log('category 액션에서: ', category)
+        // console.log('priceLessThan 액션에서: ', priceLessThan)
+        // console.log('sortBy 액션에서: ', sortBy)
         const { data } = await Axios.get(`/api/products/list/${name}/${category}/${priceLessThan}/${sortBy}`);
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
@@ -84,7 +84,7 @@ export const deleteProduct = (product: ProductType) => async (dispatch: ThunkDis
     dispatch({ type: PRODUCT_DELETE_REQUEST });
     const { userStore: { userInfo } } = getState();
     try {
-        const { data } = await Axios.delete(`/api/products/${product._id}`, {
+        await Axios.delete(`/api/products/${product._id}`, {
             headers: { Authorization: `Hong ${userInfo.token}` },
             data: { userInfo: userInfo }, // 이렇게 넣으면 서버에서 body로 받는다. Only applicable for request methods 'PUT', 'POST', 'DELETE , and 'PATCH'
         });

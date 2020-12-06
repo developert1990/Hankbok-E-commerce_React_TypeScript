@@ -35,10 +35,13 @@ export interface saveShippingAddressDataType {
     city: string;
     postalCode: string;
     country: string;
+    lat: number;
+    lng: number;
 }
 
 // shipping 주소 설정
 export const saveShippingAddress = (data: saveShippingAddressDataType) => (dispatch: ThunkDispatch<any, any, any>) => {
+    console.log('쉬핑어드레스 저장data', data)
     dispatch({ type: CART_SAVE_SHIPPING_ADDRESS, payload: data });
     localStorage.setItem("shippingAddress", JSON.stringify(data));
 }

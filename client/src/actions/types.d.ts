@@ -70,3 +70,11 @@ export interface orderDeliverActionType {
     type: string;
     payload: orderDeliverType;
 }
+
+
+
+
+export interface userAddressGoogleMapActionType {
+    type: string;
+    payload: any;
+}

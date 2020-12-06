@@ -1,25 +1,44 @@
 .full-container {
-    margin: -1rem;
-    height: 1000px;
+    padding: 10px;
+    height: 700px;
+    width: 100%;
 
-    .map-input-box {
-        box-sizing: border-box;
-        position: absolute;
-        left: 0;
-        right: 0;
-        margin: 0.5rem auto;
-        width: 25rem;
-        height: 4rem;
-        display: flex;
+    .search__container {
+
+        margin-top: 15px;
+
+        .map__input {
+            box-sizing: border-box;
+            border: 1px solid transparent;
+            width: 240px;
+            height: 32px;
+            padding: 0 12px;
+            border-radius: 3px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            font-size: 14px;
+            outline: none;
+            text-overflow: ellipses;
+            position: absolute;
+            left: 50%;
+            margin-left: -120px;
+        }
+
+        .map__confirmButton {
+
+            box-sizing: border-box;
+            border: 1px solid transparent;
+            width: 140px;
+            height: 32px;
+            padding: 0 12px;
+            border-radius: 3px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            font-size: 14px;
+            outline: none;
+            text-overflow: ellipses;
+            position: absolute;
+            right: 33%;
+            margin-left: -120px;
+        }
     }
 
-    .map-input-box input {
-        border-radius: 1rem 0 0 1rem;
-        border-right: 0;
-    }
-
-    .map-input-box button {
-        border-radius: 0 1rem 1rem 0;
-        border-left: 0;
-    }
 }

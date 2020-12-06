@@ -1,5 +1,5 @@
 import { orderIinitialStateType, orderInitialState, orderCreateReducer, orderDetailInitailStateType, orderDetailInitialState, orderDetailsReducer, orderPayInitialStateType, orderPayInitailState, orderPayReducer, orderMyHistoryListInitialStateType, orderMyHistoryListInitailState, orderMyHistoryListReducer, orderListInitialStateType, orderListInitailState, orderListReducer, orderDeliverInitialStateType, orderDeliverInitailState, orderDeliverReducer, orderDeleteInitialStateType, orderDeleteInitailState, orderDeleteReducer } from './reducers/orderReducers';
-import { userSigninReducer, userSigninInitialState, userSigninInitialStateType, userRegisterReducer, userRegisterInitailState, userRegisterInitialType, userProfileUpdateInitialStateType, userProfileUpdateInitialState, userProfileUpdateReducer, userListInitialStateType, userListReducer, userListInitialState, userDeleteInitialStateType, userDeleteInitialState, userDeleteReducer, userDetailInitialStateType, userDetailReducer, userDetailInitialState, userUpdateInitialStateType, userUpdateInitialState, userUpdateReducer } from './reducers/userReducer';
+import { userSigninReducer, userSigninInitialState, userSigninInitialStateType, userRegisterReducer, userRegisterInitailState, userRegisterInitialType, userProfileUpdateInitialStateType, userProfileUpdateInitialState, userProfileUpdateReducer, userListInitialStateType, userListReducer, userListInitialState, userDeleteInitialStateType, userDeleteInitialState, userDeleteReducer, userDetailInitialStateType, userDetailReducer, userDetailInitialState, userUpdateInitialStateType, userUpdateInitialState, userUpdateReducer, AddressGoogleMapInitialStateType, AddressGoogleMapInitialState, addressGoogleMapReducer } from './reducers/userReducer';
 import { cartReducer, cartInitailState, cartInitailStateType } from './reducers/cartReducers';
 import { ProductListInitialStateType, productListReducer, productListInitialState, productDetailsReducer, productDetailsInitialState, ProductDetailsInitialStateType, productCreateReducer, productCreateInitialStateType, productCreateInitialState, productUpdateInitialStateType, productUpdateReducer, productUpdateInitialState, productDeleteInitialStateType, productDeleteInitialState, productDeleteReducer, ProductListCategoryInitialStateType, productListCategoryInitialState, productListCategoryReducer } from './reducers/productReducers';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
@@ -34,6 +34,7 @@ export interface initialAppStateType {
     userDetailStore: userDetailInitialStateType,
     userUpdateStore: userUpdateInitialStateType,
     productCategoryListStore: ProductListCategoryInitialStateType,
+    addressGoogleMapStore: AddressGoogleMapInitialStateType,
 }
 
 
@@ -59,6 +60,7 @@ export const initialAppState: initialAppStateType = {
     userDetailStore: userDetailInitialState,
     userUpdateStore: userUpdateInitialState,
     productCategoryListStore: productListCategoryInitialState,
+    addressGoogleMapStore: AddressGoogleMapInitialState,
 }
 
 const reducer = combineReducers({
@@ -83,6 +85,7 @@ const reducer = combineReducers({
     userDetailStore: userDetailReducer,
     userUpdateStore: userUpdateReducer,
     productCategoryListStore: productListCategoryReducer,
+    addressGoogleMapStore: addressGoogleMapReducer,
 })
 
 
