@@ -1,0 +1,14 @@
+.adminProductListScreen{
+    padding: 20px;
+    .createBtn{
+        margin: 5px 0;
+        padding: 5px 10px;
+        font-size: 1.5rem;
+    }
+    .actionBtn{
+        font-size: 1.3rem;
+    }
+    .actionBtn:nth-child(1){
+        margin-right: 8px;
+    }
+}

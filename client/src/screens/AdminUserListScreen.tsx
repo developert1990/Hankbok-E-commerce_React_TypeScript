@@ -33,7 +33,7 @@ export const AdminUserListScreen = () => {
 
 
     return (
-        <div>
+        <div className="adminUserListScreen">
             <h1>Users</h1>
             {loadingDelete && <LoadingBox />}
             {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
@@ -63,8 +63,8 @@ export const AdminUserListScreen = () => {
                                                 <td>{user.isSeller ? 'YES' : 'NO'}</td>
                                                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
                                                 <td>
-                                                    <Button variant="warning" onClick={() => history.push(`/user/${user._id}/edit`)}>Edit</Button>
-                                                    <Button variant="danger" onClick={() => deleteUserHandler(user._id)}>Delete</Button>
+                                                    <Button className="actionBtn" variant="warning" onClick={() => history.push(`/user/${user._id}/edit`)}>Edit</Button>
+                                                    <Button className="actionBtn" variant="danger" onClick={() => deleteUserHandler(user._id)}>Delete</Button>
                                                 </td>
                                             </tr>
                                         ))

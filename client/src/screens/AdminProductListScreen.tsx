@@ -38,10 +38,10 @@ export const AdminProductListScreen = () => {
     }
 
     return (
-        <div>
-            <div>
+        <div className="adminProductListScreen">
+            <div >
                 <h1>Products</h1>
-                <Button value="success" onClick={createHandler}>Create Product</Button>
+                <Button className="createBtn" value="success" onClick={createHandler}>Create Product</Button>
             </div>
             {loadingDelete && <LoadingBox />}
             {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
@@ -69,8 +69,8 @@ export const AdminProductListScreen = () => {
                                             <td>{product.category}</td>
                                             <td>{product.brand}</td>
                                             <td>
-                                                <Button variant="warning" onClick={() => history.push(`/product/${product._id}/edit`)}>Edit</Button>
-                                                <Button variant="danger" onClick={() => deleteHandler(product)}>Delete</Button>
+                                                <Button className="actionBtn" variant="warning" onClick={() => history.push(`/product/${product._id}/edit`)}>Edit</Button>
+                                                <Button className="actionBtn" variant="danger" onClick={() => deleteHandler(product)}>Delete</Button>
                                             </td>
                                         </tr>
                                     ))

@@ -12,12 +12,12 @@ import { USER_ADDRESS_MAP_CONFIRM } from '../constants/userConstant';
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 
-interface centerLocationType {
+export interface centerLocationType {
     lat: number;
     lng: number;
 }
 
-interface addressObjType {
+export interface addressObjType {
     streetNum: string;
     route: string;
     city: string;

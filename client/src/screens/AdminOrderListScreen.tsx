@@ -65,18 +65,18 @@ export const AdminOrderListScreen = () => {
                                         <tr key={order._id}>
                                             <td>{index + 1}</td>
                                             <td>{order._id}</td>
-                                            <td><Link to={{
+                                            <td className="location_col"><Link to={{
                                                 pathname: "/adminGoogleMapOrderList",
                                                 state: order.shippingAddress,
-                                            }} ><RoomIcon /></Link></td>
+                                            }} ><RoomIcon />Map</Link></td>
                                             <td>{order.user.name}</td>
                                             <td>{order.createdAt.substring(0, 10)}</td>
                                             <td>{order.totalPrice.toFixed(2)}</td>
                                             <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
                                             <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : 'No'}</td>
                                             <td>
-                                                <Button variant="warning" onClick={() => { history.push(`/order/${order._id}`) }}>Details</Button>
-                                                <Button variant="danger" onClick={() => deleteHandler(order)}>Delete</Button>
+                                                <Button className="actionBtn" variant="warning" onClick={() => { history.push(`/order/${order._id}`) }}>Details</Button>
+                                                <Button className="actionBtn" variant="danger" onClick={() => deleteHandler(order)}>Delete</Button>
                                             </td>
                                         </tr>
                                     ))
