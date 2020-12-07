@@ -1,3 +1,4 @@
+import { CustomRequestExtendsUser } from './../types.d';
 import { productsInfoType } from './../models/productModel';
 import { isAuth, isAdmin } from './../utils';
 import expressAsyncHandler from 'express-async-handler';
@@ -169,5 +170,37 @@ productRouter.get('/category/array', expressAsyncHandler(async (req: Request, re
 }))
 
 
+// add product Review and return reviews
+productRouter.post('/:productId/reviews', isAuth, expressAsyncHandler(async (req: CustomRequestExtendsUser, res: Response) => {
+    const productId = req.params.productId;
+    const product = await Product.findById(productId);
+    const typedProduct = product as productsInfoType;
+    if (product) {
+
+        // 같은 유저가 리뷰를 할 경우에 걸러주기위한 if loop
+        // if (typedProduct.reviews.find(review => review.name === req.name)) {
+        //     res.status(400).send({ message: 'You already submitted review on this item' });
+        // } else {
+        // review 스키마에 data 입력한다.
+        const review = {
+            name: req.name as string,
+            rating: Number(req.body.rating),
+            comment: req.body.comment
+        };
+        // product 스키마에 review를 넣는다.
+        typedProduct.reviews.push(review);
+        // review 가 추가 되었을때 review의 숫자를 새로 갱신한다.
+        typedProduct.numReviews = typedProduct.reviews.length;
+        // 평균 rating을 구한다.
+        typedProduct.rating = typedProduct.reviews.reduce((a, c) => c.rating + a, 0) / typedProduct.reviews.length;
+        const updatedProduct = await typedProduct.save();
+        res.status(201).send({ message: 'Review Created', review: updatedProduct.reviews[updatedProduct.reviews.length - 1] });
+
+        // }
+
+    } else {
+        res.status(404).send({ message: 'Product not found' });
+    }
+}))
 
 export default productRouter;

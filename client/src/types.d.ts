@@ -9,6 +9,15 @@ export interface ProductType {
     numReviews: number;
     description: string;
     countInStock?: number;
+    reviews: reviewType[];
+}
+
+export interface reviewType {
+    name: string;
+    comment: string;
+    rating: number;
+    createdAt: string;
+    _id: string;
 }
 
 export interface ProductCreateType {
@@ -22,5 +31,12 @@ export interface ProductCreateType {
     description: string;
     countInStock?: number;
 }
+
+export interface ProductReviewType {
+    rating: string;
+    comment: string;
+    name: string;
+}
+
 
 declare module 'googlemaps';

@@ -1,5 +1,5 @@
-import { ProductType, ProductCreateType } from './../types.d';
-import { PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PRODUCT_CREATE_FAIL, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAIL, PRODUCT_CATEGORY_REQUEST, PRODUCT_CATEGORY_SUCCESS, PRODUCT_CATEGORY_FAIL } from './../constants/productConstants';
+import { ProductType, ProductCreateType, ProductReviewType } from './../types.d';
+import { PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PRODUCT_CREATE_FAIL, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAIL, PRODUCT_CATEGORY_REQUEST, PRODUCT_CATEGORY_SUCCESS, PRODUCT_CATEGORY_FAIL, PRODUCT_ADD_REVIEW_REQUEST, PRODUCT_ADD_REVIEW_FAIL, PRODUCT_ADD_REVIEW_SUCCESS } from './../constants/productConstants';
 
 import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAIL } from '../constants/productConstants';
 import Axios from 'axios';
@@ -108,5 +108,25 @@ export const listProductsCategories = () => async (dispatch: ThunkDispatch<any, 
         dispatch({ type: PRODUCT_CATEGORY_SUCCESS, payload: data });
     } catch (error) {
         dispatch({ type: PRODUCT_CATEGORY_FAIL, payload: error.message })
+    }
+}
+
+
+// product에 review 달기
+
+export const addReview = (productId: string, review: ProductReviewType) => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
+    dispatch({ type: PRODUCT_ADD_REVIEW_REQUEST });
+    const { userStore: { userInfo } } = getState();
+    try {
+        const { data } = await Axios.post(`/api/products/${productId}/reviews`, review, {
+            headers: { Authorization: `Hong ${userInfo.token}` }
+        });
+        console.log('리뷰 추가하고 받은 data: ', data)
+        dispatch({ type: PRODUCT_ADD_REVIEW_SUCCESS, payload: data.message })
+    } catch (error) {
+        const message = error.response && error.response.data.message ?
+            error.response.data.message :
+            error.message
+        dispatch({ type: PRODUCT_ADD_REVIEW_FAIL, payload: message });
     }
 }

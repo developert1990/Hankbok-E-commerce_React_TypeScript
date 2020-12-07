@@ -14,7 +14,8 @@ export interface userFromDB extends Document {
 
 // req에 express extends 한것
 export interface CustomRequestExtendsUser extends Request {
-    user?: String;
+    user?: string;
+    name?: string;
 }
 
 

@@ -8,6 +8,11 @@ export interface ProductActionType {
     payload: ProductType[];
 }
 
+export interface AddReviewActionType {
+    type: string;
+    payload: any;
+}
+
 export interface orderListActionType {
     type: string;
     payload: any;

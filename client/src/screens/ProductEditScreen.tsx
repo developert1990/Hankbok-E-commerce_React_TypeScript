@@ -69,7 +69,7 @@ export const ProductEditScreen = () => {
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log('바껴서 들어가는 값들', name, price, image, category, countInStock, brand, description)
-        dispatch(updateProduct({ _id: productId, name, price, image, category, brand, countInStock, description, numReviews: 0, rating: 0 }))
+        dispatch(updateProduct({ _id: productId, name, price, image, category, brand, countInStock, description, numReviews: 0, rating: 0, reviews: [] }))
     }
 
     const uploadImageHandler = async (e: ChangeEvent<HTMLInputElement>) => {

@@ -23,6 +23,7 @@ export const generateToken = (user: userFromDB) => {
 
 export interface decodeType {
     _id: string;
+    name: string;
 }
 
 
@@ -36,8 +37,9 @@ export const isAuth = (req: CustomRequestExtendsUser, res: Response, next: NextF
             if (err) {
                 res.status(401).send({ message: 'Invalid Token' });
             } else {
-                const { _id } = decode as decodeType;
+                const { _id, name } = decode as decodeType;
                 req.user = _id;
+                req.name = name;
                 next();
             }
         });

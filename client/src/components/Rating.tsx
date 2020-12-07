@@ -44,7 +44,7 @@ export const Rating: React.FC<RatingProps> = ({ rating, numReviews }) => {
                         ? "fa fa-star-half-o"
                         : "fa fa-star-o"
             }></i> </span>
-            <span>{numReviews + ` reviews`}</span>
+            <span>{numReviews + ` Stars`}</span>
         </div>
     )
 }
