@@ -48,6 +48,7 @@ export const ProductDetailScreen = () => {
 
 
 
+
     useEffect(() => {
         if (successReview) {
             // alert('Review Submitted Successfully');
@@ -110,7 +111,45 @@ export const ProductDetailScreen = () => {
         dispatch(deleteReview(review._id, productId));
     }
 
+    if (product) {
+        console.log('product.reviews', product.reviews)
+        // sort
+        const newProductArray = product.reviews.map((review) => {
+            // const _id = review._id;
+            // const comment = review.comment;
+            // const createdAt = Date.parse(review.createdAt);
+            // const name = review.name;
+            // const rating = review.rating;
+            // const newArray = {
+            //     _id: _id,
+            //     comment: comment,
+            //     createdAt: createdAt,
+            //     name: name,
+            //     rating: rating,
+            // }
+            // return newArray;
+            return {
+                ...review,
+                createdAt: Date.parse(review.createdAt)
+            }
+        }).sort((a, b) => b.createdAt - a.createdAt);;
 
+        // sort
+        const array = product.reviews.sort((a, b) => {
+            let dateA: any = new Date(a.createdAt);
+            let dateB: any = new Date(b.createdAt);
+            return dateB as number - dateA as number;
+        })
+
+
+        console.log('array', array)
+
+        console.log('newProductArray', newProductArray);
+        const sortedData = newProductArray.map((data) => data.createdAt)
+        // console.log('sortedData', sortedData)
+        // const date = Date.parse("2020-12-08T02:10:39.557Z");
+
+    }
     return (
         <div>
             {loading ? (
