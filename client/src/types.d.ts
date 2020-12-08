@@ -33,9 +33,11 @@ export interface ProductCreateType {
 }
 
 export interface ProductReviewType {
+    _id?: string;
     rating: string;
     comment: string;
     name: string;
+    createdAt?: string;
 }
 
 

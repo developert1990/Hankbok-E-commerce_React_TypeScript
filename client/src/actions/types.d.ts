@@ -13,6 +13,11 @@ export interface AddReviewActionType {
     payload: any;
 }
 
+export interface deleteReviewActionType {
+    type: string;
+    payload: any;
+}
+
 export interface orderListActionType {
     type: string;
     payload: any;

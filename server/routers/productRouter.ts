@@ -3,7 +3,7 @@ import { productsInfoType } from './../models/productModel';
 import { isAuth, isAdmin } from './../utils';
 import expressAsyncHandler from 'express-async-handler';
 import express, { Request, Response } from 'express';
-import Product from '../models/productModel';
+import { Product, Review } from '../models/productModel';
 import { data } from '../data';
 
 const productRouter = express.Router();
@@ -201,6 +201,19 @@ productRouter.post('/:productId/reviews', isAuth, expressAsyncHandler(async (req
     } else {
         res.status(404).send({ message: 'Product not found' });
     }
+}))
+
+
+// delete product review
+productRouter.delete(`/:reviewId/:isAdmin/:productId/reviews`, isAuth, isAdmin, expressAsyncHandler(async (req: Request, res: Response) => {
+    console.log("삭제하러 들어옴");
+    console.log('req.params 리뷰아이디: ', req.params.reviewId);
+    console.log('req.params 제품아이디: ', req.params.productId);
+    const reviewId = req.params.reviewId;
+    const productId = req.params.productId;
+    const product = await Product.findById(productId);
+    const deletedProduct = await Product.updateOne({ _id: productId }, { $pull: { reviews: { _id: reviewId } } });// _id가 productId 인걸 찾아서 , reviews에 _id가 reviewId인것을 pull 해라.
+    console.log('deletedProduct: ', deletedProduct)
 }))
 
 export default productRouter;

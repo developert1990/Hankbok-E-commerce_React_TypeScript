@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import { addReview, detailsProduct } from '../actions/productActions';
+import { addReview, deleteReview, detailsProduct } from '../actions/productActions';
 import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
 import { Rating } from '../components/Rating';
@@ -9,9 +9,10 @@ import { initialAppStateType } from '../store';
 import { API_BASE } from '../config';
 
 import { Card, Button } from 'react-bootstrap';
-import { PRODUCT_ADD_REVIEW_RESET } from '../constants/productConstants';
+import { PRODUCT_ADD_REVIEW_RESET, PRODUCT_DELETE_REVIEW_RESET } from '../constants/productConstants';
 import Pagination, { UsePaginationProps } from '@material-ui/lab/Pagination';
-import { reviewType } from '../types';
+import { ProductReviewType, reviewType } from '../types';
+import { MenuItem, Select, TextField } from '@material-ui/core';
 
 interface ProductScreenParamType {
     id: string;
@@ -36,9 +37,12 @@ export const ProductDetailScreen = () => {
     const productReviewsStore = useSelector((state: initialAppStateType) => state.addReviewStore);
     const { loading: loadingReview, error: errorReview, success: successReview } = productReviewsStore;
 
-    const [rating, setRating] = useState<string>('');
-    const [comment, setComment] = useState<string>('');
+    // 제품 삭제 여부 리덕스
+    const productDeleteReviewStore = useSelector((state: initialAppStateType) => state.deleteReviewStore);
+    const { error: errorDeleteReview, loading: loadingDeleteReview, message: messageDeleteReview, success: successDeleteReview } = productDeleteReviewStore;
 
+    const [rating, setRating] = useState<string>('Select');
+    const [comment, setComment] = useState<string>('');
 
 
 
@@ -57,8 +61,11 @@ export const ProductDetailScreen = () => {
             setComment('');
             dispatch({ type: PRODUCT_ADD_REVIEW_RESET });
         }
+        if (successDeleteReview) {
+            dispatch({ type: PRODUCT_DELETE_REVIEW_RESET });
+        }
         dispatch(detailsProduct(productId))
-    }, [dispatch, productId, successReview]);
+    }, [dispatch, productId, successReview, successDeleteReview]);
 
 
 
@@ -77,7 +84,7 @@ export const ProductDetailScreen = () => {
         }
     }
 
-    // pagenation
+    // pagenation **************************************************
 
     const [page, setPage] = useState<number>(1);
     const [pageData, setPageData] = useState<reviewType[]>([]);
@@ -92,9 +99,16 @@ export const ProductDetailScreen = () => {
             setPageData(product.reviews.slice(indexOfFirst, indexOfLast)); // 0 2 , 1 3, 2 4           0 2 , 2 4, 4 6 
         }
     }, [indexOfFirst, indexOfLast, product])
-    console.log('pageData', pageData)
-    console.log('indexOfLast', indexOfLast)
-    console.log('indexOfFirst', indexOfFirst)
+
+    // *****************************************************************
+
+
+    const deleteReviewHandler = (review: reviewType) => {
+        console.log('product', product)
+        console.log('review', review)
+        // dispath 해주기
+        dispatch(deleteReview(review._id, productId));
+    }
 
 
     return (
@@ -119,8 +133,8 @@ export const ProductDetailScreen = () => {
                                                 <li>
                                                     <h1>{product.name}</h1>
                                                 </li>
-                                                <li>
-                                                    <Rating rating={product.rating} numReviews={product.numReviews} />
+                                                <li className="rating__part">
+                                                    <Rating rating={product.rating} />{product.numReviews} Reviews
                                                 </li>
                                                 <li>Price: ${product.price}</li>
                                                 <li>Description: <p>{product.description}</p></li>
@@ -178,22 +192,26 @@ export const ProductDetailScreen = () => {
 
 
 
-                            <div className="review_saction">
+                            <div className="review__section">
                                 <h2 id="reviews">Reviews</h2>
                                 {
-                                    <div>
+                                    <div className="review">
                                         {product.reviews.length === 0 ? <MessageBox variant="danger">There is no review</MessageBox> : (
-                                            <div>
+                                            <div className="review__list">
                                                 <h2>{product.reviews.length} Reviews</h2>
-                                                {console.log('product.reviews.length', product.reviews.length)}
                                                 <div>
                                                     {pageData.map((review) => (
-                                                        <div key={review._id}>
-                                                            <div>{review.name}</div>
-                                                            <Rating rating={review.rating} numReviews={review.rating}></Rating>
-                                                            <p>
-                                                                {review.createdAt.substring(0, 10)}
-                                                            </p>
+                                                        <div className="reviews" key={review._id}>
+                                                            <div className="review__top">{review.name}
+                                                                <Rating rating={review.rating} />
+                                                                <p>
+                                                                    {review.createdAt.substring(0, 10)}
+                                                                </p>
+                                                                {
+                                                                    userInfo && userInfo.isAdmin &&
+                                                                    <Button onClick={() => deleteReviewHandler(review)} className="deleteBtn__review" variant="danger">Delete</Button>
+                                                                }
+                                                            </div>
                                                             <p>{review.comment}</p>
                                                         </div>
                                                     ))}
@@ -202,29 +220,43 @@ export const ProductDetailScreen = () => {
                                             </div>
                                         )}
 
-                                        <div>{userInfo ? (
-                                            <form className="form" onSubmit={submitHandler}>
+                                        <div className="review__form">{userInfo ? (
+                                            <form className="form__section" onSubmit={submitHandler}>
                                                 <div>
-                                                    <h2>Write a customer review</h2>
+                                                    <h1>Write a customer review</h1>
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="rating">Rating</label>
-                                                    <select value={rating} id="rating" onChange={(e: ChangeEvent<HTMLSelectElement>) => setRating(e.target.value)}>
-                                                        <option value="">Select...</option>
-                                                        <option value="1">1- Poor</option>
-                                                        <option value="2">2- Fair</option>
-                                                        <option value="3">3- Good</option>
-                                                        <option value="4">4- Very good</option>
-                                                        <option value="5">5- Excelent</option>
-                                                    </select>
+                                                    <h2>Rating</h2>
+
+                                                    <Select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={rating}
+                                                        onChange={(e: React.ChangeEvent<{ value: unknown }>) => setRating(e.target.value as string)}
+                                                    >
+                                                        <MenuItem value="Select">Select...</MenuItem>
+                                                        <MenuItem value="1">1- Poor</MenuItem>
+                                                        <MenuItem value="2">2- Fair</MenuItem>
+                                                        <MenuItem value="3">3- Good</MenuItem>
+                                                        <MenuItem value="4">4- Very good</MenuItem>
+                                                        <MenuItem value="5">5- Excelent</MenuItem>
+                                                    </Select>
+                                                </div>
+                                                <div className="">
+                                                    <h2>Comment</h2>
+                                                    <TextField
+                                                        id="outlined-multiline-static"
+                                                        label="Comment"
+                                                        multiline
+                                                        rows={4}
+                                                        defaultValue="Default Value"
+                                                        variant="outlined"
+                                                        value={comment}
+                                                        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setComment(e.target.value)}
+                                                    />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor="comment">Comment</label>
-                                                    <textarea value={comment} id="comment" onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setComment(e.target.value)}></textarea>
-                                                </div>
-                                                <div>
-                                                    <label></label>
-                                                    <button className="primary" type="submit">Submit</button>
+                                                    <Button variant="primary" type="submit">Submit</Button>
                                                 </div>
                                                 <div>
                                                     {loadingReview && <LoadingBox />}

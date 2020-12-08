@@ -20,6 +20,10 @@
                 font-size: 1.3rem;
                 margin-top: 1.2rem;
             }
+
+            li.rating__part {
+                display: flex;
+            }
         }
     }
 
@@ -28,15 +32,96 @@
         font-size: 1.3rem;
         font-weight: bolder;
         height: 100%;
+
         .detail-card {
             padding: 1.2rem;
             width: 300px;
+
             .detail-row {
                 margin-top: 1.1rem;
-            display: flex;
-            justify-content: space-between;
-        }
+                display: flex;
+                justify-content: space-between;
+            }
         }
     }
+
+
+
+
+
+
+}
+
+
+.review__section {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    align-items: center;
+
+    #reviews {
+        text-align: center;
+    }
+
+    .MuiPagination-root {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .review {
+
+        max-width: 800px;
+        padding: 15px;
+
+        .review__list {
+            margin-bottom: 20px;
+
+            .reviews {
+                .review__top {
+                    max-width: 300px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-around;
+                    .deleteBtn__review{
+                        padding: 0 20px;
+                        height: 25px;
+                    }
+                }
+
+            }
+        }
+
+
+
+
+        .review__form {
+            padding: 15px;
+            margin: 0 auto;
+            width: 500px;
+            border: 3px solid black;
+            box-shadow: 5px 10px #888888;
+
+            .form__section{
+
+                .MuiSelect-select{
+                    width: 150px;
+                }
+
+                #outlined-multiline-static{
+                    width: 400px;
+                }
+            }
+        }
+
+
+
+    }
+
+
+
+
+
+
 
 }

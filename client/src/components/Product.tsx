@@ -31,7 +31,9 @@ export const Product: React.FC<ProductProps> = ({ product }) => {
                         <span className="date">Stock: {product.countInStock}</span>
                     </Card.Text>
                     <Card.Text>
-                        <Rating rating={product.rating} numReviews={product.numReviews} />
+                        <div className="rating__part">
+                            <Rating rating={product.rating} /> {product.numReviews} Reviews
+                        </div>
                         <div className="price">${product.price}</div>
                     </Card.Text>
                 </Card.Text>
