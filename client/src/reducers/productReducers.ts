@@ -1,7 +1,8 @@
+import { reviewType } from './../../../server/models/productModel';
 import { ProductActionType, AddReviewActionType, deleteReviewActionType } from './../actions/types.d';
 import { PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PRODUCT_CREATE_FAIL, PRODUCT_CREATE_RESET, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_UPDATE_RESET, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAIL, PRODUCT_DELETE_RESET, PRODUCT_CATEGORY_REQUEST, PRODUCT_CATEGORY_SUCCESS, PRODUCT_CATEGORY_FAIL, PRODUCT_ADD_REVIEW_REQUEST, PRODUCT_ADD_REVIEW_SUCCESS, PRODUCT_ADD_REVIEW_FAIL, PRODUCT_ADD_REVIEW_RESET, PRODUCT_DELETE_REVIEW_REQUEST, PRODUCT_DELETE_REVIEW_SUCCESS, PRODUCT_DELETE_REVIEW_FAIL, PRODUCT_DELETE_REVIEW_RESET } from './../constants/productConstants';
 
-import { ProductType, ProductReviewType } from './../types.d';
+import { ProductType } from './../types.d';
 import { PRODUCT_LIST_FAIL, PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS } from '../constants/productConstants';
 
 
@@ -234,14 +235,14 @@ export interface addReviewInitialStateType {
     error: string;
     success: boolean,
     loading: boolean,
-    message: string;
+    reviews: reviewType[];
 }
 
 export const addReviewInitialState: addReviewInitialStateType = {
     error: '',
     loading: false,
     success: false,
-    message: '',
+    reviews: [],
 }
 
 export const addReviewReducer = (state = addReviewInitialState, action: AddReviewActionType) => {
@@ -249,7 +250,7 @@ export const addReviewReducer = (state = addReviewInitialState, action: AddRevie
         case PRODUCT_ADD_REVIEW_REQUEST:
             return { loading: true }
         case PRODUCT_ADD_REVIEW_SUCCESS:
-            return { loading: false, success: true, message: action.payload }
+            return { loading: false, success: true, reviews: action.payload }
         case PRODUCT_ADD_REVIEW_FAIL:
             return { loading: false, error: action.payload }
         case PRODUCT_ADD_REVIEW_RESET:
@@ -282,7 +283,7 @@ export const deleteReviewReducer = (state = deleteReviewInitialState, action: de
         case PRODUCT_DELETE_REVIEW_REQUEST:
             return { loading: true }
         case PRODUCT_DELETE_REVIEW_SUCCESS:
-            return { loading: false, success: true, message: action.payload }
+            return { loading: false, success: true, reviews: action.payload }
         case PRODUCT_DELETE_REVIEW_FAIL:
             return { loading: false, error: action.payload }
         case PRODUCT_DELETE_REVIEW_RESET:

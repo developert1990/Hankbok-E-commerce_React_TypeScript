@@ -194,7 +194,7 @@ productRouter.post('/:productId/reviews', isAuth, expressAsyncHandler(async (req
         // 평균 rating을 구한다.
         typedProduct.rating = typedProduct.reviews.reduce((a, c) => c.rating + a, 0) / typedProduct.reviews.length;
         const updatedProduct = await typedProduct.save();
-        res.status(201).send({ message: 'Review Created', review: updatedProduct.reviews[updatedProduct.reviews.length - 1] });
+        res.status(201).send({ message: 'Review Created', reviews: updatedProduct.reviews });
 
         // }
 
@@ -206,14 +206,26 @@ productRouter.post('/:productId/reviews', isAuth, expressAsyncHandler(async (req
 
 // delete product review
 productRouter.delete(`/:reviewId/:isAdmin/:productId/reviews`, isAuth, isAdmin, expressAsyncHandler(async (req: Request, res: Response) => {
-    console.log("삭제하러 들어옴");
-    console.log('req.params 리뷰아이디: ', req.params.reviewId);
-    console.log('req.params 제품아이디: ', req.params.productId);
+
     const reviewId = req.params.reviewId;
     const productId = req.params.productId;
-    const product = await Product.findById(productId);
+    // console.log('req.params.reviewId', req.params.reviewId)
+    // console.log('req.params.productId', req.params.productId)
+
     const deletedProduct = await Product.updateOne({ _id: productId }, { $pull: { reviews: { _id: reviewId } } });// _id가 productId 인걸 찾아서 , reviews에 _id가 reviewId인것을 pull 해라.
+
+    const product = await Product.findById(productId);
+    const typedProduct = product as productsInfoType;
+    typedProduct.numReviews = typedProduct.reviews.length;
+
+    typedProduct.rating = typedProduct.reviews.length === 0 ? 0 : typedProduct.reviews.reduce((a, c) => c.rating + a, 0) / typedProduct.reviews.length;
+
+    await typedProduct.save();
+
     console.log('deletedProduct: ', deletedProduct)
-}))
+    res.send({ message: 'Review deleted' });
+}));
+
+
 
 export default productRouter;

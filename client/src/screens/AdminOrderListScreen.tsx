@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { LoadingBox } from '../components/LoadingBox';
@@ -9,6 +9,8 @@ import { OrdersListType } from '../reducers/orderReducers';
 import { deleteOrder, listOrders } from '../actions/orderAction';
 import { ORDER_DELETE_RESET } from '../constants/orderConstant';
 import RoomIcon from '@material-ui/icons/Room';
+import { Pagination, UsePaginationProps } from '@material-ui/lab';
+import { useStyles } from '../config';
 
 export const AdminOrderListScreen = () => {
     const orderListStoreInfo = useSelector((state: initialAppStateType) => state.orderListStore);
@@ -35,7 +37,24 @@ export const AdminOrderListScreen = () => {
     }
 
 
+    // pagination
+    const [page, setPage] = useState<number>(1);
+    const [pageData, setPageData] = useState<OrdersListType[]>([]);
+    const dataLimit = 10;
+    const indexOfLast = page * dataLimit;
+    const indexOfFirst = indexOfLast - dataLimit;
+    const handlePageChange: UsePaginationProps["onChange"] = (event: React.ChangeEvent<unknown>, page: number) => {
+        setPage(page);
+    }
+    useEffect(() => {
+        if (orders) {
+            setPageData(orders.slice(indexOfFirst, indexOfLast));
+        }
+    }, [indexOfFirst, indexOfLast, orders])
 
+    const classes = useStyles();
+
+    // ***********************************
 
     return (
         <div className="adminOrderListScreen">
@@ -61,7 +80,7 @@ export const AdminOrderListScreen = () => {
                             </thead>
                             <tbody>
                                 {
-                                    orders.map((order, index) => (
+                                    pageData.map((order, index) => (
                                         <tr key={order._id}>
                                             <td>{index + 1}</td>
                                             <td>{order._id}</td>
@@ -84,6 +103,9 @@ export const AdminOrderListScreen = () => {
                             </tbody>
                         </Table>
             }
+            <div className={`${classes.root} pagination`}>
+                <Pagination count={orders && Math.ceil(orders.length / dataLimit)} variant="outlined" shape="rounded" color="primary" onChange={handlePageChange} />
+            </div>
         </div>
     )
 }

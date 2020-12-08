@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { LoadingBox } from '../components/LoadingBox';
@@ -8,6 +8,9 @@ import { deleteProduct, listProducts } from '../actions/productActions';
 import { ProductType } from '../types';
 import { PRODUCT_DELETE_RESET } from '../constants/productConstants';
 import { Button, Table } from 'react-bootstrap';
+
+import Pagination, { UsePaginationProps } from '@material-ui/lab/Pagination';
+import { useStyles } from '../config';
 
 export const AdminProductListScreen = () => {
     const productList = useSelector((state: initialAppStateType) => state.productListStore);
@@ -37,6 +40,23 @@ export const AdminProductListScreen = () => {
         history.push('/productCreate');
     }
 
+    // pagination
+    const [page, setPage] = useState<number>(1);
+    const [pageData, setPageData] = useState<ProductType[]>([]);
+    const dataLimit = 10;
+    const indexOfLast = page * dataLimit;
+    const indexOfFirst = indexOfLast - dataLimit;
+    const handlePageChange: UsePaginationProps["onChange"] = (event: React.ChangeEvent<unknown>, page: number) => {
+        setPage(page);
+    }
+    useEffect(() => {
+        if (products) {
+            setPageData(products.slice(indexOfFirst, indexOfLast));
+        }
+    }, [indexOfFirst, indexOfLast, products])
+
+    const classes = useStyles();
+
     return (
         <div className="adminProductListScreen">
             <div >
@@ -51,6 +71,7 @@ export const AdminProductListScreen = () => {
                         <Table striped bordered hover variant="dark">
                             <thead>
                                 <tr>
+                                    <td>Num</td>
                                     <td>ID</td>
                                     <td>NAME</td>
                                     <td>PRICE</td>
@@ -61,8 +82,9 @@ export const AdminProductListScreen = () => {
                             </thead>
                             <tbody>
                                 {
-                                    products.map((product) => (
+                                    pageData.map((product, index) => (
                                         <tr key={product._id}>
+                                            <td>{index + 1}</td>
                                             <td>{product._id}</td>
                                             <td>{product.name}</td>
                                             <td>{product.price}</td>
@@ -77,7 +99,11 @@ export const AdminProductListScreen = () => {
                                 }
                             </tbody>
                         </Table>
+
             }
+            <div className={`${classes.root} pagination`}>
+                <Pagination count={products && Math.ceil(products.length / dataLimit)} variant="outlined" shape="rounded" color="primary" onChange={handlePageChange} />
+            </div>
         </div>
     )
 }

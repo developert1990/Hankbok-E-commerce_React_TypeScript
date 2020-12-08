@@ -4,15 +4,16 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { addReview, deleteReview, detailsProduct } from '../actions/productActions';
 import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
-import { Rating } from '../components/Rating';
+import { CustomRating } from '../components/CustomRating';
 import { initialAppStateType } from '../store';
-import { API_BASE } from '../config';
+import { API_BASE, useStyles } from '../config';
 
 import { Card, Button } from 'react-bootstrap';
 import { PRODUCT_ADD_REVIEW_RESET, PRODUCT_DELETE_REVIEW_RESET } from '../constants/productConstants';
 import Pagination, { UsePaginationProps } from '@material-ui/lab/Pagination';
-import { ProductReviewType, reviewType } from '../types';
-import { MenuItem, Select, TextField } from '@material-ui/core';
+import { reviewType } from '../types';
+import { TextField } from '@material-ui/core';
+import Rating, { RatingProps } from '@material-ui/lab/Rating';
 
 interface ProductScreenParamType {
     id: string;
@@ -35,26 +36,19 @@ export const ProductDetailScreen = () => {
 
     // 제품 리뷰 추가 여부 리덕스
     const productReviewsStore = useSelector((state: initialAppStateType) => state.addReviewStore);
-    const { loading: loadingReview, error: errorReview, success: successReview } = productReviewsStore;
+    const { loading: loadingReview, error: errorReview, success: successReview, reviews: createdReviews } = productReviewsStore;
+
 
     // 제품 삭제 여부 리덕스
     const productDeleteReviewStore = useSelector((state: initialAppStateType) => state.deleteReviewStore);
-    const { error: errorDeleteReview, loading: loadingDeleteReview, message: messageDeleteReview, success: successDeleteReview } = productDeleteReviewStore;
+    const { success: successDeleteReview } = productDeleteReviewStore;
 
     const [rating, setRating] = useState<string>('Select');
     const [comment, setComment] = useState<string>('');
 
 
 
-    // const { description, image, name, numReviews, price, rating, countInStock } = product as ProductType;
-    // console.log('loading', loading)
-    if (error) {
-        console.log('loading', loading)
-    }
-    // console.log('product', product)
-
     useEffect(() => {
-
         if (successReview) {
             // alert('Review Submitted Successfully');
             setRating('');
@@ -65,6 +59,7 @@ export const ProductDetailScreen = () => {
             dispatch({ type: PRODUCT_DELETE_REVIEW_RESET });
         }
         dispatch(detailsProduct(productId))
+
     }, [dispatch, productId, successReview, successDeleteReview]);
 
 
@@ -75,9 +70,7 @@ export const ProductDetailScreen = () => {
 
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("submit 누름")
         if (comment && rating) {
-            console.log("add 리뷰 하러 들어감")
             dispatch(addReview(productId, { rating, comment, name: userInfo.name }));
         } else {
             alert('Please enter comment and rating')
@@ -96,6 +89,7 @@ export const ProductDetailScreen = () => {
     }
     useEffect(() => {
         if (product) {
+            // setPageData(createdReviews.slice(0, 4) as reviewType[]); // 0 2 , 1 3, 2 4           0 2 , 2 4, 4 6 
             setPageData(product.reviews.slice(indexOfFirst, indexOfLast)); // 0 2 , 1 3, 2 4           0 2 , 2 4, 4 6 
         }
     }, [indexOfFirst, indexOfLast, product])
@@ -103,9 +97,15 @@ export const ProductDetailScreen = () => {
     // *****************************************************************
 
 
+    // Rating material-ui
+    const classes = useStyles();
+
+    const ratingChange: RatingProps["onChange"] = (event: React.ChangeEvent<{}>, value: number | null) => {
+        setRating(value?.toString() as string);
+    }
+    // *******************************
+
     const deleteReviewHandler = (review: reviewType) => {
-        console.log('product', product)
-        console.log('review', review)
         // dispath 해주기
         dispatch(deleteReview(review._id, productId));
     }
@@ -134,7 +134,7 @@ export const ProductDetailScreen = () => {
                                                     <h1>{product.name}</h1>
                                                 </li>
                                                 <li className="rating__part">
-                                                    <Rating rating={product.rating} />{product.numReviews} Reviews
+                                                    <CustomRating rating={product.rating} />{product.numReviews} Reviews
                                                 </li>
                                                 <li>Price: ${product.price}</li>
                                                 <li>Description: <p>{product.description}</p></li>
@@ -203,7 +203,7 @@ export const ProductDetailScreen = () => {
                                                     {pageData.map((review) => (
                                                         <div className="reviews" key={review._id}>
                                                             <div className="review__top">{review.name}
-                                                                <Rating rating={review.rating} />
+                                                                <CustomRating rating={review.rating} />
                                                                 <p>
                                                                     {review.createdAt.substring(0, 10)}
                                                                 </p>
@@ -228,19 +228,10 @@ export const ProductDetailScreen = () => {
                                                 <div>
                                                     <h2>Rating</h2>
 
-                                                    <Select
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        value={rating}
-                                                        onChange={(e: React.ChangeEvent<{ value: unknown }>) => setRating(e.target.value as string)}
-                                                    >
-                                                        <MenuItem value="Select">Select...</MenuItem>
-                                                        <MenuItem value="1">1- Poor</MenuItem>
-                                                        <MenuItem value="2">2- Fair</MenuItem>
-                                                        <MenuItem value="3">3- Good</MenuItem>
-                                                        <MenuItem value="4">4- Very good</MenuItem>
-                                                        <MenuItem value="5">5- Excelent</MenuItem>
-                                                    </Select>
+                                                    <div className={classes.root}>
+                                                        <Rating name="half-rating" defaultValue={2.5} precision={0.5} onChange={ratingChange} size="large" style={{ fontSize: "30px" }} />
+                                                    </div>
+
                                                 </div>
                                                 <div className="">
                                                     <h2>Comment</h2>

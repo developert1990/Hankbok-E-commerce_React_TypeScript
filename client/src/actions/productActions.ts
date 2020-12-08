@@ -121,8 +121,8 @@ export const addReview = (productId: string, review: ProductReviewType) => async
         const { data } = await Axios.post(`/api/products/${productId}/reviews`, review, {
             headers: { Authorization: `Hong ${userInfo.token}` }
         });
-        console.log('리뷰 추가하고 받은 data: ', data)
-        dispatch({ type: PRODUCT_ADD_REVIEW_SUCCESS, payload: data.message })
+        console.log('리뷰 추가하고 받은 data: ', data.reviews)
+        dispatch({ type: PRODUCT_ADD_REVIEW_SUCCESS, payload: data.reviews })
     } catch (error) {
         const message = error.response && error.response.data.message ?
             error.response.data.message :

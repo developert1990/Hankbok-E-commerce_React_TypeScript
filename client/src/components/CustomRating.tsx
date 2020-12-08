@@ -4,7 +4,7 @@ export interface RatingProps {
     rating: number;
 }
 
-export const Rating: React.FC<RatingProps> = ({ rating }) => {
+export const CustomRating: React.FC<RatingProps> = ({ rating }) => {
     return (
         <div className="rating">
             <span> <i className={

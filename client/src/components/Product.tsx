@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ProductType } from "../types";
-import { Rating } from "./Rating";
+import { CustomRating } from "./CustomRating";
 import { Card } from "react-bootstrap";
 import { API_BASE } from '../config';
 
@@ -32,7 +32,7 @@ export const Product: React.FC<ProductProps> = ({ product }) => {
                     </Card.Text>
                     <Card.Text>
                         <div className="rating__part">
-                            <Rating rating={product.rating} /> {product.numReviews} Reviews
+                            <CustomRating rating={product.rating} /> {product.numReviews} Reviews
                         </div>
                         <div className="price">${product.price}</div>
                     </Card.Text>

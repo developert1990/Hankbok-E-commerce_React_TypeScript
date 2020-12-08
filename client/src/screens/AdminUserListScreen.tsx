@@ -1,12 +1,16 @@
-import React, { useEffect } from 'react'
+import { Pagination, UsePaginationProps } from '@material-ui/lab'
+import React, { useEffect, useState } from 'react'
 import { Button, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { deleteUser, listUsers } from '../actions/userActions'
 import { LoadingBox } from '../components/LoadingBox'
 import { MessageBox } from '../components/MessageBox'
+import { useStyles } from '../config'
 import { USER_DETAILS_RESET } from '../constants/userConstant'
 import { initialAppStateType } from '../store'
+import { userType } from '../reducers/userReducer';
+
 
 export const AdminUserListScreen = () => {
 
@@ -31,6 +35,25 @@ export const AdminUserListScreen = () => {
         }
     }
 
+    // pagination
+    const [page, setPage] = useState<number>(1);
+    const [pageData, setPageData] = useState<userType[]>([]);
+    const dataLimit = 10;
+    const indexOfLast = page * dataLimit;
+    const indexOfFirst = indexOfLast - dataLimit;
+    const handlePageChange: UsePaginationProps["onChange"] = (event: React.ChangeEvent<unknown>, page: number) => {
+        setPage(page);
+    }
+    useEffect(() => {
+        if (users) {
+            setPageData(users.slice(indexOfFirst, indexOfLast));
+        }
+    }, [indexOfFirst, indexOfLast, users])
+
+    const classes = useStyles();
+
+    // ***********************************
+
 
     return (
         <div className="adminUserListScreen">
@@ -45,6 +68,7 @@ export const AdminUserListScreen = () => {
                             <Table striped bordered hover variant="dark">
                                 <thead>
                                     <tr>
+                                        <th>Num</th>
                                         <th>ID</th>
                                         <th>NAME</th>
                                         <th>EMAIL</th>
@@ -55,8 +79,9 @@ export const AdminUserListScreen = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        users.map((user) => (
+                                        pageData.map((user, index) => (
                                             <tr key={user._id}>
+                                                <td>{index + 1}</td>
                                                 <td>{user._id}</td>
                                                 <td>{user.name}</td>
                                                 <td>{user.email}</td>
@@ -73,6 +98,9 @@ export const AdminUserListScreen = () => {
                             </Table>
                         )
             }
+            <div className={`${classes.root} pagination`}>
+                <Pagination count={users && Math.ceil(users.length / dataLimit)} variant="outlined" shape="rounded" color="primary" onChange={handlePageChange} />
+            </div>
         </div>
     )
 }
