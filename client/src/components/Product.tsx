@@ -38,7 +38,7 @@ export const Product: React.FC<ProductProps> = ({ product }) => {
                     </Card.Text>
                 </Card.Text>
                 <Card.Title>
-                    <Link to={`/product/${product._id}`}>
+                    <Link className="productName" to={`/product/${product._id}`}>
                         <h2>{product.name}</h2>
                     </Link>
                 </Card.Title>

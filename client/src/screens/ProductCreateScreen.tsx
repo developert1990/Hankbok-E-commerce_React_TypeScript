@@ -9,7 +9,7 @@ import { MessageBox } from '../components/MessageBox';
 import { initialAppStateType } from '../store';
 import { API_BASE } from '../config/index';
 
-
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import Dropzone, { FileWithPath, useDropzone } from 'react-dropzone';
 
 export const ProductCreateScreen = () => {
@@ -18,7 +18,6 @@ export const ProductCreateScreen = () => {
 
     const userInfoStore = useSelector((state: initialAppStateType) => state.userStore);
     const { userInfo } = userInfoStore;
-    console.log('product create페이지: ', product);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -41,30 +40,31 @@ export const ProductCreateScreen = () => {
     }
 
 
-    const uploadImageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            const file = e.target.files[0];
-            const bodyFormData = new FormData();
-            console.log('bodyFormData', bodyFormData)
-            bodyFormData.append('image', file); // bodyFormData를 설정해야지 multer에서 읽을 수 잇는 것같음 잘 모르겟다.
-            setLoadingUpload(true);
+    // const uploadImageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
+    //     if (e.target.files) {
+    //         const file = e.target.files[0];
+    //         console.log('file이름...', file)
+    //         const bodyFormData = new FormData();
+    //         console.log('bodyFormData', bodyFormData)
+    //         bodyFormData.append('image', file); // bodyFormData를 설정해야지 multer에서 읽을 수 잇는 것같음 잘 모르겟다.
+    //         setLoadingUpload(true);
 
-            try {
-                // image file 의 name을 가져오는 API
-                const { data } = await Axios.post(`${API_BASE}/api/uploads`, bodyFormData, {
-                    headers: { Authorization: `Hong ${userInfo.token}` }
-                });
-                // image 경로랑 전체 product image 를 서버에서 받아오는 걸로 바꿔야한다.
-                console.log('data:____', data)
-                setImage(data);
-                setLoadingUpload(false);
-            } catch (error) {
-                setErrorUpload(error.message);
-                setLoadingUpload(false);
-            }
+    //         try {
+    //             // image file 의 name을 가져오는 API
+    //             const { data } = await Axios.post(`${API_BASE}/api/uploads`, bodyFormData, {
+    //                 headers: { Authorization: `Hong ${userInfo.token}` }
+    //             });
+    //             // image 경로랑 전체 product image 를 서버에서 받아오는 걸로 바꿔야한다.
+    //             console.log('data:____', data)
+    //             setImage(data);
+    //             setLoadingUpload(false);
+    //         } catch (error) {
+    //             setErrorUpload(error.message);
+    //             setLoadingUpload(false);
+    //         }
 
-        }
-    }
+    //     }
+    // }
 
 
     // ---------------------------------------------------------------------------------------------
@@ -106,13 +106,41 @@ export const ProductCreateScreen = () => {
         height: '100%'
     };
 
+    const imageUploadHandler = async (fileName: any) => {
+        if (fileName) {
+            console.log('fileName은 : ', fileName)
+            const bodyFormData = new FormData();
+            const file = fileName[0]
+            console.log('file', file)
+            bodyFormData.append('image', file); // bodyFormData를 설정해야지 multer에서 읽을 수 잇는 것같음 잘 모르겟다.
+            setLoadingUpload(true);
+
+            try {
+                // image file 의 name을 가져오는 API
+                const { data } = await Axios.post(`${API_BASE}/api/uploads`, bodyFormData, {
+                    headers: { Authorization: `Hong ${userInfo.token}` }
+                });
+                // image 경로랑 전체 product image 를 서버에서 받아오는 걸로 바꿔야한다.
+                console.log('data:____', data)
+                setImage(data);
+                setLoadingUpload(false);
+            } catch (error) {
+                console.log("에러발생함")
+                setErrorUpload(error.message);
+                setLoadingUpload(false);
+            }
+        }
+    }
+
     const { getRootProps, getInputProps } = useDropzone({
         accept: 'image/*',
         onDrop: acceptedFiles => {
             setFiles(acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
             })));
-        }
+            imageUploadHandler(acceptedFiles.map(file => file));
+        },
+
     });
 
     useEffect(() => () => {
@@ -125,7 +153,6 @@ export const ProductCreateScreen = () => {
         <div style={thumb} key={file.name}>
 
             <div style={thumbInner}>
-                {console.log('file', file)}
                 <img src={URL.createObjectURL(file)} style={img} alt={file.name} />
             </div>
         </div>
@@ -135,36 +162,8 @@ export const ProductCreateScreen = () => {
     // -------------------------------------------------------------------------------------
 
     return (
-        <div>
-
-
-            <section>
-                <div className="dropzone">
-                    <section className="container">
-                        <div {...getRootProps({ className: 'dropzone' })}>
-                            <input {...getInputProps()} />
-                            <p>Drag 'n' drop some files here, or click to select files</p>
-                        </div>
-                    </section>
-                </div>
-                <aside>
-                    {files.map(f => (
-                        <li key={f.name}>
-                            {f.name} - {f.size} bytes
-                        </li>
-                    ))}
-                </aside>
-                <aside style={thumbsContainer}>
-                    {thumbs}
-                </aside>
-            </section>
-
-
-
-
-
-
-            <form onSubmit={createProductHandler} className="productEdit__form">
+        <div className="productCreateScreen">
+            <form onSubmit={createProductHandler} className="productCreate__form">
                 <div>
 
                     <h1>Create Product</h1>
@@ -190,15 +189,40 @@ export const ProductCreateScreen = () => {
                                     <div>
                                         <label htmlFor="image">Image</label>
                                         <input className="productEdit__form__input" type="text" id="image" placeholder="Enter image" value={image}
-                                            onChange={(e: ChangeEvent<HTMLInputElement>) => setImage(e.target.value)} />
+                                            onChange={(e: ChangeEvent<HTMLInputElement>) => setImage(e.target.value)} disabled={true} />
                                     </div>
 
                                     <div>
+                                        <div className="dropzone dropzon__outline">
+                                            <section className="container">
+                                                <div {...getRootProps({ className: 'dropzone dropzon__innerline' })}>
+                                                    <input {...getInputProps()} />
+                                                    <AddPhotoAlternateIcon className="addPhoto" />
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div className="image__detail">
+                                            <div style={thumbsContainer}>
+                                                {thumbs}
+                                            </div>
+                                            {files.map(f => (
+                                                <div className="image__nameSize">
+                                                    <li key={f.name}>{f.name}</li>
+                                                    <li> {f.size} bytes</li>
+                                                </div>
+
+                                            ))}
+                                        </div>
+                                        {loadingUpload && <LoadingBox />}
+                                        {errorUpload && <MessageBox variant="danger">{errorUpload}</MessageBox>}
+                                    </div>
+
+                                    {/* <div>
                                         <label htmlFor="imageFile">Image File</label>
                                         <input type="file" id="imageFile" placeholder="Choose Image" onChange={uploadImageHandler} />
                                         {loadingUpload && <LoadingBox />}
                                         {errorUpload && <MessageBox variant="danger">{errorUpload}</MessageBox>}
-                                    </div>
+                                    </div> */}
 
                                     <div>
                                         <label htmlFor="name">Category</label>

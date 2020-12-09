@@ -56,4 +56,11 @@
     .rating__part{
         display: flex;
     }
+
+    .productName {
+        text-decoration: none;
+    }
+    .productName:hover{
+        color: #ff8000;
+    }
 }

@@ -1,18 +1,112 @@
+.productCreateScreen{
+    margin-top: 20px;
+.productCreate__form {
+    display: flex;
+    flex-direction: column;
+    min-height: 660px;
+    background-image: url('../../hanji.jpg');
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 100%;
+    margin: auto;
+    max-width: 450px;
+    padding: 60px 68px 40px;
+    margin-bottom: 50px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 
-.dzu-dropzone{
-    margin: 0 auto;   
-    border: 1px solid black;
-    padding: 15px;
 
+    .productEdit__form__base {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        .productEdit__form__input {
+            background: #333;
+            border-radius: 4px;
+            width: 350px;
+            border: 0;
+            color: white;
+            height: 50px;
+            line-height: 50px;
+            padding: 5px 20px;
+
+            &:last-of-type {
+                margin-bottom: 30px;
+            }
+        }
+
+        .productEdit__textArea {
+            background: #333;
+            border-radius: 4px;
+            width: 350px;
+            border: 0;
+            color: white;
+            height: 100px;
+            line-height: 50px;
+            padding: 5px 20px;
+            margin-bottom: 10px;
+        }
+
+    }
+
+    .dropzone {
+        .dropzon__innerline {
+            border: 2px solid black;
+            width: 60px;
+            margin: 0 auto;
+            cursor: pointer;
+            background-color: #333;
+            border-radius: 10px;
+        }
+
+        .addPhoto {
+            font-size: 50px;
+            color: rgb(226, 219, 223);
+        }
+
+    }
+
+    .image__detail {
+        display: flex;
+        flex-direction: row;
+
+        .image__nameSize {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            li {
+                list-style: none;
+                font-size: 1.0rem;
+            }
+        }
+    }
+
+
+
+
+    .dzu-dropzone {
+        margin: 0 auto;
+        border: 1px solid black;
+        padding: 15px;
+
+
+    }
+
+    .dzu-previewContainer {
+        max-width: 200px;
+        max-height: 300px;
+        display: flex;
+
+        .dzu-previewImage {
+            width: 100px;
+            height: 150px;
+        }
+    }
 
 }
 
-.dzu-previewContainer{
-    max-width: 200px;
-    max-height: 300px;
-    display: flex;
-    .dzu-previewImage{
-        width: 100px;
-        height: 150px;
-    }
 }
