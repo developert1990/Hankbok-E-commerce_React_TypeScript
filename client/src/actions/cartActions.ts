@@ -2,10 +2,11 @@ import { CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD } from './../const
 import { ThunkDispatch } from 'redux-thunk';
 import Axios from 'axios';
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstant';
+import { API_BASE } from '../config/index';
 
 // cart에 제품 저장
 export const addToCart = (productId: string, qty: number) => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
-    const { data } = await Axios.get(`/api/products/${productId}`);
+    const { data } = await Axios.get(`${API_BASE}/api/products/${productId}`);
     dispatch({
         type: CART_ADD_ITEM,
         payload: {

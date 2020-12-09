@@ -1,0 +1,18 @@
+
+.dzu-dropzone{
+    margin: 0 auto;   
+    border: 1px solid black;
+    padding: 15px;
+
+
+}
+
+.dzu-previewContainer{
+    max-width: 200px;
+    max-height: 300px;
+    display: flex;
+    .dzu-previewImage{
+        width: 100px;
+        height: 150px;
+    }
+}

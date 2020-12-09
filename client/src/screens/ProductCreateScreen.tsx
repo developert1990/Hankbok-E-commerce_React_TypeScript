@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -7,6 +7,10 @@ import { createProduct } from '../actions/productActions';
 import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
 import { initialAppStateType } from '../store';
+import { API_BASE } from '../config/index';
+
+
+import Dropzone, { FileWithPath, useDropzone } from 'react-dropzone';
 
 export const ProductCreateScreen = () => {
     const productCreateStoreInfo = useSelector((state: initialAppStateType) => state.productCreateStore);
@@ -47,7 +51,7 @@ export const ProductCreateScreen = () => {
 
             try {
                 // image file 의 name을 가져오는 API
-                const { data } = await Axios.post(`/api/uploads`, bodyFormData, {
+                const { data } = await Axios.post(`${API_BASE}/api/uploads`, bodyFormData, {
                     headers: { Authorization: `Hong ${userInfo.token}` }
                 });
                 // image 경로랑 전체 product image 를 서버에서 받아오는 걸로 바꿔야한다.
@@ -63,10 +67,106 @@ export const ProductCreateScreen = () => {
     }
 
 
+    // ---------------------------------------------------------------------------------------------
+
+    const thumbsContainer: React.CSSProperties = {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 16
+    };
+
+    const thumb: React.CSSProperties = {
+        display: 'inline-flex',
+        borderRadius: 2,
+        border: '1px solid #eaeaea',
+        marginBottom: 8,
+        marginRight: 8,
+        width: 100,
+        height: 100,
+        padding: 4,
+        boxSizing: 'border-box'
+    };
+
+
+
+
+    const [files, setFiles] = useState<FileWithPath[]>([]);
+
+
+    const thumbInner = {
+        display: 'flex',
+        minWidth: 0,
+        overflow: 'hidden'
+    };
+
+    const img = {
+        display: 'block',
+        width: 'auto',
+        height: '100%'
+    };
+
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: 'image/*',
+        onDrop: acceptedFiles => {
+            setFiles(acceptedFiles.map(file => Object.assign(file, {
+                preview: URL.createObjectURL(file)
+            })));
+        }
+    });
+
+    useEffect(() => () => {
+        // Make sure to revoke the data uris to avoid memory leaks
+        files.forEach(file => URL.revokeObjectURL(URL.createObjectURL(file)));
+    }, [files]);
+
+
+    const thumbs: React.ReactNode = files.map(file => (
+        <div style={thumb} key={file.name}>
+
+            <div style={thumbInner}>
+                {console.log('file', file)}
+                <img src={URL.createObjectURL(file)} style={img} alt={file.name} />
+            </div>
+        </div>
+    ));
+
+
+    // -------------------------------------------------------------------------------------
+
     return (
         <div>
+
+
+            <section>
+                <div className="dropzone">
+                    <section className="container">
+                        <div {...getRootProps({ className: 'dropzone' })}>
+                            <input {...getInputProps()} />
+                            <p>Drag 'n' drop some files here, or click to select files</p>
+                        </div>
+                    </section>
+                </div>
+                <aside>
+                    {files.map(f => (
+                        <li key={f.name}>
+                            {f.name} - {f.size} bytes
+                        </li>
+                    ))}
+                </aside>
+                <aside style={thumbsContainer}>
+                    {thumbs}
+                </aside>
+            </section>
+
+
+
+
+
+
             <form onSubmit={createProductHandler} className="productEdit__form">
                 <div>
+
                     <h1>Create Product</h1>
                 </div>
                 {
@@ -74,19 +174,23 @@ export const ProductCreateScreen = () => {
                         error ? <MessageBox variant="danger">{error}</MessageBox> :
                             (
                                 <div className="productEdit__form__base">
+
                                     <div>
                                         <label htmlFor="name">Name</label>
-                                        <input className="productEdit__form__input" type="text" id="name" placeholder="Enter name" value={name} onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
+                                        <input className="productEdit__form__input" type="text" id="name" placeholder="Enter name" value={name}
+                                            onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
                                     </div>
 
                                     <div>
                                         <label htmlFor="price">Price</label>
-                                        <input className="productEdit__form__input" type="text" id="name" placeholder="Enter price" value={price} onChange={(e: ChangeEvent<HTMLInputElement>) => setPrice(parseInt(e.target.value))} />
+                                        <input className="productEdit__form__input" type="text" id="name" placeholder="Enter price" value={price}
+                                            onChange={(e: ChangeEvent<HTMLInputElement>) => setPrice(isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value))} />
                                     </div>
 
                                     <div>
                                         <label htmlFor="image">Image</label>
-                                        <input className="productEdit__form__input" type="text" id="image" placeholder="Enter image" value={image} onChange={(e: ChangeEvent<HTMLInputElement>) => setImage(e.target.value)} />
+                                        <input className="productEdit__form__input" type="text" id="image" placeholder="Enter image" value={image}
+                                            onChange={(e: ChangeEvent<HTMLInputElement>) => setImage(e.target.value)} />
                                     </div>
 
                                     <div>
@@ -98,22 +202,26 @@ export const ProductCreateScreen = () => {
 
                                     <div>
                                         <label htmlFor="name">Category</label>
-                                        <input className="productEdit__form__input" type="text" id="category" placeholder="Enter category" value={category} onChange={(e: ChangeEvent<HTMLInputElement>) => setCategory(e.target.value)} />
+                                        <input className="productEdit__form__input" type="text" id="category" placeholder="Enter category" value={category}
+                                            onChange={(e: ChangeEvent<HTMLInputElement>) => setCategory(e.target.value)} />
                                     </div>
 
                                     <div>
                                         <label htmlFor="brand">Brand</label>
-                                        <input className="productEdit__form__input" type="text" id="brand" placeholder="Enter name" value={brand} onChange={(e: ChangeEvent<HTMLInputElement>) => setbrand(e.target.value)} />
+                                        <input className="productEdit__form__input" type="text" id="brand" placeholder="Enter name" value={brand}
+                                            onChange={(e: ChangeEvent<HTMLInputElement>) => setbrand(e.target.value)} />
                                     </div>
 
                                     <div>
                                         <label htmlFor="countInStock">Count In Stock</label>
-                                        <input className="productEdit__form__input" type="text" id="countInStock" placeholder="Enter countInStock" value={countInStock} onChange={(e: ChangeEvent<HTMLInputElement>) => setCountInStock(parseInt(e.target.value))} />
+                                        <input className="productEdit__form__input" type="text" id="countInStock" placeholder="Enter countInStock" value={countInStock}
+                                            onChange={(e: ChangeEvent<HTMLInputElement>) => setCountInStock(isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value))} />
                                     </div>
 
                                     <div>
                                         <label htmlFor="description">Description</label>
-                                        <textarea className="productEdit__textArea" rows={textareaRow} id="description" placeholder="Enter description" value={description} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)} />
+                                        <textarea className="productEdit__textArea" rows={textareaRow} id="description" placeholder="Enter description" value={description}
+                                            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)} />
                                     </div>
 
                                     <div>

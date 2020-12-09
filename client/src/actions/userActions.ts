@@ -3,11 +3,12 @@ import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_
 import axios from 'axios';
 import { ThunkDispatch } from 'redux-thunk';
 import { USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNOUT } from '../constants/userConstant';
+import { API_BASE } from '../config/index';
 
 export const signin = (email: string, password: string) => async (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch({ type: USER_SIGNIN_REQUEST, payload: { email, password } });
     try {
-        const { data } = await axios.post('/api/users/signin', { email, password });
+        const { data } = await axios.post(`${API_BASE}/api/users/signin`, { email, password });
         dispatch({ type: USER_SIGNIN_SUCCESS, payload: data })
         localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
@@ -33,7 +34,7 @@ export const signout = () => (dispatch: ThunkDispatch<any, any, any>) => {
 export const register = (name: string, email: string, password: string) => async (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch({ type: USER_REGISTER_REQUEST, payload: { email, password } });
     try {
-        const { data } = await axios.post('/api/users/register', { name, email, password }); // {name, email, password} 이부분은 fetch에서 body를 주는 부분이다.
+        const { data } = await axios.post(`${API_BASE}/api/users/register`, { name, email, password }); // {name, email, password} 이부분은 fetch에서 body를 주는 부분이다.
         dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
         dispatch({ type: USER_SIGNIN_SUCCESS, payload: data })
         localStorage.setItem('userInfo', JSON.stringify(data));
@@ -61,7 +62,7 @@ export const updateUser = (userId: string, updateInfo: InfoForUpdateUserProfileT
     dispatch({ type: USER_PROFILE_UPDATE_REQUEST });
     const { userStore: { userInfo } } = getState();
     try {
-        const { data } = await axios.put(`/api/users/${userId}`, updateInfo, {
+        const { data } = await axios.put(`${API_BASE}/api/users/${userId}`, updateInfo, {
             headers: { Authorization: `Hong ${userInfo.token}` }
         });
         dispatch({ type: USER_PROFILE_UPDATE_SUCCESS, payload: data });
@@ -82,7 +83,7 @@ export const listUsers = () => async (dispatch: ThunkDispatch<any, any, any>, ge
     dispatch({ type: USER_LIST_REQUEST });
     const { userStore: { userInfo } } = getState();
     try {
-        const { data } = await axios.get(`/api/users/${userInfo.isAdmin}/allList`, {
+        const { data } = await axios.get(`${API_BASE}/api/users/${userInfo.isAdmin}/allList`, {
             headers: { Authorization: `Hong ${userInfo.token}` }
         })
         console.log('리스트 뽑는 action data', data)
@@ -103,7 +104,7 @@ export const deleteUser = (userId: string) => async (dispatch: ThunkDispatch<any
     const { userStore: { userInfo } } = getState();
     console.log('유저 삭제하는 action들어옴')
     try {
-        const { data } = await axios.delete(`/api/users/${userId}/${userInfo.isAdmin}`, {
+        const { data } = await axios.delete(`${API_BASE}/api/users/${userId}/${userInfo.isAdmin}`, {
             headers: { Authorization: `Hong ${userInfo.token}` },
         });
 
@@ -124,7 +125,7 @@ export const userDetails = (userId: string) => async (dispatch: ThunkDispatch<an
     dispatch({ type: USER_DETAILS_REQUEST });
     const { userStore: { userInfo } } = getState();
     try {
-        const { data } = await axios.get(`/api/users/${userId}/${userInfo.isAdmin}/detail`, {
+        const { data } = await axios.get(`${API_BASE}/api/users/${userId}/${userInfo.isAdmin}/detail`, {
             headers: { Authorization: `Hong ${userInfo.token}` }
         });
         console.log(' 유저 디테일 받는 data', data);
@@ -151,7 +152,7 @@ export const userUpdate = (updateInfo: userUpdateByAdminType) => async (dispatch
     dispatch({ type: USER_UPDATE_REQUEST });
     const { userStore: { userInfo } } = getState();
     try {
-        const { data } = await axios.put(`/api/users/${updateInfo._id}/${userInfo.isAdmin}/update`, updateInfo, {
+        const { data } = await axios.put(`${API_BASE}/api/users/${updateInfo._id}/${userInfo.isAdmin}/update`, updateInfo, {
             headers: { Authorization: `Hong ${userInfo.token}` }
         });
         dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
