@@ -46,7 +46,7 @@ export const OrderScreen = () => {
     useEffect(() => {
 
         const addPayPalScript = async () => {
-            const { data } = await axios.get('/api/config/paypal');
+            const { data } = await axios.get(`${API_BASE}/api/config/paypal`);
             const script = document.createElement('script');
             script.type = "text/javascript";
             script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
@@ -99,8 +99,8 @@ export const OrderScreen = () => {
                                 <Card className="orderScreen__card">
                                     <h2>Shipping</h2>
                                     <p>
-                                        <strong>Name:</strong>{order?.shippingAddress.fullName} <br />
-                                        <strong>Address:</strong>{order?.shippingAddress.address}, {order?.shippingAddress.city}, {order?.shippingAddress.postalCode}, {order?.shippingAddress.country}
+                                        <strong>Name: </strong>{order?.shippingAddress.fullName} <br />
+                                        <strong>Address: </strong>{order?.shippingAddress.address}, {order?.shippingAddress.city}, {order?.shippingAddress.postalCode}, {order?.shippingAddress.country}
                                     </p>
                                     {/* 배달 유무 */}
                                     {order?.isDelivered ? <MessageBox variant="success">Delivered at {order?.deliveredAt}</MessageBox> :
@@ -110,7 +110,7 @@ export const OrderScreen = () => {
                                 <Card className="orderScreen__card">
                                     <h2>Payment</h2>
                                     <p>
-                                        <strong>Method:</strong>{order?.paymentMethod} <br />
+                                        <strong>Method: </strong>{order?.paymentMethod} <br />
                                     </p>
                                     {order?.isPaid ? <MessageBox variant="success">Paid at {order?.paidAt}</MessageBox> :
                                         <MessageBox variant="danger">Not Paid</MessageBox>

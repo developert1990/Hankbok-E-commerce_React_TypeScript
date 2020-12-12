@@ -66,6 +66,7 @@ export const ShippingAddressScreen = () => {
 
 
     const openMapHandler = () => {
+        console.log("구글맵 버튼 누름")
         history.push('/googleMap');
     }
 

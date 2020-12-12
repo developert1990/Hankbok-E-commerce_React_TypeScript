@@ -1,7 +1,7 @@
 @import './components/mainCarousel.scss';
 @import './components/introHanbok.scss';
 @import './components/navbar.scss';
-@import './components/aboutPage.scss';
+@import './components/AboutScreen.scss';
 @import './components/signinScreen.scss';
 @import './components/productDetailScreen.scss';
 @import './components/CartScreen.scss';
@@ -20,6 +20,9 @@
 @import './components/AdminUserListScreen.scss';
 @import './components/AdminProductListScreen.scss';
 @import './components/ProductCreateScreen.scss';
+@import './components/OrderHistoryScreen.scss';
+@import './components/SendEmailForm.scss';
+@import './components/DashboardScreen.scss';
 
 
 
@@ -43,11 +46,49 @@ body {
     margin: 0;
     height: 100vh;
     font-size: 1.6rem;
-    
     font-family: 'Yanone Kaffeesatz', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-.fa-star, .fa-star-half-alt {
-            color: rgb(255, 208, 0);
-        }
+
+.fa-star,
+.fa-star-half-alt {
+    color: rgb(255, 208, 0);
+}
+
+.App {
+    position: relative;
+    min-height: 100vh;
+
+}
+
+.components-wrap {
+    padding-bottom: 3.5rem;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+}
+
+.send__email{
+
+}
+
+.send__button{
+
+}
+.button__inactive{
+    display: block;
+}
+.button__active{
+    display: none;
+}
+.form__active{
+    display: block;
+}
+.form__inactive{
+    display: none;
+}

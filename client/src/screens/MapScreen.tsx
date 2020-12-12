@@ -5,7 +5,7 @@ import { LoadingBox } from '../components/LoadingBox';
 import { GoogleMap, InfoWindow, LoadScript, Marker, StandaloneSearchBox } from '@react-google-maps/api';
 import { Libraries } from '@react-google-maps/api/dist/utils/make-load-script-url';
 import Geocode from 'react-geocode'
-
+import { API_BASE } from '../config/index';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { USER_ADDRESS_MAP_CONFIRM } from '../constants/userConstant';
@@ -59,7 +59,6 @@ export const MapScreen = () => {
     const onLoad = (map: any) => {
         mapRef.current = map;
     }
-
 
     const onMarkerLoad = (marker: any) => {
         console.log('marker', marker)
@@ -168,7 +167,7 @@ export const MapScreen = () => {
         // 우선 googleApiKey 를 back server 에서 받아준다.
         (
             async () => {
-                const { data } = await axios.get('/api/config/google');
+                const { data } = await axios.get(`${API_BASE}/api/config/google`);
                 setGoogleApiKey(data);
                 getUserCurrentLocation();
             }

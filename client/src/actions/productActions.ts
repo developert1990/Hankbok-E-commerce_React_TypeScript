@@ -103,7 +103,6 @@ export const deleteProduct = (product: ProductType) => async (dispatch: ThunkDis
 //  products의 category들을 가져옴
 export const listProductsCategories = () => async (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch({ type: PRODUCT_CATEGORY_REQUEST });
-    console.log("카테고리 액션")
     try {
         const { data } = await Axios.get(`${API_BASE}/api/products/category/array`);
         dispatch({ type: PRODUCT_CATEGORY_SUCCESS, payload: data });

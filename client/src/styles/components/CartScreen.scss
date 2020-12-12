@@ -3,11 +3,14 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-
     .cart__left{
-        width: 100%;
+        width: 80%;
         margin: 1.4rem;
         text-align: center;
+        h3{
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
         .small{
             width: 80px;
         }

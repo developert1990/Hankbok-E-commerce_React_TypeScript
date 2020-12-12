@@ -6,6 +6,7 @@ import productRouter from './routers/productRouter';
 import * as dotenv from 'dotenv';
 import orderRouter from './routers/orderRouter';
 import uploadRouter from './routers/uploadRouter';
+import emailRouter from './routers/sendEmailRouter';
 
 dotenv.config();
 
@@ -43,7 +44,10 @@ app.get('/api/config/paypal', (req: Request, res: Response) => {
 app.get('/api/config/google', (req: Request, res: Response) => {
     console.log("구글api받으러 들어옴")
     res.send(process.env.GOOGLE_API_KEY || '');
-})
+});
+
+// Email send
+app.use('/api/email', emailRouter);
 
 
 app.get('/', (req: Request, res: Response) => {

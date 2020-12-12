@@ -4,7 +4,7 @@ import { Button, Col, Jumbotron, Row, } from "react-bootstrap";
 
 export const Footer = () => {
     return (
-        <div id="contact">
+        <div className="footer">
             <h1 className="pt-3 text-center font-details-b pb-3">CONTACT ME</h1>
             <h2 className="pt-3 text-center font-details-b pb-3">Created by<br /> Sangmean Hong</h2>
             <Jumbotron className="contact-jumbotron">

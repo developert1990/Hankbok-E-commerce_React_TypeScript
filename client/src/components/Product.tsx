@@ -25,23 +25,25 @@ export const Product: React.FC<ProductProps> = ({ product }) => {
                     />
 
                 </Link>
+
+                <Card.Header>{product.category}</Card.Header>
                 <Card.Text>
-                    <Card.Header>{product.category}</Card.Header>
-                    <Card.Text>
-                        <span className="date">Stock: {product.countInStock}</span>
-                    </Card.Text>
-                    <Card.Text>
-                        <div className="rating__part">
-                            <CustomRating rating={product.rating} /> {product.numReviews} Reviews
+                    {/* <Card.Text> */}
+                    <span className="date">Stock: {product.countInStock}</span>
+                    {/* </Card.Text> */}
+                    {/* <Card.Text> */}
+                    <div className="rating__part">
+                        <CustomRating rating={product.rating} /> {product.numReviews} Reviews
                         </div>
-                        <div className="price">${product.price}</div>
-                    </Card.Text>
+                    <div className="price">CAD $ {product.price}</div>
+                    {/* </Card.Text> */}
+
+                    <Card.Title>
+                        <Link className="productName" to={`/product/${product._id}`}>
+                            <h2>{product.name}</h2>
+                        </Link>
+                    </Card.Title>
                 </Card.Text>
-                <Card.Title>
-                    <Link className="productName" to={`/product/${product._id}`}>
-                        <h2>{product.name}</h2>
-                    </Link>
-                </Card.Title>
             </Card>
         </>
     );

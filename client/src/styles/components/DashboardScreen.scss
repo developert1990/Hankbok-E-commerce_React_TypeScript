@@ -1,0 +1,94 @@
+.dashboardScreen {
+    .dashboard__total {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 30px;
+        color: white;
+
+        .dashboard__total__items {
+            width: 250px;
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            border-radius: 10px;
+
+            h2 {
+                font-size: 2.5rem;
+            }
+
+            h3 {
+                font-size: 1.5rem;
+            }
+
+            .MuiSvgIcon-root {
+                font-size: 50px;
+            }
+        }
+
+        .products_total {
+            background: #7f7fd5;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left,
+                    #91eae4,
+                    #86a8e7,
+                    #7f7fd5);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left,
+                    #91eae4,
+                    #86a8e7,
+                    #7f7fd5);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        .orders_total {
+            background: #fc4a1a;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left,
+                    #f7b733,
+                    #fc4a1a);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left,
+                    #f7b733,
+                    #fc4a1a);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        .sales_total {
+            background: #11998e;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left,
+                    #38ef7d,
+                    #11998e);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left,
+                    #38ef7d,
+                    #11998e);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        .user_total {
+            background: #ee9ca7;
+            /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right,
+                    #ffdde1,
+                    #ee9ca7);
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right,
+                    #ee9ca7,
+                    #ffdde1);
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+    }
+
+    // 차트들
+    .dashboard__detail {
+        .prodcut__sales{
+            max-width: 500px;
+            max-height: 400px;
+        }
+        .product__daySale {
+            max-width: 500px;
+            max-height: 400px;
+        }
+    }
+}

@@ -99,12 +99,10 @@ export const listMyOrder = () => async (dispatch: ThunkDispatch<any, any, any>, 
 export const listOrders = () => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
     dispatch({ type: ORDER_LIST_REQUEST });
     const { userStore: { userInfo } } = getState();
-    console.log('userInfo', userInfo)
     try {
         const { data } = await axios.get(`${API_BASE}/api/orders/${userInfo.isAmdin}`, {
             headers: { Authorization: `Hong ${userInfo.token}` },
         });
-        console.log('파퓰레이트 사용해서 뽑아줌 data:  ', data)
         dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
 
     } catch (error) {

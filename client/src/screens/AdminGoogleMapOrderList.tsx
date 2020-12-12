@@ -5,7 +5,7 @@ import { GoogleMap, InfoWindow, LoadScript, Marker } from '@react-google-maps/ap
 import Axios from 'axios';
 import { Libraries } from '@react-google-maps/api/dist/utils/make-load-script-url';
 import { LoadingBox } from '../components/LoadingBox';
-
+import { API_BASE } from '../config/index';
 
 const libs: Libraries = ['places'];
 
@@ -25,7 +25,7 @@ export const AdminGoogleMapOrderList = () => {
         // 우선 googleApiKey 를 back server 에서 받아준다.
         (
             async () => {
-                const { data } = await Axios.get('/api/config/google');
+                const { data } = await Axios.get(`${API_BASE}/api/config/google`);
                 setGoogleApiKey(data);
             }
         )();

@@ -56,3 +56,7 @@ export const marks = [
 export const valuetext = (value: number) => {
     return `$${value}`;
 }
+
+
+
+

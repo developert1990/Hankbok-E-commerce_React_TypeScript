@@ -13,6 +13,8 @@ import { useStyles, marks, valuetext } from '../config';
 import Slider from '@material-ui/core/Slider';
 import { Alert } from '@material-ui/lab';
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import Pagination, { UsePaginationProps } from '@material-ui/lab/Pagination';
+import { ProductType } from '../types';
 
 export const ProductsScreen = () => {
     const productList: ProductListInitialStateType = useSelector((state: initialAppStateType) => state.productListStore);
@@ -61,6 +63,27 @@ export const ProductsScreen = () => {
     const openMapHandler = () => {
         history.push('/googleMap');
     }
+
+
+    // pagination *****************************
+
+    const [page, setPage] = useState<number>(1);
+    const [pageData, setPageData] = useState<ProductType[]>([]);
+    const dataLimit = 10;
+    const indexOfLast = page * dataLimit;
+    const indexOfFirst = indexOfLast - dataLimit;
+    const handlePageChange: UsePaginationProps["onChange"] = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+    }
+    useEffect(() => {
+        if (products) {
+            // setPageData(createdReviews.slice(0, 4) as reviewType[]); // 0 2 , 1 3, 2 4           0 2 , 2 4, 4 6 
+            // 우선 먼저 sort 를 해서 순서를 바꿔주고 slice 로 data를 나눠준다.
+            setPageData(products.slice(indexOfFirst, indexOfLast)); // 0 2 , 1 3, 2 4           0 2 , 2 4, 4 6 
+        }
+    }, [indexOfFirst, indexOfLast, products])
+
+    // ****************************************
 
 
 
@@ -112,15 +135,16 @@ export const ProductsScreen = () => {
                     <LoadingBox /> :
                     error ?
                         <MessageBox variant="danger">{error}</MessageBox> :
-                        <div>
+                        <div className="product__innerList">
                             <Alert className="result_alert" severity={products.length === 0 ? 'warning' : 'success'} color={products.length === 0 ? 'warning' : 'info'}>{products.length} Results</Alert>
                             <div className="productsScreen">
                                 {
-                                    products.map((product) => (
+                                    pageData.map((product) => (
                                         <Product key={product._id} product={product} />
                                     ))
                                 }
                             </div>
+                            <Pagination count={Math.ceil(products.length / dataLimit)} color="secondary" onChange={handlePageChange} page={page} />
                         </div>
                 }
             </div>
