@@ -6,6 +6,7 @@ import { addToCart, removeFromCart } from '../actions/cartActions';
 import { MessageBox } from '../components/MessageBox';
 import { initialAppStateType } from '../store';
 import { API_BASE } from '../config';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 interface CartScreenParamType {
     id: string;
@@ -81,7 +82,7 @@ export const CartScreen = () => {
                                                 ${item.price}
                                             </td>
                                             <td>
-                                                <Button variant="warning" type="button" onClick={() => removeFromCartHandler(item.product)}>Delete</Button>
+                                                <Button variant="warning" type="button" onClick={() => removeFromCartHandler(item.product)}><DeleteIcon /></Button>
                                             </td>
                                         </tr>
                                     </tbody>

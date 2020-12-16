@@ -8,8 +8,12 @@ import { Button, Table } from 'react-bootstrap';
 import { OrdersListType } from '../reducers/orderReducers';
 import { deleteOrder, listOrders } from '../actions/orderAction';
 import { ORDER_DELETE_RESET } from '../constants/orderConstant';
+
+
 import RoomIcon from '@material-ui/icons/Room';
 import { Pagination, UsePaginationProps } from '@material-ui/lab';
+import MenuBookOutlinedIcon from '@material-ui/icons/MenuBookOutlined';
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import { useStyles } from '../config';
 
 export const AdminOrderListScreen = () => {
@@ -94,8 +98,8 @@ export const AdminOrderListScreen = () => {
                                             <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
                                             <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : 'No'}</td>
                                             <td>
-                                                <Button className="actionBtn" variant="warning" onClick={() => { history.push(`/order/${order._id}`) }}>Details</Button>
-                                                <Button className="actionBtn" variant="danger" onClick={() => deleteHandler(order)}>Delete</Button>
+                                                <Button className="actionBtn" variant="warning" onClick={() => { history.push(`/order/${order._id}`) }}><MenuBookOutlinedIcon /></Button>
+                                                <Button className="actionBtn" variant="danger" onClick={() => deleteHandler(order)}><DeleteForeverRoundedIcon /></Button>
                                             </td>
                                         </tr>
                                     ))

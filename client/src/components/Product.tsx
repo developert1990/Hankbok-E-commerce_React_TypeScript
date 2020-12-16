@@ -14,8 +14,6 @@ export interface ProductProps {
 export const Product: React.FC<ProductProps> = ({ product }) => {
     return (
         <>
-
-
             <Card className="products">
                 <Link to={`/product/${product._id}`}>
                     <Card.Img

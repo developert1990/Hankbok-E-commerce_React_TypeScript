@@ -11,6 +11,9 @@ import { USER_DETAILS_RESET } from '../constants/userConstant'
 import { initialAppStateType } from '../store'
 import { userType } from '../reducers/userReducer';
 
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
+
 
 export const AdminUserListScreen = () => {
 
@@ -88,8 +91,8 @@ export const AdminUserListScreen = () => {
                                                 <td>{user.isSeller ? 'YES' : 'NO'}</td>
                                                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
                                                 <td>
-                                                    <Button className="actionBtn" variant="warning" onClick={() => history.push(`/user/${user._id}/edit`)}>Edit</Button>
-                                                    <Button className="actionBtn" variant="danger" onClick={() => deleteUserHandler(user._id)}>Delete</Button>
+                                                    <Button className="actionBtn" variant="warning" onClick={() => history.push(`/user/${user._id}/edit`)}><EditRoundedIcon /></Button>
+                                                    <Button className="actionBtn" variant="danger" onClick={() => deleteUserHandler(user._id)}><DeleteForeverRoundedIcon /></Button>
                                                 </td>
                                             </tr>
                                         ))

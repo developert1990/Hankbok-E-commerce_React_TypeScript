@@ -9,6 +9,8 @@ import { ProductType } from '../types';
 import { PRODUCT_DELETE_RESET } from '../constants/productConstants';
 import { Button, Table } from 'react-bootstrap';
 
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import Pagination, { UsePaginationProps } from '@material-ui/lab/Pagination';
 import { useStyles } from '../config';
 
@@ -91,8 +93,8 @@ export const AdminProductListScreen = () => {
                                             <td>{product.category}</td>
                                             <td>{product.brand}</td>
                                             <td>
-                                                <Button className="actionBtn" variant="warning" onClick={() => history.push(`/product/${product._id}/edit`)}>Edit</Button>
-                                                <Button className="actionBtn" variant="danger" onClick={() => deleteHandler(product)}>Delete</Button>
+                                                <Button className="actionBtn" variant="warning" onClick={() => history.push(`/product/${product._id}/edit`)}><EditRoundedIcon /></Button>
+                                                <Button className="actionBtn" variant="danger" onClick={() => deleteHandler(product)}><DeleteForeverRoundedIcon /></Button>
                                             </td>
                                         </tr>
                                     ))

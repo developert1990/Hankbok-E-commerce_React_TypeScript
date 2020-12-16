@@ -9,6 +9,7 @@ import { initialAppStateType } from '../store';
 import { OrdersType } from '../reducers/orderReducers';
 
 import Pagination, { UsePaginationProps } from '@material-ui/lab/Pagination';
+import MenuBookOutlinedIcon from '@material-ui/icons/MenuBookOutlined';
 
 
 export const OrderHistoryScreen = () => {
@@ -71,7 +72,7 @@ export const OrderHistoryScreen = () => {
                                                 <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
                                                 <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : 'No'}</td>
                                                 <td>
-                                                    <Button value="success" type="button" onClick={() => { history.push(`/order/${order._id}`) }}>Details</Button>
+                                                    <Button value="success" type="button" onClick={() => { history.push(`/order/${order._id}`) }}><MenuBookOutlinedIcon /></Button>
                                                 </td>
 
                                             </tr>

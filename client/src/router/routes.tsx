@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { ProductDetailScreen } from '../screens/ProductDetailScreen';
 import { ProductsScreen } from '../screens/ProductsScreen';
 import { CartScreen } from '../screens/CartScreen';

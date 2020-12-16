@@ -70,13 +70,26 @@ export const DashboardScreen = () => {
                     obj["totalPrice"] = order.totalPrice;
                     return obj
                 }
-                return null
+                return undefined;
             });
             console.log('newArray', newArray)
-            const result = new Set(newArray);
 
-            console.log('같은거 제거', result);
+            // undefined제거
+            const arrayResult = newArray.filter((data) => { return data !== undefined });
+
+            console.log('같은거 제거', arrayResult);
+
             // 이부분 해결해야한다.
+
+            // const test = arrayResult.reduce((a: objtype, c: objtype) => {
+            //     const obj: objtype = {};
+            //     const newarr = [];
+            //     obj["name"] = a.name;
+            //     obj["totalPrice"] = a.totalPrice as number + c?.totalPrice as number;
+            //     newarr.push(obj);
+            // } ,[])
+            // console.log('test', test)
+
 
 
 
