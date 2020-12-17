@@ -50,19 +50,20 @@ export const DashboardScreen = () => {
 
     console.log('orders', orders)
 
-    interface objtype {
-        paidDate?: number;
-        paidMonth?: number;
-        paidYear?: number;
-        name?: string;
-        totalPrice?: number;
+    interface PayType {
+        paidYear: number;
+        paidMonth: number;
+        paidDate: number;
+        name: string;
+        totalPrice: number;
     }
+
 
     const getPaidDate = () => {
         if (orders) {
             const newArray = orders.map((order) => {
                 if (order.paidAt !== undefined) {
-                    const obj: objtype = {};
+                    const obj: PayType = { name: '', paidDate: 0, paidMonth: 0, paidYear: 0, totalPrice: 0 };
                     obj["paidMonth"] = new Date(order.paidAt).getUTCMonth();
                     obj["paidDate"] = new Date(order.paidAt).getUTCDate();
                     obj["paidYear"] = new Date(order.paidAt).getUTCFullYear();
@@ -73,22 +74,48 @@ export const DashboardScreen = () => {
                 return undefined;
             });
             console.log('newArray', newArray)
+            const pay: (PayType | undefined)[] = newArray;
 
             // undefined제거
             const arrayResult = newArray.filter((data) => { return data !== undefined });
 
             console.log('같은거 제거', arrayResult);
 
-            // 이부분 해결해야한다.
 
-            // const test = arrayResult.reduce((a: objtype, c: objtype) => {
-            //     const obj: objtype = {};
-            //     const newarr = [];
-            //     obj["name"] = a.name;
-            //     obj["totalPrice"] = a.totalPrice as number + c?.totalPrice as number;
-            //     newarr.push(obj);
-            // } ,[])
-            // console.log('test', test)
+
+            // 요거 리듀스 계속 보고 익숙해지기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            const all = pay.reduce((total, pay) => {
+                if (pay) {
+                    const { paidDate, paidMonth, paidYear } = pay;
+                    const found = total.find((p) => p.paidDate === paidDate && p.paidMonth === paidMonth && p.paidYear === paidYear);
+                    if (found) {
+                        found.totalPrice += pay.totalPrice;
+                    } else {
+                        total.push(pay);
+                    }
+                }
+                return total;
+            }, [] as PayType[]);
+
+            console.log("선생님작품: ", all);
+
+
+            // 이거 해보기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            const allPayObject = pay.reduce((total, pay) => {
+                if (pay) {
+                    const dateString = `${pay.paidYear}-${String(pay.paidMonth).padStart(2, '0')}-${String(pay.paidDate).padStart(2, '0')}`;
+                    if (!total[dateString]) {
+                        total[dateString] = pay.totalPrice
+                    } else {
+                        total[dateString] += pay.totalPrice;
+                    }
+                }
+                return total;
+            }, {} as { [date: string]: number });
+            console.log(allPayObject);
+
+
+
 
 
 
@@ -102,6 +129,13 @@ export const DashboardScreen = () => {
 
 
 
+
+    // Object.entries(obj).map(([name, y]) => ({ name, y }))
+
+    const obj = { a: 1, b: 2, c: 3, d: 4, e: 5 };
+    console.log(Object.entries(obj));
+
+
     return (
         <div className="dashboardScreen">
             {loading ? (
@@ -111,6 +145,7 @@ export const DashboardScreen = () => {
             ) : loadingUserList ? (
                 <LoadingBox />
             ) : (
+                            orders &&
                             <div>
                                 <div className="dashboard__total">
                                     <div className="products_total dashboard__total__items">
