@@ -12,7 +12,6 @@ import { listUsers } from "../actions/userActions";
 
 import { OrderedProductsChart } from '../utils/OrderedProductsChart';
 import { OrderCharts } from "../utils/OrderCharts";
-import _, { object } from "underscore";
 
 export const DashboardScreen = () => {
     const productListStore = useSelector(
@@ -48,7 +47,6 @@ export const DashboardScreen = () => {
     }, [dispatch]);
 
 
-    console.log('orders', orders)
 
     interface PayType {
         paidYear: number;
@@ -74,17 +72,13 @@ export const DashboardScreen = () => {
                 return undefined;
             });
             console.log('newArray', newArray)
-            const pay: (PayType | undefined)[] = newArray;
+            const pays: (PayType | undefined)[] = newArray;
 
-            // undefined제거
-            const arrayResult = newArray.filter((data) => { return data !== undefined });
-
-            console.log('같은거 제거', arrayResult);
 
 
 
             // 요거 리듀스 계속 보고 익숙해지기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            const all = pay.reduce((total, pay) => {
+            const all = pays.reduce((total, pay) => {
                 if (pay) {
                     const { paidDate, paidMonth, paidYear } = pay;
                     const found = total.find((p) => p.paidDate === paidDate && p.paidMonth === paidMonth && p.paidYear === paidYear);
@@ -101,22 +95,18 @@ export const DashboardScreen = () => {
 
 
             // 이거 해보기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            const allPayObject = pay.reduce((total, pay) => {
-                if (pay) {
-                    const dateString = `${pay.paidYear}-${String(pay.paidMonth).padStart(2, '0')}-${String(pay.paidDate).padStart(2, '0')}`;
-                    if (!total[dateString]) {
-                        total[dateString] = pay.totalPrice
-                    } else {
-                        total[dateString] += pay.totalPrice;
-                    }
-                }
-                return total;
-            }, {} as { [date: string]: number });
-            console.log(allPayObject);
-
-
-
-
+            // const allPayObject = pay.reduce((total, pay) => {
+            //     if (pay) {
+            //         const dateString = `${pay.paidYear}-${String(pay.paidMonth).padStart(2, '0')}-${String(pay.paidDate).padStart(2, '0')}`;
+            //         if (!total[dateString]) {
+            //             total[dateString] = pay.totalPrice
+            //         } else {
+            //             total[dateString] += pay.totalPrice;
+            //         }
+            //     }
+            //     return total;
+            // }, {} as { [date: string]: number });
+            // console.log(allPayObject);
 
 
 
@@ -131,9 +121,11 @@ export const DashboardScreen = () => {
 
 
     // Object.entries(obj).map(([name, y]) => ({ name, y }))
+    // Object.entries(obj).map(([key, val]) => ({ name: key, y: val })
 
     const obj = { a: 1, b: 2, c: 3, d: 4, e: 5 };
-    console.log(Object.entries(obj));
+
+    console.log(Object.entries(obj).map(([key, val]) => { return { name: key, y: val } }));
 
 
     return (

@@ -1,4 +1,4 @@
-import { PaymentResultType } from './../../../server/types.d';
+import { PaymentResultType } from '../types';
 import { orderItemsType } from '../actions/orderAction';
 import { cartItemType } from './cartReducers';
 import { saveShippingAddressDataType } from './../actions/cartActions';
